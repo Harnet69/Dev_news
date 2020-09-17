@@ -8,15 +8,15 @@
         android:name="com.harnet.devnews.ArticlesListFragment"
         android:label="ArticlesListFragment" >
         <action
-            android:id="@+id/action_articlesListFragment_to_atricleFragment"
-            app:destination="@id/atricleFragment" />
+            android:id="@+id/action_articlesListFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
     </fragment>
     <fragment
-        android:id="@+id/atricleFragment"
-        android:name="com.harnet.devnews.AtricleFragment"
-        android:label="AtricleFragment" >
+        android:id="@+id/articleFragment"
+        android:name="com.harnet.devnews.ArticleFragment"
+        android:label="ArticleFragment" >
         <action
-            android:id="@+id/action_atricleFragment_to_articlesListFragment"
+            android:id="@+id/action_articleFragment_to_articlesListFragment"
             app:destination="@id/articlesListFragment" />
         <argument
             android:name="articleId"
