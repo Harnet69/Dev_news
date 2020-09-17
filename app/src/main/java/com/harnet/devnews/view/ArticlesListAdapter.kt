@@ -5,8 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import com.harnet.devnews.ArticleFragmentDirections
-import com.harnet.devnews.ArticlesListFragmentDirections
 import com.harnet.devnews.R
 import com.harnet.devnews.model.Article
 import kotlinx.android.synthetic.main.item_atricle.view.*
