@@ -1,10 +1,11 @@
-package com.harnet.devnews
+package com.harnet.devnews.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.harnet.devnews.R
 
 class ArticlesListFragment : Fragment() {
 

@@ -5,7 +5,7 @@
 
     <fragment
         android:id="@+id/articlesListFragment"
-        android:name="com.harnet.devnews.ArticlesListFragment"
+        android:name="com.harnet.devnews.view.ArticlesListFragment"
         android:label="ArticlesListFragment" >
         <action
             android:id="@+id/action_articlesListFragment_to_articleFragment"
@@ -13,7 +13,7 @@
     </fragment>
     <fragment
         android:id="@+id/articleFragment"
-        android:name="com.harnet.devnews.ArticleFragment"
+        android:name="com.harnet.devnews.view.ArticleFragment"
         android:label="ArticleFragment" >
         <action
             android:id="@+id/action_articleFragment_to_articlesListFragment"
