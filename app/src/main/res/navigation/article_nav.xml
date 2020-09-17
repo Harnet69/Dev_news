@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/article_nav"
+    app:startDestination="@id/articlesListFragment">
+
+    <fragment
+        android:id="@+id/articlesListFragment"
+        android:name="com.harnet.devnews.ArticlesListFragment"
+        android:label="ArticlesListFragment" >
+        <action
+            android:id="@+id/action_articlesListFragment_to_atricleFragment"
+            app:destination="@id/atricleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/atricleFragment"
+        android:name="com.harnet.devnews.AtricleFragment"
+        android:label="AtricleFragment" >
+        <action
+            android:id="@+id/action_atricleFragment_to_articlesListFragment"
+            app:destination="@id/articlesListFragment" />
+        <argument
+            android:name="articleId"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+</navigation>
