@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.harnet.devnews.R
 import com.harnet.devnews.viewModel.ArticleViewModel
 import com.harnet.devnews.viewModel.ArticlesListViewModel
+import kotlinx.android.synthetic.main.fragment_article.*
 
 class ArticleFragment : Fragment() {
     var viewModel = ArticleViewModel()
@@ -38,10 +39,15 @@ class ArticleFragment : Fragment() {
         observeViewModel()
     }
 
+    // observes article object and bing its data to view elements
     fun observeViewModel(){
         viewModel.mArticleLiveData.observe(this, Observer { article ->
             article?.let{
-
+                article_title.text = article.title
+                article_author.text = article.author
+                article_time.text = article.time
+                article_score.text = article.score
+                article_url.text = article.url
             }
         })
     }
