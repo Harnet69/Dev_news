@@ -43,6 +43,7 @@ class ArticleFragment : Fragment() {
     fun observeViewModel(){
         viewModel.mArticleLiveData.observe(this, Observer { article ->
             article?.let{
+                article_id.text = article.id
                 article_title.text = article.title
                 article_author.text = article.author
                 article_time.text = article.time
