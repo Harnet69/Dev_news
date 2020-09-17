@@ -1,7 +1,7 @@
 # Dev news
 
 ## About app
-Easy to use aplication for reading and managing software development related articles 
+Easy to use aplication for reading and managing software development related articles from third part API
 
 ## Technologies:
 - AndroidX
