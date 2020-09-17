@@ -35,8 +35,10 @@ class ArticlesListAdapter(val articlesList: ArrayList<Article>) : RecyclerView.A
         //add click listener to item and bind it with detail page
         holder.view.setOnClickListener {
             // navigate to appropriate detail fragment
-            //TODO send an appropriate entity of DogBreed class there
-            Navigation.findNavController(it).navigate(ArticlesListFragmentDirections.actionArticlesListFragmentToArticleFragment())
+            val action = ArticlesListFragmentDirections.actionArticlesListFragmentToArticleFragment()
+            // send article id to ArticleFragment
+            action.articleId = Integer.parseInt(articlesList[position].id)
+            Navigation.findNavController(it).navigate(action)
         }
     }
 
