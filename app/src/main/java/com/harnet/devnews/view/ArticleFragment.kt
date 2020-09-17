@@ -39,7 +39,7 @@ class ArticleFragment : Fragment() {
         observeViewModel()
     }
 
-    // observes article object and bing its data to view elements
+    // observes article object and binds its data to view elements
     fun observeViewModel(){
         viewModel.mArticleLiveData.observe(this, Observer { article ->
             article?.let{
