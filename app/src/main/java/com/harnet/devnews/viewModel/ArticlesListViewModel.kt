@@ -24,46 +24,27 @@ class ArticlesListViewModel : ViewModel() {
 
     // refresh mArticles with a new data
     fun refresh() {
-        val article1 = Article(
-            "1",
-            "This electrical transmission tower has a problem (twitter.com)",
-            "Twi",
-            "",
-            "54",
-            "4"
-        )
-        val articles = listOf(article1)
-
-        mArticles.value = articles
-        mIsArticleLoadError.value = false
-        mIsLoading.value = false
-
         makeArticlesList(articlesLists.NEW_STORIES)
     }
 
-
     // generate articles list from webController data
     private fun makeArticlesList(articlesList: String) {
+        val parsedArticlesList = mutableListOf<Article>()
         CompletableFuture.supplyAsync{
             parseService.getArticlesURLs(articlesList)
         }
             .thenAccept { URLs: List<URL> ->
-                // waiting spinner appears
-//                mIsUpdating.postValue(true)
-                //clear the dataSet list
-//                articlesDataSet.clear()
                 try {
-                    for (i in 0 until URLs.size) {
+                    for (i in 0 until ARTICLES_TO_SHOW) {
                         val article: String = parseService.parse(URLs.get(i).toString())
-                        Log.i("Parsers", "makeArticlesList: " +parseArticleDetails(article))
-
-                        //set the quantity of showed articles
-                        if (i >= ARTICLES_TO_SHOW - 1) {
-                            // spinner disappears
-//                            mIsUpdating.postValue(false)
-                            return@thenAccept
-                        }
+                        val parsedArticle: Article? = parseArticleDetails(article)
+//                        Log.i("Parsers", "makeArticlesList: " +parsedArticle)
+                        parsedArticle?.let { parsedArticlesList.add(it) }
                     }
+                    // change values
+                    mArticles.postValue(parsedArticlesList)
+                    mIsArticleLoadError.postValue(false)
+                    mIsLoading.postValue(false)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -82,7 +63,7 @@ class ArticlesListViewModel : ViewModel() {
             val url = jsonObject.getString("url")
             val data = jsonObject.getString("time")
             val score = jsonObject.getString("score")
-//            articlesDataSet.add(Article(title, author, url, data, score))
+
             article = Article(id, title, author, url, data, score)
         } catch (e: JSONException) {
             e.printStackTrace()
