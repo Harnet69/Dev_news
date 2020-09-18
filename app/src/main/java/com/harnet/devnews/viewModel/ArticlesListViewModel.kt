@@ -1,5 +1,6 @@
 package com.harnet.devnews.viewModel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.harnet.devnews.model.Article
@@ -54,7 +55,7 @@ class ArticlesListViewModel : ViewModel() {
                 try {
                     for (i in 0 until URLs.size) {
                         val article: String = parseService.parse(URLs.get(i).toString())
-//                        parseArticleDetails(article)
+                        Log.i("Parsers", "makeArticlesList: " +parseArticleDetails(article))
 
                         //set the quantity of showed articles
                         if (i >= ARTICLES_TO_SHOW - 1) {
@@ -71,18 +72,22 @@ class ArticlesListViewModel : ViewModel() {
 
     // parse for article details and add an article to articleDataSet
     //TODO here we can add another fields for an article
-    fun parseArticleDetails(articleJSON: String?) {
+    fun parseArticleDetails(articleJSON: String): Article? {
+        var article: Article? = null
         try {
             val jsonObject = JSONObject(articleJSON)
+            val id = jsonObject.getString("id")
             val title = jsonObject.getString("title")
             val author = jsonObject.getString("by")
             val url = jsonObject.getString("url")
-            val data = jsonObject.getString("time").toInt()
-            val score = jsonObject.getString("score").toInt()
+            val data = jsonObject.getString("time")
+            val score = jsonObject.getString("score")
 //            articlesDataSet.add(Article(title, author, url, data, score))
+            article = Article(id, title, author, url, data, score)
         } catch (e: JSONException) {
             e.printStackTrace()
         }
+        return article
     }
 
     // parse article HTML
