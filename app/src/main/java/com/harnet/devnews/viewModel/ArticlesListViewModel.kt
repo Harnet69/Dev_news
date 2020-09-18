@@ -16,7 +16,7 @@ class ArticlesListViewModel : ViewModel() {
 
     private val parseService: ParseService = ParseService()
 
-    val articlesLists = ArticleLists()
+    private val articlesLists = ArticleLists()
 
     val mArticles = MutableLiveData<List<Article>>()
     val mIsArticleLoadError = MutableLiveData<Boolean>()
@@ -24,6 +24,7 @@ class ArticlesListViewModel : ViewModel() {
 
     // refresh mArticles with a new data
     fun refresh() {
+        mIsArticleLoadError.value = false//TODO think is it necessary
         makeArticlesList(articlesLists.NEW_STORIES)
     }
 
