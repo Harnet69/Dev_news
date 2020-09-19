@@ -1,5 +1,6 @@
 package com.harnet.devnews.service
 
+import android.util.Log
 import org.json.JSONArray
 import org.json.JSONException
 import java.io.IOException
@@ -11,11 +12,9 @@ import java.util.*
 import java.util.concurrent.ExecutionException
 
 class ParseService {
-
+    //TODO implement argument with max parsed articles list
     //get list of articles URL
-    fun getArticlesURLs(url: String?): List<URL> {
-        val articlesURLs: MutableList<URL> = ArrayList()
-
+    fun getArticlesURLs(url: String?, articlesToShow: Int): MutableList<URL>? {
         // get content from a page
         var content: String? = null
         try {
@@ -25,24 +24,28 @@ class ParseService {
         } catch (e: ExecutionException) {
             e.printStackTrace()
         }
+        return content?.let { getAticlesIds(it, articlesToShow) }
+    }
 
-        // get articles id
-        content?.let {
-            try {
-                val jsonArray = JSONArray(content)
-                for (i in 0 until jsonArray.length()) {
-                    val articleId = jsonArray.getString(i).toInt()
-                    // TODO think about do it final or move to ENUM
-                    val atricleURL = URL("https://hacker-news.firebaseio.com/v0/item/$articleId.json?print=pretty")
-                    articlesURLs.add(atricleURL)
-                }
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            } catch (e: MalformedURLException) {
-                e.printStackTrace()
+    // get articles ids
+    fun getAticlesIds (content: String, articlesToShow: Int): MutableList<URL> {
+        val articlesURLs: MutableList<URL> = ArrayList()
+
+        try {
+            val jsonArray = JSONArray(content)
+            for (i in 0 until articlesToShow) {
+                val articleId = jsonArray.getString(i).toInt()
+                // TODO think about do it final or move to ENUM
+                val atricleURL = URL("https://hacker-news.firebaseio.com/v0/item/$articleId.json?print=pretty")
+                articlesURLs.add(atricleURL)
             }
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        } catch (e: MalformedURLException) {
+            e.printStackTrace()
         }
 
+        Log.i("ArticlesToShow", "getArticlesURLs: " + articlesURLs.size)
         return articlesURLs
     }
 

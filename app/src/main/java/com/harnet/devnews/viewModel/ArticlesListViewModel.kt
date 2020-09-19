@@ -1,6 +1,5 @@
 package com.harnet.devnews.viewModel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.harnet.devnews.model.Article
@@ -12,7 +11,7 @@ import java.net.URL
 import java.util.concurrent.CompletableFuture
 
 class ArticlesListViewModel : ViewModel() {
-    private val ARTICLES_TO_SHOW = 20
+    private val ARTICLES_TO_SHOW: Int = 30
 
     private val parseService: ParseService = ParseService()
 
@@ -34,12 +33,12 @@ class ArticlesListViewModel : ViewModel() {
     private fun makeArticlesList(articlesList: String) {
         val parsedArticlesList = mutableListOf<Article>()
         CompletableFuture.supplyAsync{
-            parseService.getArticlesURLs(articlesList)
+            parseService.getArticlesURLs(articlesList, ARTICLES_TO_SHOW)
         }
-            .thenAccept { URLs: List<URL> ->
+            .thenAccept { URLs: MutableList<URL>? ->
                 try {
                     for (i in 0 until ARTICLES_TO_SHOW) {
-                        val article: String = parseService.parse(URLs.get(i).toString())
+                        val article: String = parseService.parse(URLs?.get(i).toString())
                         val parsedArticle: Article? = parseArticleDetails(article)
                         parsedArticle?.let { parsedArticlesList.add(it) }
                     }
