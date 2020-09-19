@@ -25,9 +25,11 @@ class ArticlesListViewModel : ViewModel() {
     // refresh mArticles with a new data
     fun refresh() {
         mIsArticleLoadError.value = false//TODO think is it necessary
+        // get data by old fashen parser
         makeArticlesList(articlesLists.NEW_STORIES)
     }
 
+    // get data by old fashen parser
     // generate articles list from webController data
     private fun makeArticlesList(articlesList: String) {
         val parsedArticlesList = mutableListOf<Article>()
@@ -39,7 +41,6 @@ class ArticlesListViewModel : ViewModel() {
                     for (i in 0 until ARTICLES_TO_SHOW) {
                         val article: String = parseService.parse(URLs.get(i).toString())
                         val parsedArticle: Article? = parseArticleDetails(article)
-//                        Log.i("Parsers", "makeArticlesList: " +parsedArticle)
                         parsedArticle?.let { parsedArticlesList.add(it) }
                     }
                     // change values
@@ -52,6 +53,7 @@ class ArticlesListViewModel : ViewModel() {
             }
     }
 
+    // get data by old fashen parser
     // parse for article details and add an article to articleDataSet
     //TODO here we can add another fields for an article
     fun parseArticleDetails(articleJSON: String): Article? {
