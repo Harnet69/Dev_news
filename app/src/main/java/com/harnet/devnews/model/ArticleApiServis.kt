@@ -21,7 +21,7 @@ class ArticleApiServis {
 
     //get observable List from API
     fun getArticle(): Single<Article> {
-        Log.i("ArticlesToShow", "getArticle: " + api.getArticle())
+        //TODO implement parsing of all articles from URL list
         return api.getArticle()
     }
 }
