@@ -24,11 +24,13 @@ class ArticlesListViewModel : ViewModel() {
     // refresh mArticles with a new data
     fun refresh() {
         mIsArticleLoadError.value = false//TODO think is it necessary
-        // get data by old fashen parser
+        // get data by old fashion manner parser
         makeArticlesList(articlesLists.NEW_STORIES)
     }
 
-    // get data by old fashen parser
+    //TODO implement Retrofit functionality here
+
+    // get data by old fashion parser
     // generate articles list from webController data
     private fun makeArticlesList(articlesList: String) {
         val parsedArticlesList = mutableListOf<Article>()
@@ -52,7 +54,7 @@ class ArticlesListViewModel : ViewModel() {
             }
     }
 
-    // get data by old fashen parser
+    // get data by old fashion parser
     // parse for article details and add an article to articleDataSet
     //TODO here we can add another fields for an article
     fun parseArticleDetails(articleJSON: String): Article? {
