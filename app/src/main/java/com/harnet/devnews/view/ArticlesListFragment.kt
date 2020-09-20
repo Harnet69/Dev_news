@@ -57,13 +57,6 @@ class ArticlesListFragment : Fragment() {
                 articlesListAdapter.updateArticlesList(articles)
             }
         })
-//        viewModel.articles.observe(this, Observer {dogs ->
-//            //checking is dogs list isn't null
-//            dogs?.let {
-//                dogsList_RecyclerView.visibility = View.VISIBLE
-//                dogListAdapter.updateDogList(dogs)
-//            }
-//        })
 
         // make error TextViewVisible
         viewModel.mIsArticleLoadError.observe(this, Observer {isError ->
