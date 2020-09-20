@@ -21,6 +21,7 @@ class ArticlesListViewModel : ViewModel() {
 
     // old fashion parse service
     private val parseService: ParseService = ParseService()
+
     // Retrofit service
     private val articleApiService = ArticleApiServis()
     private val disposable = CompositeDisposable()
@@ -41,47 +42,52 @@ class ArticlesListViewModel : ViewModel() {
         fetchFromRemote(articlesLists.NEW_STORIES)
     }
 
-    //TODO implement Retrofit functionality here
-    private fun makeArticlesListByRetrofit(articlesList: String){
-        val parsedArticlesList = mutableListOf<Article>()
-    }
-
     // fetches data from remote API using Retrofit
     private fun fetchFromRemote(articlesList: String) {
         //TODO !!!DON'T FORGET TO ADD INTERNET PERMISSION BEFORE IMPLEMENTING!!!
-        val articlesURLs = parseService.getArticlesIDs(articlesList, ARTICLES_TO_SHOW)
+        val articlesFromAPI = mutableListOf<Article>()
+        val articlesIDs = parseService.getArticlesIDs(articlesList, ARTICLES_TO_SHOW)
 
         // set loading flag to true
         mIsLoading.value = true
-        Log.i("ArticleURL", "fetchFromRemote: " + articlesURLs)
-        disposable.add(
-            // set it to a different thread(passing this call to the background thread)
-            articleApiService.getArticle()
-                .subscribeOn(Schedulers.newThread())
-                // retrieve it from a background to the main thread for displaying
-                .observeOn(AndroidSchedulers.mainThread())
-                // pass our Single object here, it's created and implemented
-                .subscribeWith(object : DisposableSingleObserver<Article>() {
-                    // get list of DogBreed objects
-                    override fun onSuccess(articleList: Article) {
-                        // set received list to observable mutable list
-                        mArticles.value = listOf(articleList)
-                        // switch off error message
-                        mIsArticleLoadError.value = false
-                        // switch off waiting spinner
-                        mIsLoading.value = false
-                    }
+        articlesIDs?.let {
+            for (i in 0 until articlesIDs.size) {
+                disposable.add(
+                    // set it to a different thread(passing this call to the background thread)
+                    articleApiService.getArticle(articlesIDs.get(i))
+                        .subscribeOn(Schedulers.newThread())
+                        // retrieve it from a background to the main thread for displaying
+                        .observeOn(AndroidSchedulers.mainThread())
+                        // pass our Single object here, it's created and implemented
+                        .subscribeWith(object : DisposableSingleObserver<Article>() {
+                            // get list of DogBreed objects
+                            override fun onSuccess(article: Article) {
+                                if(i != articlesIDs.size-1 ){
+                                    // add article to a list
+                                    articlesFromAPI.add(article)
+                                }else{
+                                    // set received list to observable mutable list
+                                    mArticles.value = articlesFromAPI
+                                    // switch off error message
+                                    mIsArticleLoadError.value = false
+                                    // switch off waiting spinner
+                                    mIsLoading.value = false
+                                }
+                            }
 
-                    // get an error
-                    override fun onError(e: Throwable) {
-                        mIsArticleLoadError.value = true
-                        mIsLoading.value = false
-                        // print stack of error to handling it
-                        e.printStackTrace()
-                        Log.i("ArticlesToShow", "onError: " + e.printStackTrace())
-                    }
-                })
-        )
+                            // get an error
+                            override fun onError(e: Throwable) {
+                                mIsArticleLoadError.value = true
+                                mIsLoading.value = false
+                                // print stack of error to handling it
+                                e.printStackTrace()
+                                Log.i("ArticlesToShow", "onError: " + e.printStackTrace())
+                            }
+                        })
+                )
+            }
+        }
+
     }
 
     override fun onCleared() {
@@ -90,12 +96,11 @@ class ArticlesListViewModel : ViewModel() {
     }
 
 
-
     // get data by old fashion parser
     // generate articles list from webController data
     private fun makeArticlesListByParser(articlesList: String) {
         val parsedArticlesList = mutableListOf<Article>()
-        CompletableFuture.supplyAsync{
+        CompletableFuture.supplyAsync {
             parseService.getArticlesURLs(articlesList, ARTICLES_TO_SHOW)
         }
             .thenAccept { URLs: MutableList<URL>? ->

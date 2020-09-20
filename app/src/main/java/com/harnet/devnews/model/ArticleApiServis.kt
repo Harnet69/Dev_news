@@ -20,10 +20,7 @@ class ArticleApiServis {
         .create(ArticleAPI::class.java)// create model class
 
     //get observable List from API
-    fun getArticle(): Single<Article> {
-        //TODO implement parsing of all articles from URL list
-        Log.i("ArticlesToShow", "getArticle: " + api.getArticle("24517715"))
-        Log.i("ArticlesToShow", "getArticle: " + api.getArticle("24517698"))
-        return api.getArticle("24517715")
+    fun getArticle(articleID: String): Single<Article> {
+        return api.getArticle(articleID)
     }
 }
