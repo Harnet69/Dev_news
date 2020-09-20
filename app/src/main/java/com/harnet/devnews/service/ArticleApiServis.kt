@@ -1,6 +1,6 @@
-package com.harnet.devnews.model
+package com.harnet.devnews.service
 
-import android.util.Log
+import com.harnet.devnews.model.Article
 import io.reactivex.Single
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory

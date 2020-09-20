@@ -1,10 +1,9 @@
 package com.harnet.devnews.viewModel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.harnet.devnews.model.Article
-import com.harnet.devnews.model.ArticleApiServis
+import com.harnet.devnews.service.ArticleApiServis
 import com.harnet.devnews.model.ArticleLists
 import com.harnet.devnews.service.ParseService
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -17,7 +16,7 @@ import java.net.URL
 import java.util.concurrent.CompletableFuture
 
 class ArticlesListViewModel : ViewModel() {
-    private val ARTICLES_TO_SHOW: Int = 30
+    private val ARTICLES_TO_SHOW: Int = 20
 
     // old fashion parse service
     private val parseService: ParseService = ParseService()
@@ -33,11 +32,12 @@ class ArticlesListViewModel : ViewModel() {
     val mIsLoading = MutableLiveData<Boolean>()
     //TODO implement here observable articles list switcher
 
-    // refresh mArticles with a new data
+    // refresh mArticles with a new data TWO WAYS TO DO IT: PARSER & RETROFIT
     fun refresh() {
         mIsArticleLoadError.value = false//TODO think is it necessary
         // get data by old fashion manner parser
 //        makeArticlesListByParser(articlesLists.NEW_STORIES)
+
 //        get data by retrofit
         fetchFromRemote(articlesLists.NEW_STORIES)
     }
@@ -46,10 +46,12 @@ class ArticlesListViewModel : ViewModel() {
     private fun fetchFromRemote(articlesList: String) {
         //TODO !!!DON'T FORGET TO ADD INTERNET PERMISSION BEFORE IMPLEMENTING!!!
         val articlesFromAPI = mutableListOf<Article>()
+        // list of articles ids
         val articlesIDs = parseService.getArticlesIDs(articlesList, ARTICLES_TO_SHOW)
 
         // set loading flag to true
         mIsLoading.value = true
+
         articlesIDs?.let {
             for (i in 0 until articlesIDs.size) {
                 disposable.add(
@@ -81,20 +83,17 @@ class ArticlesListViewModel : ViewModel() {
                                 mIsLoading.value = false
                                 // print stack of error to handling it
                                 e.printStackTrace()
-                                Log.i("ArticlesToShow", "onError: " + e.printStackTrace())
                             }
                         })
                 )
             }
         }
-
     }
 
     override fun onCleared() {
         super.onCleared()
         disposable.clear()
     }
-
 
     // get data by old fashion parser
     // generate articles list from webController data
