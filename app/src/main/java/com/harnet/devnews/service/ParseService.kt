@@ -13,7 +13,34 @@ import java.util.concurrent.ExecutionException
 
 class ParseService {
     //TODO implement argument with max parsed articles list
-    //get list of articles URL
+
+    // get articles ids to Retrofit
+    fun getArticlesIDs(url: String?, articlesToShow: Int): MutableList<String>? {
+        val articlesIDs = mutableListOf<String>()
+        // get content from a page
+        var content: String? = null
+        try {
+            content = WebContentDownloader().execute(url).get()
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        } catch (e: ExecutionException) {
+            e.printStackTrace()
+        }
+
+        try {
+            val jsonArray = JSONArray(content)
+            for (i in 0 until articlesToShow) {
+                articlesIDs.add(jsonArray.getString(i))
+            }
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        } catch (e: ExecutionException) {
+            e.printStackTrace()
+        }
+        return articlesIDs
+    }
+
+    //get list of articles URL for parser
     fun getArticlesURLs(url: String?, articlesToShow: Int): MutableList<URL>? {
         // get content from a page
         var content: String? = null
@@ -27,8 +54,8 @@ class ParseService {
         return content?.let { getAticlesIds(it, articlesToShow) }
     }
 
-    // get articles ids
-    fun getAticlesIds (content: String, articlesToShow: Int): MutableList<URL> {
+    // get articles ids for parser
+    private fun getAticlesIds (content: String, articlesToShow: Int): MutableList<URL> {
         val articlesURLs: MutableList<URL> = ArrayList()
 
         try {

@@ -38,21 +38,22 @@ class ArticlesListViewModel : ViewModel() {
         // get data by old fashion manner parser
 //        makeArticlesListByParser(articlesLists.NEW_STORIES)
 //        get data by retrofit
-        fetchFromRemote()
+        fetchFromRemote(articlesLists.NEW_STORIES)
     }
 
     //TODO implement Retrofit functionality here
     private fun makeArticlesListByRetrofit(articlesList: String){
         val parsedArticlesList = mutableListOf<Article>()
-        val articlesURLs = parseService.getArticlesURLs(articlesList, ARTICLES_TO_SHOW)
     }
 
     // fetches data from remote API using Retrofit
-    private fun fetchFromRemote() {
+    private fun fetchFromRemote(articlesList: String) {
         //TODO !!!DON'T FORGET TO ADD INTERNET PERMISSION BEFORE IMPLEMENTING!!!
+        val articlesURLs = parseService.getArticlesIDs(articlesList, ARTICLES_TO_SHOW)
 
         // set loading flag to true
         mIsLoading.value = true
+        Log.i("ArticleURL", "fetchFromRemote: " + articlesURLs)
         disposable.add(
             // set it to a different thread(passing this call to the background thread)
             articleApiService.getArticle()
