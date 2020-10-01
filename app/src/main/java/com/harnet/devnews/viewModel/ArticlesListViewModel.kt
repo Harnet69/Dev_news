@@ -70,7 +70,10 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
                             override fun onSuccess(article: Article) {
                                 if (i != articlesIDs.size - 1) {
                                     // add article to a list
-                                    articlesFromAPI.add(article)
+                                    if (article.url == null) {
+                                        article.url = ""
+                                    }
+                                        articlesFromAPI.add(article)
                                     Log.i("ArticleURL", "onSuccess: Article URL ${article.url}")
                                 } else {
                                     storeArticleInDatabase(articlesFromAPI)
@@ -128,12 +131,12 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
         mIsLoading.postValue(false)
     }
 
-    private fun storeArticleInDatabase(articlesList: List<Article>){
+    private fun storeArticleInDatabase(articlesList: List<Article>) {
         launch {
             val dao = ArticleDatabase(getApplication()).articleDAO()
             dao.deleteArticles()
             val result = dao.insertAll(*articlesList.toTypedArray())
-            for(i in articlesList.indices){
+            for (i in articlesList.indices) {
                 articlesList[i].uuid = result[i].toInt()
             }
             retrieveArticle(articlesList)
