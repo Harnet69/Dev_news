@@ -1,5 +1,6 @@
 package com.harnet.devnews.viewModel
 
+import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.harnet.devnews.model.Article
@@ -15,7 +16,7 @@ import org.json.JSONObject
 import java.net.URL
 import java.util.concurrent.CompletableFuture
 
-class ArticlesListViewModel : ViewModel() {
+class ArticlesListViewModel(application: Application) : BaseViewModel(application) {
     private val ARTICLES_TO_SHOW: Int = 20
 
     // old fashion parse service
@@ -64,16 +65,11 @@ class ArticlesListViewModel : ViewModel() {
                         .subscribeWith(object : DisposableSingleObserver<Article>() {
                             // get list of DogBreed objects
                             override fun onSuccess(article: Article) {
-                                if(i != articlesIDs.size-1 ){
+                                if (i != articlesIDs.size - 1) {
                                     // add article to a list
                                     articlesFromAPI.add(article)
-                                }else{
-                                    // set received list to observable mutable list
-                                    mArticles.value = articlesFromAPI
-                                    // switch off error message
-                                    mIsArticleLoadError.value = false
-                                    // switch off waiting spinner
-                                    mIsLoading.value = false
+                                } else {
+                                    retrieveArticle(articlesFromAPI)
                                 }
                             }
 
@@ -98,7 +94,7 @@ class ArticlesListViewModel : ViewModel() {
     // get data by old fashion parser
     // generate articles list from webController data
     private fun makeArticlesListByParser(articlesList: String) {
-        val parsedArticlesList = mutableListOf<Article>()
+        val articlesFromAPI = mutableListOf<Article>()
         CompletableFuture.supplyAsync {
             parseService.getArticlesURLs(articlesList, ARTICLES_TO_SHOW)
         }
@@ -107,17 +103,25 @@ class ArticlesListViewModel : ViewModel() {
                     for (i in 0 until ARTICLES_TO_SHOW) {
                         val article: String = parseService.parse(URLs?.get(i).toString())
                         val parsedArticle: Article? = parseArticleDetails(article)
-                        parsedArticle?.let { parsedArticlesList.add(it) }
+                        parsedArticle?.let { articlesFromAPI.add(it) }
                     }
-                    // change values
-                    mArticles.postValue(parsedArticlesList)
-                    mIsArticleLoadError.postValue(false)
-                    mIsLoading.postValue(false)
+                    retrieveArticle(articlesFromAPI)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
     }
+
+    // retrieve articles
+    private fun retrieveArticle(articlesFromAPI: List<Article>) {
+        // set received list to observable mutable list
+        mArticles.postValue(articlesFromAPI)
+        // switch off error message
+        mIsArticleLoadError.postValue(false)
+        // switch off waiting spinner
+        mIsLoading.postValue(false)
+    }
+
 
     // get data by old fashion parser
     // parse for article details and add an article to articleDataSet
