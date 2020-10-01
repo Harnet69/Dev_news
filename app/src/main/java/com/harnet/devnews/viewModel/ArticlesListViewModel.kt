@@ -1,9 +1,11 @@
 package com.harnet.devnews.viewModel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.harnet.devnews.model.Article
+import com.harnet.devnews.model.ArticleDatabase
 import com.harnet.devnews.service.ArticleApiServis
 import com.harnet.devnews.model.ArticleLists
 import com.harnet.devnews.service.ParseService
@@ -11,6 +13,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.json.JSONObject
 import java.net.URL
@@ -68,8 +71,10 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
                                 if (i != articlesIDs.size - 1) {
                                     // add article to a list
                                     articlesFromAPI.add(article)
+                                    Log.i("ArticleURL", "onSuccess: Article URL ${article.url}")
                                 } else {
-                                    retrieveArticle(articlesFromAPI)
+                                    storeArticleInDatabase(articlesFromAPI)
+//                                    retrieveArticle(articlesFromAPI)
                                 }
                             }
 
@@ -105,7 +110,8 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
                         val parsedArticle: Article? = parseArticleDetails(article)
                         parsedArticle?.let { articlesFromAPI.add(it) }
                     }
-                    retrieveArticle(articlesFromAPI)
+//                    retrieveArticle(articlesFromAPI)
+                    storeArticleInDatabase(articlesFromAPI)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -120,6 +126,18 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
         mIsArticleLoadError.postValue(false)
         // switch off waiting spinner
         mIsLoading.postValue(false)
+    }
+
+    private fun storeArticleInDatabase(articlesList: List<Article>){
+        launch {
+            val dao = ArticleDatabase(getApplication()).articleDAO()
+            dao.deleteArticles()
+            val result = dao.insertAll(*articlesList.toTypedArray())
+            for(i in articlesList.indices){
+                articlesList[i].uuid = result[i].toInt()
+            }
+            retrieveArticle(articlesList)
+        }
     }
 
 

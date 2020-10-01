@@ -1,9 +1,10 @@
 package com.harnet.devnews.model
 
+import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 
-
+@Dao
 interface ArticleDAO {
     @Insert
     suspend fun insertAll(vararg article: Article): List<Long>
