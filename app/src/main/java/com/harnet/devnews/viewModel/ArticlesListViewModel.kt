@@ -73,7 +73,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
                                     if (article.url == null) {
                                         article.url = ""
                                     }
-                                        articlesFromAPI.add(article)
+                                    articlesFromAPI.add(article)
                                     Log.i("ArticleURL", "onSuccess: Article URL ${article.url}")
                                 } else {
                                     storeArticleInDatabase(articlesFromAPI)
@@ -136,8 +136,14 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
             val dao = ArticleDatabase(getApplication()).articleDAO()
             dao.deleteArticles()
             val result = dao.insertAll(*articlesList.toTypedArray())
-            for (i in articlesList.indices) {
-                articlesList[i].uuid = result[i].toInt()
+            for (i in result.indices) {
+                Log.i(
+                    "CompareSizes",
+                    "storeArticleInDatabase: articles: ${articlesList.size}  / uuIds: ${result.size}"
+                )
+                if (i < articlesList.size-1 || i < result.size-1) {
+                    articlesList[i].uuid = result[i].toInt()
+                }
             }
             retrieveArticle(articlesList)
         }
