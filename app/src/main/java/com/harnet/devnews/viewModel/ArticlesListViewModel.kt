@@ -60,7 +60,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
             for (i in 0 until articlesIDs.size) {
                 disposable.add(
                     // set it to a different thread(passing this call to the background thread)
-                    articleApiService.getArticle(articlesIDs.get(i))
+                    articleApiService.getArticle(articlesIDs[i])
                         .subscribeOn(Schedulers.newThread())
                         // retrieve it from a background to the main thread for displaying
                         .observeOn(AndroidSchedulers.mainThread())
@@ -137,11 +137,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
             dao.deleteArticles()
             val result = dao.insertAll(*articlesList.toTypedArray())
             for (i in result.indices) {
-                Log.i(
-                    "CompareSizes",
-                    "storeArticleInDatabase: articles: ${articlesList.size}  / uuIds: ${result.size}"
-                )
-                if (i < articlesList.size-1 || i < result.size-1) {
+                if (i < articlesList.size - 1 || i < result.size - 1) {
                     articlesList[i].uuid = result[i].toInt()
                 }
             }

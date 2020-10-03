@@ -7,6 +7,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.harnet.devnews.R
 import com.harnet.devnews.model.Article
+import com.harnet.devnews.model.ArticleDatabase
 import kotlinx.android.synthetic.main.item_atricle.view.*
 
 class ArticlesListAdapter(val articlesList: ArrayList<Article>) : RecyclerView.Adapter<ArticlesListAdapter.ArticleViewHolder>() {
@@ -37,7 +38,7 @@ class ArticlesListAdapter(val articlesList: ArrayList<Article>) : RecyclerView.A
             // navigate to appropriate detail fragment
             val action = ArticlesListFragmentDirections.actionArticlesListFragmentToArticleFragment()
             // send article id to ArticleFragment
-            action.articleId = Integer.parseInt(articlesList[position].id)
+            action.articleId = articlesList[position].uuid
             Navigation.findNavController(it).navigate(action)
         }
     }

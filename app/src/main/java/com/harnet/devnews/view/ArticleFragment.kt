@@ -8,12 +8,15 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.harnet.devnews.R
+import com.harnet.devnews.model.ArticleDatabase
 import com.harnet.devnews.viewModel.ArticleViewModel
 import com.harnet.devnews.viewModel.ArticlesListViewModel
 import kotlinx.android.synthetic.main.fragment_article.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class ArticleFragment : Fragment() {
-    var viewModel = ArticleViewModel()
+    lateinit var viewModel: ArticleViewModel
 
 
     override fun onCreateView(
@@ -33,7 +36,10 @@ class ArticleFragment : Fragment() {
         // receive arguments from sending fragment
         arguments?.let {
             val articleId = ArticleFragmentArgs.fromBundle(it).articleId
-            viewModel.fetch(articleId.toString())
+            //TODO make a coroutine for invoking suspended fun
+            GlobalScope.launch {
+                viewModel.fetch(view.context, articleId.toString())
+            }
         }
 
         observeViewModel()
