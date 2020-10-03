@@ -27,7 +27,6 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
                 "54",
                 "4"
             )
-            //TODO nothing to receive
             mArticleLiveData.value = article
         }
     }

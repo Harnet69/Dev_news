@@ -40,10 +40,10 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
     fun refresh() {
         mIsArticleLoadError.value = false//TODO think is it necessary
         // get data by old fashion manner parser
-//        makeArticlesListByParser(articlesLists.NEW_STORIES)
+        makeArticlesListByParser(articlesLists.NEW_STORIES)
 
 //        get data by retrofit
-        fetchFromRemote(articlesLists.NEW_STORIES)
+//        fetchFromRemote(articlesLists.NEW_STORIES)
     }
 
     // fetches data from remote API using Retrofit
@@ -74,7 +74,6 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
                                         article.url = ""
                                     }
                                     articlesFromAPI.add(article)
-                                    Log.i("ArticleURL", "onSuccess: Article URL ${article.url}")
                                 } else {
                                     storeArticleInDatabase(articlesFromAPI)
 //                                    retrieveArticle(articlesFromAPI)
