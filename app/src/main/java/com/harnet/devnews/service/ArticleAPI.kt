@@ -12,6 +12,4 @@ interface ArticleAPI {
     //dynamic URLs
     @GET("v0/item/{articleId}.json")// !!!this is an end point, not all url
     fun getArticle(@Path("articleId") articleId: String ): Single<Article>
-
-    //TODO it can be several methods for different kinds of a data
 }

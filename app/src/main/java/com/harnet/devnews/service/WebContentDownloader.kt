@@ -13,8 +13,8 @@ class WebContentDownloader : AsyncTask<String?, Void?, String?>() {
         try {
             val url = URL(urls[0])
             val connection = url.openConnection() as HttpURLConnection
-            val `in` = connection.inputStream
-            val reader = InputStreamReader(`in`)
+            val iN = connection.inputStream
+            val reader = InputStreamReader(iN)
             var data = reader.read()
             while (data != -1) {
                 val current = data.toChar()

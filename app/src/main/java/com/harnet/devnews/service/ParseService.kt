@@ -81,8 +81,8 @@ class ParseService {
         try {
             val url = URL(urlString)
             val connection = url.openConnection() as HttpURLConnection
-            val `in` = connection.inputStream
-            val reader = InputStreamReader(`in`)
+            val iN = connection.inputStream
+            val reader = InputStreamReader(iN)
             var data = reader.read()
 
             while (data != -1) {
