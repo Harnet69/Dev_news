@@ -52,11 +52,11 @@ class ArticleFragment : Fragment() {
     fun observeViewModel(){
         viewModel.mArticleLiveData.observe(this, Observer { article ->
             article?.let {
-                article_id.text = article.id
-                article_title.text = article.title
-                article_author.text = article.author
-                article_time.text = article.time
-                article_score.text = article.score
+                article_id.text = "Article id: " + article.id
+                article_title.text = "Title: " + article.title
+                article_author.text = "Author: " + article.author
+                article_time.text = "Time: " + article.time
+                article_score.text = "Score: " + article.score
                 article_url.paintFlags = article_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
                 article_url.text = article.url
             }
