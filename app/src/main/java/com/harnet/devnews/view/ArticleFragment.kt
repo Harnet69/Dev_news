@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -33,7 +34,7 @@ class ArticleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel =  ViewModelProviders.of(this).get(ArticleViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(ArticleViewModel::class.java)
         // get ID from Articles list adapter
         //TODO implement functionality for getting argument from nav
         // receive arguments from sending fragment
@@ -49,7 +50,7 @@ class ArticleFragment : Fragment() {
     }
 
     // observes article object and binds its data to view elements
-    fun observeViewModel(){
+    fun observeViewModel() {
         viewModel.mArticleLiveData.observe(this, Observer { article ->
             article?.let {
                 article_id.text = "Article id: " + article.id
@@ -67,7 +68,11 @@ class ArticleFragment : Fragment() {
         view?.setOnClickListener {
             val webPage = view.text.toString()
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(webPage))
-            startActivity(browserIntent)
+            try {
+                startActivity(browserIntent)
+            }catch (e: Exception){
+                Toast.makeText(context, "Wrong URL", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
