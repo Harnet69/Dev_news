@@ -4,6 +4,8 @@ import android.content.Intent
 import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings.Global.getString
+import android.provider.Settings.System.getString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,7 +52,7 @@ class ArticleFragment : Fragment() {
     }
 
     // observes article object and binds its data to view elements
-    fun observeViewModel() {
+    private fun observeViewModel() {
         viewModel.mArticleLiveData.observe(this, Observer { article ->
             article?.let {
                 article_id.text = "Article id: " + article.id
@@ -60,10 +62,11 @@ class ArticleFragment : Fragment() {
                 article_score.text = "Score: " + article.score
                 article_url.paintFlags = article_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
                 article_url.text = article.url
+
             }
         })
     }
-
+//TODO implement a  check of null Article URL
     private fun openWebsite(view: TextView?) {
         view?.setOnClickListener {
             val webPage = view.text.toString()
