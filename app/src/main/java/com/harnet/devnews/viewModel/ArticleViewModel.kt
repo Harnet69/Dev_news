@@ -21,7 +21,6 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
     fun fetch(context: Context, articleId: String) {
         launch {
             var articleToShow = ArticleDatabase.invoke(context).articleDAO().getArticle(articleId.toInt())
-            Log.i("ArticleData", "fetch: " + articleToShow.url)
             try {
                 val pageContent = webContentDownloader.execute(articleToShow.url).get()
                 //TODO implement images parsing here

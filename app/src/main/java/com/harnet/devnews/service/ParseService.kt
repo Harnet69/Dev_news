@@ -1,5 +1,6 @@
 package com.harnet.devnews.service
 
+import android.util.Log
 import org.json.JSONArray
 import org.json.JSONException
 import java.io.IOException
@@ -99,7 +100,17 @@ class ParseService {
 
     fun parseImages(pageContent: String?): List<String>? {
         var imagesURL = mutableListOf<String>()
-        imagesURL.add("https://seobutler.com/wp-content/uploads/2020/09/Facebook-Image.png")
+//        println(pageContent)
+        val testLink3 = pageContent as CharSequence
+        val word = "jpg"
+//        val matcher = "(?i)(?<!\\p{L})$word(?!\\p{L})".toRegex()
+        val matcher = "http(.*?)jpg".toRegex()
+        val articleImage = matcher.findAll(testLink3).map { it.value }.toList()
+//        Log.i("JPGimages", "parseImages: "  + matcher.findAll(testLink3).map { it.value }.toList())
+//        Log.i("JPGimages", "parseImages: counter" + matcher.findAll(testLink3).count() )
+            // => [cBa, Cba, cbA]
+            // => 3
+        imagesURL.add(articleImage[0])
 
         return imagesURL
     }
