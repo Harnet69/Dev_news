@@ -100,16 +100,10 @@ class ParseService {
 
     fun parseImages(pageContent: String?): List<String>? {
         var imagesURL = mutableListOf<String>()
-//        println(pageContent)
-        val testLink3 = pageContent as CharSequence
-        val word = "jpg"
-//        val matcher = "(?i)(?<!\\p{L})$word(?!\\p{L})".toRegex()
+        val charSequence = pageContent as CharSequence
         val matcher = "http(.*?)jpg".toRegex()
-        val articleImage = matcher.findAll(testLink3).map { it.value }.toList()
-//        Log.i("JPGimages", "parseImages: "  + matcher.findAll(testLink3).map { it.value }.toList())
-//        Log.i("JPGimages", "parseImages: counter" + matcher.findAll(testLink3).count() )
-            // => [cBa, Cba, cbA]
-            // => 3
+        val articleImage = matcher.findAll(charSequence).map { it.value }.toList()
+
         imagesURL.add(articleImage[0])
 
         return imagesURL
