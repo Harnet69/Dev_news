@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.harnet.devnews.R
+import com.harnet.devnews.util.getProgressDrawable
+import com.harnet.devnews.util.loadImage
 import com.harnet.devnews.viewModel.ArticleViewModel
 import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.coroutines.GlobalScope
@@ -63,21 +65,32 @@ class ArticleFragment : Fragment() {
                 article_score.text = "Score: " + article.score
                 article_url.paintFlags = article_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
                 article_url.text = article.url
-                Log.i("ArticleImageUrl", "observeViewModel: " + article.imageUrl)
 
+                article?.let {
+                    context?.let { it1 -> getProgressDrawable(it1) }?.let { it2 ->
+                        article_image.loadImage(
+                            article.imageUrl,
+                            it2
+                        )
+                    }
+
+                    Log.i("ArticleImageUrl", "observeViewModel: " + article.imageUrl)
+
+                }
             }
         })
     }
+
 //TODO implement a  check of null Article URL
-    private fun openWebsite(view: TextView?) {
-        view?.setOnClickListener {
-            val webPage = view.text.toString()
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(webPage))
-            try {
-                startActivity(browserIntent)
-            }catch (e: Exception){
-                Toast.makeText(context, "Wrong URL", Toast.LENGTH_SHORT).show()
+                private fun openWebsite(view: TextView?) {
+            view?.setOnClickListener {
+                val webPage = view.text.toString()
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(webPage))
+                try {
+                    startActivity(browserIntent)
+                } catch (e: Exception) {
+                    Toast.makeText(context, "Wrong URL", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
-}
