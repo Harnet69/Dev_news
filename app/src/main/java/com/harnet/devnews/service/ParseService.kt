@@ -96,4 +96,11 @@ class ParseService {
 
         return site.toString()
     }
+
+    fun parseImages(pageContent: String?): List<String>? {
+        var imagesURL = mutableListOf<String>()
+        imagesURL.add("https://seobutler.com/wp-content/uploads/2020/09/Facebook-Image.png")
+
+        return imagesURL
+    }
 }
