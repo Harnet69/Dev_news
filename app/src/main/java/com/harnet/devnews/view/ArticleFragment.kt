@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings.Global.getString
 import android.provider.Settings.System.getString
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,6 +63,7 @@ class ArticleFragment : Fragment() {
                 article_score.text = "Score: " + article.score
                 article_url.paintFlags = article_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
                 article_url.text = article.url
+                Log.i("ArticleImageUrl", "observeViewModel: " + article.imageUrl)
 
             }
         })

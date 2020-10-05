@@ -33,4 +33,6 @@ data class Article(
 ){
     @PrimaryKey(autoGenerate = true)
     var uuid: Int = 0
+
+    var imageUrl: String = ""
 }

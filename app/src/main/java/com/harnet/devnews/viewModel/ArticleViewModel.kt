@@ -25,7 +25,9 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
                 val pageContent = webContentDownloader.execute(articleToShow.url).get()
                 //TODO implement images parsing here
                 var imagesURL = parseService.parseImages(pageContent)
-                Log.i("ArticleData", "fetch: Images " + (imagesURL?.get(0) ?: 0))
+
+                Log.i("ArticleData", "fetch: Image " + (imagesURL?.get(0) ?: 0))
+                articleToShow.imageUrl = imagesURL?.get(0) as String
 //                Log.i("ArticleData", "fetch: " + pageContent)
                 val articleDate = Date(articleToShow.time.toLong() * 1000)
                 articleToShow.time = articleDate.toString()
