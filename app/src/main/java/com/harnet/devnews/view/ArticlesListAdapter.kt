@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.harnet.devnews.R
 import com.harnet.devnews.model.Article
 import com.harnet.devnews.model.ArticleDatabase
+import com.harnet.devnews.util.getProgressDrawable
 import kotlinx.android.synthetic.main.item_atricle.view.*
 
 class ArticlesListAdapter(val articlesList: ArrayList<Article>) : RecyclerView.Adapter<ArticlesListAdapter.ArticleViewHolder>() {
@@ -30,12 +31,18 @@ class ArticlesListAdapter(val articlesList: ArrayList<Article>) : RecyclerView.A
     override fun getItemCount() = articlesList.size
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
+        var isFavourite = false
         //attach view to information from a list
         holder.view.articleTitle_in_list.text = articlesList[position].title
         holder.view.articleAuthor_in_list.text = articlesList[position].author
         // add click listener to favourite button
         holder.view.favourite_img.setOnClickListener {
-            println("Click!!!")
+            isFavourite = isFavourite != true
+            if(isFavourite){
+                holder.view.favourite_img.setImageResource(android.R.drawable.btn_star_big_on)
+            }else{
+                holder.view.favourite_img.setImageResource(android.R.drawable.btn_star_big_off)
+            }
         }
         //add click listener to article details item and bind it with detail page
         holder.view.article_details.setOnClickListener {
