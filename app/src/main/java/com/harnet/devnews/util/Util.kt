@@ -37,6 +37,7 @@ fun ImageView.loadImage(uri: String?, progressDrawable: CircularProgressDrawable
                 target: Target<Drawable>?,
                 isFirstResource: Boolean
             ): Boolean {
+                //TODO check if image was changed
                 Log.i("ListenGlide", "onLoadFailed: FAIL")
                 return false
             }
