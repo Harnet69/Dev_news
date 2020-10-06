@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.harnet.devnews.model.Article
 import com.harnet.devnews.model.ArticleDatabase
+import com.harnet.devnews.model.Favourite
 import com.harnet.devnews.service.ParseService
 import com.harnet.devnews.service.WebContentDownloader
 import kotlinx.coroutines.launch
@@ -35,6 +36,10 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
                 //handling in favourite table
                 if(articleToShow.isFavourite){
                     //TODO record the article to favourites
+                    val favouriteArticle = Favourite(articleToShow.id, articleToShow.title, articleToShow.author, articleToShow.url, articleToShow.time, articleToShow.score)
+                    favouriteArticle.imageUrl = articleToShow.imageUrl
+                    ArticleDatabase.invoke(context).favouriteDAO().insertAll(favouriteArticle)
+                    Log.i("FavouriteArticls", "fetch from favourites: " + ArticleDatabase.invoke(context).favouriteDAO().getFavourites())
                 }else{
                     //TODO delete the article from favourites
                 }

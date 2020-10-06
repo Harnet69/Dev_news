@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.harnet.devnews.R
 import com.harnet.devnews.model.Article
+import com.harnet.devnews.model.ArticleDatabase
 import com.harnet.devnews.util.getProgressDrawable
 import com.harnet.devnews.util.loadImage
 import com.harnet.devnews.viewModel.ArticleViewModel
@@ -100,6 +101,7 @@ class ArticleFragment : Fragment() {
     // handle favourite image
     private fun makeFavourite(viewFavourite: ImageView?, article: Article) {
         viewFavourite?.setOnClickListener {
+//            context?.let { it1 -> ArticleDatabase.invoke(it1).favouriteDAO().getFavourites() }
             if (article.isFavourite) {
                 article.isFavourite = false
                 article_favourite.setImageResource(android.R.drawable.btn_star_big_off)
