@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.harnet.devnews.R
+import com.harnet.devnews.model.Article
 import com.harnet.devnews.util.getProgressDrawable
 import com.harnet.devnews.util.loadImage
 import com.harnet.devnews.viewModel.ArticleViewModel
@@ -47,7 +48,6 @@ class ArticleFragment : Fragment() {
                 viewModel.fetch(view.context, articleId.toString(), isFavourite)
             }
         }
-        makeFavourite(article_favourite)
         openWebsite(article_url)
         observeViewModel()
     }
@@ -64,11 +64,13 @@ class ArticleFragment : Fragment() {
                 article_url.text = article.url
                 // set is article favourite
                 Log.i("isArticleFavourite", "observeViewModel: " + article.isFavourite)
+                // set image for favourite star
                 if (article.isFavourite) {
                     article_favourite.setImageResource(android.R.drawable.btn_star_big_on)
                 } else {
                     article_favourite.setImageResource(android.R.drawable.btn_star_big_off)
                 }
+                makeFavourite(article_favourite, article)
                 // parse page source code and insert image to an article
                 article.let {
                     context?.let { it1 -> getProgressDrawable(it1) }?.let { it2 ->
@@ -96,10 +98,16 @@ class ArticleFragment : Fragment() {
     }
 
     // handle favourite image
-    private fun makeFavourite(viewFavourite: ImageView?){
+    private fun makeFavourite(viewFavourite: ImageView?, article: Article) {
         viewFavourite?.setOnClickListener {
-            println("Click")
-            //TODO there have to be an access to a database of cashed articles
+            if (article.isFavourite) {
+                article.isFavourite = false
+                article_favourite.setImageResource(android.R.drawable.btn_star_big_off)
+            } else {
+                article.isFavourite = true
+                article_favourite.setImageResource(android.R.drawable.btn_star_big_on)
+            }
+            //TODO record changes to table of favourites articles
         }
     }
 }
