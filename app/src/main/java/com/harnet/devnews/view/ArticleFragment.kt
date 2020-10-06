@@ -39,9 +39,10 @@ class ArticleFragment : Fragment() {
         // get ID from Articles list adapter, receive arguments from sending fragment
         arguments?.let {
             val articleId = ArticleFragmentArgs.fromBundle(it).articleId
+            val isFavourite = ArticleFragmentArgs.fromBundle(it).isFavourite
             //get the article from a database with coroutine for invoking a suspended function
             GlobalScope.launch {
-                viewModel.fetch(view.context, articleId.toString())
+                viewModel.fetch(view.context, articleId.toString(), isFavourite)
             }
         }
         openWebsite(article_url)

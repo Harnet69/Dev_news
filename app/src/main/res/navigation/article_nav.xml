@@ -22,5 +22,9 @@
             android:name="articleId"
             app:argType="integer"
             android:defaultValue="0" />
+        <argument
+            android:name="isFavourite"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
 </navigation>

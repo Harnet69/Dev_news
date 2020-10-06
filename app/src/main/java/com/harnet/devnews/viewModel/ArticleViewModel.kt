@@ -18,11 +18,12 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
     private val parseService = ParseService()
 
     //retrieve data from a database by id
-    fun fetch(context: Context, articleId: String) {
+    fun fetch(context: Context, articleId: String, isFavourite: Boolean) {
         launch {
             val articleToShow = ArticleDatabase.invoke(context).articleDAO().getArticle(articleId.toInt())
             try {
                 // article image
+                Log.i("isArticleFavourite", "fetch: $isFavourite")
                 val pageContent = webContentDownloader.execute(articleToShow.url).get()
                 val imagesURL = parseService.parseImages(pageContent)
                 articleToShow.imageUrl = imagesURL?.get(0) as String

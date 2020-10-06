@@ -50,6 +50,7 @@ class ArticlesListAdapter(val articlesList: ArrayList<Article>) : RecyclerView.A
             val action = ArticlesListFragmentDirections.actionArticlesListFragmentToArticleFragment()
             // send article id to ArticleFragment
             action.articleId = articlesList[position].uuid
+            action.isFavourite = isFavourite
             Navigation.findNavController(it).navigate(action)
         }
     }
