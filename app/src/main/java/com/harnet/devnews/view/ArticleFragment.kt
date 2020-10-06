@@ -78,16 +78,16 @@ class ArticleFragment : Fragment() {
         })
     }
 
-//TODO implement a  check of null Article URL
-                private fun openWebsite(view: TextView?) {
-            view?.setOnClickListener {
-                val webPage = view.text.toString()
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(webPage))
-                try {
-                    startActivity(browserIntent)
-                } catch (e: Exception) {
-                    Toast.makeText(context, "Wrong URL", Toast.LENGTH_SHORT).show()
-                }
+    //TODO implement a  check of null Article URL
+    private fun openWebsite(view: TextView?) {
+        view?.setOnClickListener {
+            val webPage = view.text.toString()
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(webPage))
+            try {
+                startActivity(browserIntent)
+            } catch (e: Exception) {
+                Toast.makeText(context, "Wrong URL", Toast.LENGTH_SHORT).show()
             }
         }
     }
+}
