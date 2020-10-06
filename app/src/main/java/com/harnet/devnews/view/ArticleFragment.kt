@@ -66,16 +66,13 @@ class ArticleFragment : Fragment() {
                 article_url.paintFlags = article_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
                 article_url.text = article.url
 
-                article?.let {
+                article.let {
                     context?.let { it1 -> getProgressDrawable(it1) }?.let { it2 ->
                         article_image.loadImage(
                             article.imageUrl,
                             it2
                         )
                     }
-
-                    Log.i("ArticleImageUrl", "observeViewModel: " + article.imageUrl)
-
                 }
             }
         })
