@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,6 +60,13 @@ class ArticleFragment : Fragment() {
                 article_time.text = "Time: " + article.time
                 article_url.paintFlags = article_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
                 article_url.text = article.url
+                // set is article favourite
+                Log.i("isArticleFavourite", "observeViewModel: " + article.isFavourite)
+                if (article.isFavourite) {
+                    article_favourite.setImageResource(android.R.drawable.btn_star_big_on)
+                } else {
+                    article_favourite.setImageResource(android.R.drawable.btn_star_big_off)
+                }
                 // parse page source code and insert image to an article
                 article.let {
                     context?.let { it1 -> getProgressDrawable(it1) }?.let { it2 ->

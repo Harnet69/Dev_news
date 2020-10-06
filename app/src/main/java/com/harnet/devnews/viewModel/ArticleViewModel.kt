@@ -22,14 +22,16 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
         launch {
             val articleToShow = ArticleDatabase.invoke(context).articleDAO().getArticle(articleId.toInt())
             try {
-                // article image
-                Log.i("isArticleFavourite", "fetch: $isFavourite")
+                // set article image
                 val pageContent = webContentDownloader.execute(articleToShow.url).get()
                 val imagesURL = parseService.parseImages(pageContent)
                 articleToShow.imageUrl = imagesURL?.get(0) as String
-                // article date
+                // set article date
                 val articleDate = Date(articleToShow.time.toLong() * 1000)
                 articleToShow.time = articleDate.toString()
+                // set is article in favourite
+                articleToShow.isFavourite = isFavourite
+
             } catch (e: Exception) {
                 Log.i("ArticleData", "fetch: No Data")
             }
