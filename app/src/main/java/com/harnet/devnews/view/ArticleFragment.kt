@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -46,6 +47,7 @@ class ArticleFragment : Fragment() {
                 viewModel.fetch(view.context, articleId.toString(), isFavourite)
             }
         }
+        makeFavourite(article_favourite)
         openWebsite(article_url)
         observeViewModel()
     }
@@ -90,6 +92,14 @@ class ArticleFragment : Fragment() {
             } catch (e: Exception) {
                 Toast.makeText(context, "Wrong URL", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    // handle favourite image
+    private fun makeFavourite(viewFavourite: ImageView?){
+        viewFavourite?.setOnClickListener {
+            println("Click")
+            //TODO there have to be an access to a database of cashed articles
         }
     }
 }
