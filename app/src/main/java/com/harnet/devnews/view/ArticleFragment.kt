@@ -105,11 +105,16 @@ class ArticleFragment : Fragment() {
             if (article.isFavourite) {
                 article.isFavourite = false
                 article_favourite.setImageResource(android.R.drawable.btn_star_big_off)
+                // remove from favourites
+                context?.let { it1 -> viewModel.removeFromFavourites(it1, article.uuid) }
             } else {
                 article.isFavourite = true
                 article_favourite.setImageResource(android.R.drawable.btn_star_big_on)
+                // add to favourites
+                context?.let { it1 -> viewModel.addToFavourite(it1, article) }
             }
             //TODO record changes to table of favourites articles
+            context?.let { it1 -> viewModel.getFavourites(it1) }
         }
     }
 }

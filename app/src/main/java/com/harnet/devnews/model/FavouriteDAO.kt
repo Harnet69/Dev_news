@@ -15,6 +15,9 @@ interface FavouriteDAO {
     @Query("DELETE FROM favourite")
     suspend fun deleteFavourites()
 
+    @Query("DELETE FROM favourite WHERE uuid = :favouriteId" )
+    suspend fun deleteFavourite(favouriteId: Int)
+
     @Query("SELECT * FROM favourite WHERE uuid = :favouriteId")
     suspend fun getFavourite(favouriteId: Int): Favourite
 }

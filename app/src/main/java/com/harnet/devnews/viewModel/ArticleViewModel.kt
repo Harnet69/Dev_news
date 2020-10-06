@@ -3,15 +3,18 @@ package com.harnet.devnews.viewModel
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.harnet.devnews.model.Article
 import com.harnet.devnews.model.ArticleDatabase
 import com.harnet.devnews.model.Favourite
 import com.harnet.devnews.service.ParseService
 import com.harnet.devnews.service.WebContentDownloader
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.util.*
+import java.util.concurrent.CompletableFuture
 
 class ArticleViewModel(application: Application) : BaseViewModel(application) {
     val mArticleLiveData = MutableLiveData<Article>()
@@ -21,7 +24,8 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
     //retrieve data from a database by id
     fun fetch(context: Context, articleId: String, isFavourite: Boolean) {
         launch {
-            val articleToShow = ArticleDatabase.invoke(context).articleDAO().getArticle(articleId.toInt())
+            val articleToShow =
+                ArticleDatabase.invoke(context).articleDAO().getArticle(articleId.toInt())
             try {
                 // set article image
                 val pageContent = webContentDownloader.execute(articleToShow.url).get()
@@ -34,14 +38,12 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
                 articleToShow.isFavourite = isFavourite
 
                 //handling in favourite table
-                if(articleToShow.isFavourite){
-                    //TODO record the article to favourites
-                    val favouriteArticle = Favourite(articleToShow.id, articleToShow.title, articleToShow.author, articleToShow.url, articleToShow.time, articleToShow.score)
-                    favouriteArticle.imageUrl = articleToShow.imageUrl
-                    ArticleDatabase.invoke(context).favouriteDAO().insertAll(favouriteArticle)
-                    Log.i("FavouriteArticls", "fetch from favourites: " + ArticleDatabase.invoke(context).favouriteDAO().getFavourites())
-                }else{
+                if (articleToShow.isFavourite) {
+                    //record the article to favourites
+//                    addToFavourite(context, articleToShow)
+                } else {
                     //TODO delete the article from favourites
+
                 }
 
             } catch (e: Exception) {
@@ -50,6 +52,42 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
             val article: Article = articleToShow
 
             mArticleLiveData.value = article
+        }
+    }
+
+    fun addToFavourite(context: Context, article: Article) {
+        val favouriteArticle = Favourite(
+            article.id,
+            article.title,
+            article.author,
+            article.url,
+            article.time,
+            article.score
+        )
+
+
+        favouriteArticle.imageUrl = favouriteArticle.imageUrl
+        launch {
+            ArticleDatabase.invoke(context).favouriteDAO().insertAll(favouriteArticle)
+            Toast.makeText(context, "Article added to favourites", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun removeFromFavourites(context: Context, uuid: Int) {
+        launch {
+            ArticleDatabase.invoke(context).favouriteDAO().deleteFavourite(uuid)
+            Toast.makeText(context, "Article removed from favourites", Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
+
+    fun getFavourites(context: Context){
+        launch {
+            Log.i(
+                "FavouriteArticls",
+                "fetch from favourites: " + ArticleDatabase.invoke(context).favouriteDAO()
+                    .getFavourites()
+            )
         }
     }
 }

@@ -44,6 +44,11 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
 
 //        get data by retrofit
 //        fetchFromRemote(articlesLists.NEW_STORIES)
+
+        //TODO show all favourites
+        launch {
+            Log.i("FavouriteArticls", "refresh: " + ArticleDatabase.invoke(getApplication()).favouriteDAO().getFavourites())
+        }
     }
 
     // fetches data from remote API using Retrofit
