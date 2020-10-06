@@ -32,6 +32,13 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
                 // set is article in favourite
                 articleToShow.isFavourite = isFavourite
 
+                //handling in favourite table
+                if(articleToShow.isFavourite){
+                    //TODO record the article to favourites
+                }else{
+                    //TODO delete the article from favourites
+                }
+
             } catch (e: Exception) {
                 Log.i("ArticleData", "fetch: No Data")
             }

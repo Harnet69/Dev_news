@@ -35,13 +35,16 @@ class ArticlesListAdapter(val articlesList: ArrayList<Article>) : RecyclerView.A
         //attach view to information from a list
         holder.view.articleTitle_in_list.text = articlesList[position].title
         holder.view.articleAuthor_in_list.text = articlesList[position].author
+
         // add click listener to favourite button
         holder.view.favourite_img.setOnClickListener {
             isFavourite = isFavourite != true
             if(isFavourite){
                 holder.view.favourite_img.setImageResource(android.R.drawable.btn_star_big_on)
+                //TODO record the article to favourites
             }else{
                 holder.view.favourite_img.setImageResource(android.R.drawable.btn_star_big_off)
+                //TODO delete the article from favourites
             }
         }
         //add click listener to article details item and bind it with detail page
