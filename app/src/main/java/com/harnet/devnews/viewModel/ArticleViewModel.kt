@@ -20,15 +20,13 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
     //retrieve data from a database by id
     fun fetch(context: Context, articleId: String) {
         launch {
-            var articleToShow = ArticleDatabase.invoke(context).articleDAO().getArticle(articleId.toInt())
+            val articleToShow = ArticleDatabase.invoke(context).articleDAO().getArticle(articleId.toInt())
             try {
+                // article image
                 val pageContent = webContentDownloader.execute(articleToShow.url).get()
-                //TODO implement images parsing here
-                var imagesURL = parseService.parseImages(pageContent)
-
-                Log.i("ArticleData", "fetch: Image " + (imagesURL?.get(0) ?: 0))
+                val imagesURL = parseService.parseImages(pageContent)
                 articleToShow.imageUrl = imagesURL?.get(0) as String
-//                Log.i("ArticleData", "fetch: " + pageContent)
+                // article date
                 val articleDate = Date(articleToShow.time.toLong() * 1000)
                 articleToShow.time = articleDate.toString()
             } catch (e: Exception) {
