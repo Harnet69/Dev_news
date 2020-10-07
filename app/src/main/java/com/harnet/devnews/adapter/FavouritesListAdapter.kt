@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.harnet.devnews.R
 import com.harnet.devnews.model.Favourite
 import com.harnet.devnews.view.ArticlesListFragmentDirections
+import com.harnet.devnews.view.FavouritesListFragmentDirections
 import kotlinx.android.synthetic.main.item_atricle.view.*
 
 class FavouritesListAdapter(val favouritesList: ArrayList<Favourite>) : RecyclerView.Adapter<FavouritesListAdapter.FavouritesViewHolder>() {
@@ -49,7 +50,7 @@ class FavouritesListAdapter(val favouritesList: ArrayList<Favourite>) : Recycler
         holder.view.article_details.setOnClickListener {
             // navigate to appropriate detail fragment
             val action =
-                ArticlesListFragmentDirections.actionArticlesListFragmentToArticleFragment()
+                FavouritesListFragmentDirections.actionFavouritesListFragmentToArticleFragment()
             // send article id to ArticleFragment
             action.articleId = favouritesList[position].uuid
             action.isFavourite = isFavourite

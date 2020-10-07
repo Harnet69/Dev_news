@@ -38,7 +38,7 @@
         android:label="favourites_list_fragment"
         tools:layout="@layout/favourites_list_fragment" >
         <action
-            android:id="@+id/action_favouritesListFragment_to_articlesListFragment"
-            app:destination="@id/articlesListFragment" />
+            android:id="@+id/action_favouritesListFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
     </fragment>
 </navigation>
