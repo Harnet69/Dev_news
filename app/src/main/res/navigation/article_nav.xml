@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/articlesListFragment"
         android:name="com.harnet.devnews.view.ArticlesListFragment"
-        android:label="ArticlesListFragment" >
+        android:label="ArticlesListFragment">
         <action
             android:id="@+id/action_articlesListFragment_to_articleFragment"
             app:destination="@id/articleFragment" />
@@ -19,26 +19,40 @@
     <fragment
         android:id="@+id/articleFragment"
         android:name="com.harnet.devnews.view.ArticleFragment"
-        android:label="ArticleFragment" >
+        android:label="ArticleFragment">
         <action
             android:id="@+id/action_articleFragment_to_articlesListFragment"
             app:destination="@id/articlesListFragment" />
         <argument
             android:name="articleId"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:defaultValue="0"
+            app:argType="integer" />
         <argument
             android:name="isFavourite"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/favouritesListFragment"
         android:name="com.harnet.devnews.view.FavouritesListFragment"
         android:label="favourites_list_fragment"
-        tools:layout="@layout/favourites_list_fragment" >
+        tools:layout="@layout/favourites_list_fragment">
         <action
-            android:id="@+id/action_favouritesListFragment_to_articleFragment"
-            app:destination="@id/articleFragment" />
+            android:id="@+id/action_favouritesListFragment_to_favouriteFragment"
+            app:destination="@id/favouriteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favouriteFragment"
+        android:name="com.harnet.devnews.FavouriteFragment"
+        android:label="favourite_fragment"
+        tools:layout="@layout/favourite_fragment">
+        <argument
+            android:name="articleId"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="isFavourite"
+            android:defaultValue="false"
+            app:argType="boolean" />
     </fragment>
 </navigation>

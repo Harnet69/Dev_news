@@ -13,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.harnet.devnews.R
 import com.harnet.devnews.model.Article
@@ -39,7 +40,7 @@ class ArticleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ArticleViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ArticleViewModel::class.java)
         // get ID from Articles list adapter, receive arguments from sending fragment
         arguments?.let {
             val articleId = ArticleFragmentArgs.fromBundle(it).articleId

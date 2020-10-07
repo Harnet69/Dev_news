@@ -1,5 +1,6 @@
 package com.harnet.devnews.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,10 +51,11 @@ class FavouritesListAdapter(val favouritesList: ArrayList<Favourite>) : Recycler
         holder.view.article_details.setOnClickListener {
             // navigate to appropriate detail fragment
             val action =
-                FavouritesListFragmentDirections.actionFavouritesListFragmentToArticleFragment()
+                FavouritesListFragmentDirections.actionFavouritesListFragmentToFavouriteFragment()
             // send article id to ArticleFragment
             action.articleId = favouritesList[position].uuid
             action.isFavourite = isFavourite
+            Log.i("FavouriteTracking", "onBindViewHolder: send " + favouritesList[position].uuid + isFavourite)
             Navigation.findNavController(it).navigate(action)
         }
     }
