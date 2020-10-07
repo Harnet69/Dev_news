@@ -1,7 +1,7 @@
 package com.harnet.devnews.viewModel
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
 
-class FavouritesListViewModel : ViewModel() {
+class FavouritesListViewModel(application: Application) : BaseViewModel(application) {
     // TODO: Implement the ViewModel
 }

@@ -1,11 +1,11 @@
 package com.harnet.devnews.view
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.harnet.devnews.R
 import com.harnet.devnews.viewModel.FavouritesListViewModel
 
@@ -27,7 +27,7 @@ class FavouritesListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(FavouritesListViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(FavouritesListViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
