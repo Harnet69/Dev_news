@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.harnet.devnews.R
+import com.harnet.devnews.adapter.ArticlesListAdapter
+import com.harnet.devnews.adapter.FavouritesListAdapter
 import com.harnet.devnews.viewModel.ArticlesListViewModel
 import com.harnet.devnews.viewModel.FavouritesListViewModel
 import kotlinx.android.synthetic.main.favourites_list_fragment.*
@@ -21,7 +23,7 @@ import kotlinx.android.synthetic.main.fragment_articles_list.loadingView_Progres
 import kotlinx.android.synthetic.main.fragment_articles_list.refreshLayout
 
 class FavouritesListFragment : Fragment() {
-
+    val favouritesListAdapter = FavouritesListAdapter(arrayListOf())
     companion object {
         fun newInstance() = FavouritesListFragment()
     }
@@ -42,10 +44,10 @@ class FavouritesListFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(FavouritesListViewModel::class.java)
         context?.let { viewModel.refresh(it) }
 
-//        articles_list.apply {
-//            layoutManager = LinearLayoutManager(context)
-////            adapter = articlesListAdapter
-//        }
+        favourites_list.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = favouritesListAdapter
+        }
 
         // Swiper refresh listener(screen refreshing process)
         refreshLayout.setOnRefreshListener {
@@ -61,10 +63,10 @@ class FavouritesListFragment : Fragment() {
 
     fun observeViewModel(){
         // update the layout using values of mutable variables from a ViewModel
-        viewModel.mFavourites.observe(viewLifecycleOwner, Observer {articles ->
-            articles?.let {
+        viewModel.mFavourites.observe(viewLifecycleOwner, Observer {favourites ->
+            favourites?.let {
                 favourites_list.visibility = View.VISIBLE
-//                articlesListAdapter.updateArticlesList(articles)
+                favouritesListAdapter.updateFavouritesList(favourites)
             }
         })
 
