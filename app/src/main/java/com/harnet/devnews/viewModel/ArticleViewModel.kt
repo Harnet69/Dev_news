@@ -40,7 +40,7 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
                 //handling in favourite table
                 if (articleToShow.isFavourite) {
                     //record the article to favourites
-//                    addToFavourite(context, articleToShow)
+                    addToFavourite(context, articleToShow)
                 } else {
                     //TODO delete the article from favourites
 
@@ -74,8 +74,17 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
     }
 
     fun removeFromFavourites(context: Context, uuid: Int) {
+        Log.i("ArticleForRem", "removeFromFavourites: " + uuid)
         launch {
             ArticleDatabase.invoke(context).favouriteDAO().deleteFavourite(uuid)
+            Toast.makeText(context, "Article removed from favourites", Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
+
+    fun removeFromFavourites(context: Context, id: String) {
+        launch {
+            ArticleDatabase.invoke(context).favouriteDAO().deleteFavourite(id)
             Toast.makeText(context, "Article removed from favourites", Toast.LENGTH_SHORT)
                 .show()
         }

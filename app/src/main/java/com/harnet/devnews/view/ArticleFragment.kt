@@ -104,10 +104,10 @@ class ArticleFragment : Fragment() {
         viewFavourite?.setOnClickListener {
 //            context?.let { it1 -> ArticleDatabase.invoke(it1).favouriteDAO().getFavourites() }
             if (article.isFavourite) {
-                article.isFavourite = false
                 article_favourite.setImageResource(android.R.drawable.btn_star_big_off)
                 // remove from favourites
-                context?.let { it1 -> viewModel.removeFromFavourites(it1, article.uuid) }
+                context?.let { it1 -> viewModel.removeFromFavourites(it1, article.id) }
+                article.isFavourite = false
             } else {
                 article.isFavourite = true
                 article_favourite.setImageResource(android.R.drawable.btn_star_big_on)
