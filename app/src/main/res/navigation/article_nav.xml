@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/favouriteFragment"
-        android:name="com.harnet.devnews.FavouriteFragment"
+        android:name="com.harnet.devnews.view.FavouriteFragment"
         android:label="favourite_fragment"
         tools:layout="@layout/favourite_fragment">
         <argument

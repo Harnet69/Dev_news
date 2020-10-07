@@ -54,7 +54,8 @@ class FavouritesListAdapter(val favouritesList: ArrayList<Favourite>) : Recycler
                 FavouritesListFragmentDirections.actionFavouritesListFragmentToFavouriteFragment()
             // send article id to ArticleFragment
             action.articleId = favouritesList[position].uuid
-            action.isFavourite = isFavourite
+            //TODO hardcoding!!!
+            action.isFavourite = true
             Log.i("FavouriteTracking", "onBindViewHolder: send " + favouritesList[position].uuid + isFavourite)
             Navigation.findNavController(it).navigate(action)
         }

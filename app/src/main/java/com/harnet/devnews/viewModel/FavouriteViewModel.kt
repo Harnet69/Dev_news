@@ -1,4 +1,4 @@
-package com.harnet.devnews
+package com.harnet.devnews.viewModel
 
 import androidx.lifecycle.ViewModel
 
