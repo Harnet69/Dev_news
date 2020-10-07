@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -12,6 +13,23 @@ import androidx.navigation.ui.NavigationUI
 import com.harnet.devnews.R
 
 class MainActivity : AppCompatActivity() {
+    // back arrow
+    lateinit var navController: NavController
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        //for back arrow
+        navController = Navigation.findNavController(this, R.id.fragment)
+        NavigationUI.setupActionBarWithNavController(this, navController)
+    }
+
+    //for back arrow
+    override fun onSupportNavigateUp(): Boolean {
+        return NavigationUI.navigateUp(navController, null)
+    }
+
     // create application menu
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val menuInflater = menuInflater
@@ -36,26 +54,11 @@ class MainActivity : AppCompatActivity() {
                 //TODO here start a new fragment from menu
                 Log.i("FavouritesArt", "onOptionsItemSelected: NEWS RADAR")
                 Toast.makeText(this, "News radar", Toast.LENGTH_SHORT).show()
-//                startFragment(ProfileFragment(), Fragments.PROFILE.toString())
+                finish();
+                startActivity(intent);
             }
         }
         return isSelected
     }
 
-    // back arrow
-    lateinit var navController: NavController
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        //for back arrow
-        navController = Navigation.findNavController(this, R.id.fragment)
-        NavigationUI.setupActionBarWithNavController(this, navController)
-    }
-
-    //for back arrow
-    override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(navController, null)
-    }
 }
