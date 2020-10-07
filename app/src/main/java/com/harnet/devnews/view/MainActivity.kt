@@ -29,36 +29,4 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(navController, null)
     }
-
-    // create application menu
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val menuInflater = menuInflater
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    // interacting with menu
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        super.onOptionsItemSelected(item)
-        var isSelected = false
-        when (item.itemId) {
-            R.id.favourites -> {
-                isSelected = true
-                //TODO here start a new fragment from menu
-                Log.i("FavouritesArt", "onOptionsItemSelected: FAVOURITES")
-                Toast.makeText(this, "Favourites", Toast.LENGTH_SHORT).show()
-//                startFragment(ProfileFragment(), Fragments.PROFILE.toString())
-            }
-            R.id.newsRadar -> {
-                isSelected = true
-                //TODO here start a new fragment from menu
-                Log.i("FavouritesArt", "onOptionsItemSelected: NEWS RADAR")
-                Toast.makeText(this, "News radar", Toast.LENGTH_SHORT).show()
-                finish();
-                startActivity(intent);
-            }
-        }
-        return isSelected
-    }
-
 }

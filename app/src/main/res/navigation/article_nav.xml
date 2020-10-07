@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/article_nav"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/article_nav"
     app:startDestination="@id/articlesListFragment">
 
     <fragment
@@ -10,6 +12,9 @@
         <action
             android:id="@+id/action_articlesListFragment_to_articleFragment"
             app:destination="@id/articleFragment" />
+        <action
+            android:id="@+id/action_articlesListFragment_to_favouritesListFragment"
+            app:destination="@id/favouritesListFragment" />
     </fragment>
     <fragment
         android:id="@+id/articleFragment"
@@ -26,5 +31,14 @@
             android:name="isFavourite"
             app:argType="boolean"
             android:defaultValue="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/favouritesListFragment"
+        android:name="com.harnet.devnews.view.FavouritesListFragment"
+        android:label="favourites_list_fragment"
+        tools:layout="@layout/favourites_list_fragment" >
+        <action
+            android:id="@+id/action_favouritesListFragment_to_articlesListFragment"
+            app:destination="@id/articlesListFragment" />
     </fragment>
 </navigation>

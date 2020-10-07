@@ -1,12 +1,14 @@
 package com.harnet.devnews.view
 
 import android.os.Bundle
+import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.harnet.devnews.R
 import com.harnet.devnews.model.Article
@@ -21,6 +23,7 @@ class ArticlesListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_articles_list, container, false)
     }
@@ -48,6 +51,23 @@ class ArticlesListFragment : Fragment() {
 
         observeViewModel()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.main_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.favourites){
+            Toast.makeText(context, "Favourites", Toast.LENGTH_SHORT).show()
+            Navigation.findNavController(view!!).navigate(ArticlesListFragmentDirections.actionArticlesListFragmentToFavouritesListFragment())
+           return true
+        }
+        return NavigationUI.onNavDestinationSelected(item!!,
+            view!!.findNavController())
+                || super.onOptionsItemSelected(item)
+    }
+
 
     fun observeViewModel(){
         // update the layout using values of mutable variables from a ViewModel
