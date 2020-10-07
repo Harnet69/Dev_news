@@ -52,7 +52,7 @@ class FavouriteFragment : Fragment() {
                 viewModel.fetch(view.context, favouriteUuId)
             }
         }
-        openWebsite(article_url)
+        openWebsite(favourite_url)
         observeViewModel()
     }
 
