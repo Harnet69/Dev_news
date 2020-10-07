@@ -1,20 +1,16 @@
 package com.harnet.devnews.view
 
-import android.app.Application
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.harnet.devnews.R
-import com.harnet.devnews.adapter.ArticlesListAdapter
 import com.harnet.devnews.adapter.FavouritesListAdapter
-import com.harnet.devnews.viewModel.ArticlesListViewModel
 import com.harnet.devnews.viewModel.FavouritesListViewModel
 import kotlinx.android.synthetic.main.favourites_list_fragment.*
 import kotlinx.android.synthetic.main.fragment_articles_list.*
@@ -23,12 +19,13 @@ import kotlinx.android.synthetic.main.fragment_articles_list.loadingView_Progres
 import kotlinx.android.synthetic.main.fragment_articles_list.refreshLayout
 
 class FavouritesListFragment : Fragment() {
-    val favouritesListAdapter = FavouritesListAdapter(arrayListOf())
+    lateinit var favouritesListAdapter: FavouritesListAdapter
+    private lateinit var viewModel: FavouritesListViewModel
+
     companion object {
         fun newInstance() = FavouritesListFragment()
     }
 
-    private lateinit var viewModel: FavouritesListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,9 +37,10 @@ class FavouritesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel = ViewModelProvider(this).get(FavouritesListViewModel::class.java)
         context?.let { viewModel.refresh(it) }
+        favouritesListAdapter = FavouritesListAdapter(arrayListOf())
+
 
         favourites_list.apply {
             layoutManager = LinearLayoutManager(context)

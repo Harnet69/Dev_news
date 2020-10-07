@@ -32,7 +32,4 @@ class FavouritesListViewModel(application: Application) : BaseViewModel(applicat
             Log.i("FavArticlees", "fetchFromFavourites: " + favourites)
         }
     }
-
-
-
 }

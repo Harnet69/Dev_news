@@ -46,7 +46,6 @@ class FavouriteFragment : Fragment() {
         // get ID from Articles list adapter, receive arguments from sending fragment
         arguments?.let {
             val favouriteUuId = ArticleFragmentArgs.fromBundle(it).articleId
-            val isFavourite = ArticleFragmentArgs.fromBundle(it).isFavourite
             //get the article from a database with coroutine for invoking a suspended function
             GlobalScope.launch {
                 viewModel.fetch(view.context, favouriteUuId)
