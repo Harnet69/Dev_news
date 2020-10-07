@@ -10,11 +10,9 @@ import com.harnet.devnews.model.ArticleDatabase
 import com.harnet.devnews.model.Favourite
 import com.harnet.devnews.service.ParseService
 import com.harnet.devnews.service.WebContentDownloader
-import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.util.*
-import java.util.concurrent.CompletableFuture
 
 class ArticleViewModel(application: Application) : BaseViewModel(application) {
     val mArticleLiveData = MutableLiveData<Article>()
@@ -41,9 +39,6 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
                 if (articleToShow.isFavourite) {
                     //record the article to favourites
                     addToFavourite(context, articleToShow)
-                } else {
-                    //TODO delete the article from favourites
-
                 }
 
             } catch (e: Exception) {
@@ -56,7 +51,7 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
     }
 
     fun addToFavourite(context: Context, article: Article) {
-        val favouriteArticle = Favourite(
+        val favourite = Favourite(
             article.id,
             article.title,
             article.author,
@@ -64,17 +59,14 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
             article.time,
             article.score
         )
-
-
-        favouriteArticle.imageUrl = favouriteArticle.imageUrl
+        favourite.imageUrl = article.imageUrl
         launch {
-            ArticleDatabase.invoke(context).favouriteDAO().insertAll(favouriteArticle)
+            ArticleDatabase.invoke(context).favouriteDAO().insertAll(favourite)
             Toast.makeText(context, "Article added to favourites", Toast.LENGTH_SHORT).show()
         }
     }
 
     fun removeFromFavourites(context: Context, uuid: Int) {
-        Log.i("ArticleForRem", "removeFromFavourites: " + uuid)
         launch {
             ArticleDatabase.invoke(context).favouriteDAO().deleteFavourite(uuid)
             Toast.makeText(context, "Article removed from favourites", Toast.LENGTH_SHORT)
@@ -90,7 +82,7 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
         }
     }
 
-    fun getFavourites(context: Context){
+    fun getFavourites(context: Context) {
         launch {
             Log.i(
                 "FavouriteArticls",
