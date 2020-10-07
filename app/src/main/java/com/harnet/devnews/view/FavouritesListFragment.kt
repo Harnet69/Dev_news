@@ -54,16 +54,14 @@ class FavouritesListFragment : Fragment() {
             loadingView_ProgressBar.visibility = View.VISIBLE
             context?.let { viewModel.refresh(it) }
             refreshLayout.isRefreshing = false // disappears little spinner on the top
-
         }
 
-//        context?.let { viewModel.refresh(context!!) }
         observeViewModel()
     }
 
     fun observeViewModel(){
         // update the layout using values of mutable variables from a ViewModel
-        viewModel.mFavourites.observe(this, Observer {articles ->
+        viewModel.mFavourites.observe(viewLifecycleOwner, Observer {articles ->
             articles?.let {
                 favourites_list.visibility = View.VISIBLE
 //                articlesListAdapter.updateArticlesList(articles)
@@ -71,7 +69,7 @@ class FavouritesListFragment : Fragment() {
         })
 
         // make error TextViewVisible
-        viewModel.mIsFavouriteLoadError.observe(this, Observer {isError ->
+        viewModel.mIsFavouriteLoadError.observe(viewLifecycleOwner, Observer {isError ->
             // check isError not null
             isError?.let {
                 listError_TextView.visibility = if(it) View.VISIBLE else View.GONE
@@ -79,7 +77,7 @@ class FavouritesListFragment : Fragment() {
         })
 
         // loading spinner
-        viewModel.mIsLoading.observe(this, Observer { isLoading ->
+        viewModel.mIsLoading.observe(viewLifecycleOwner, Observer { isLoading ->
             //check isLoading not null
             isLoading?.let {
                 // if data still loading - show spinner, else - remove it
