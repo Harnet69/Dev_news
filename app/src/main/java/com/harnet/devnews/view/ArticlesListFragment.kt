@@ -11,7 +11,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.harnet.devnews.R
-import com.harnet.devnews.model.Article
 import com.harnet.devnews.viewModel.ArticlesListViewModel
 import kotlinx.android.synthetic.main.fragment_articles_list.*
 
@@ -52,11 +51,13 @@ class ArticlesListFragment : Fragment() {
         observeViewModel()
     }
 
+    // options menu
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.main_menu, menu)
+        inflater.inflate(R.menu.articles_list_menu, menu)
     }
 
+    // handle with options menu items
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.favourites){
             Toast.makeText(context, "Favourites", Toast.LENGTH_SHORT).show()

@@ -3,7 +3,4 @@
     <item
         android:title="Favourites"
         android:id="@+id/favourites" />
-    <item
-        android:title="News radar"
-        android:id="@+id/newsRadar" />
 </menu>
