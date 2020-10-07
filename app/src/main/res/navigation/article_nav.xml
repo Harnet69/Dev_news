@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/articlesListFragment"
-        android:name="com.harnet.devnews.view.ArticlesListFragment"
+        android:name="com.harnet.devnewsradar.view.ArticlesListFragment"
         android:label="ArticlesListFragment">
         <action
             android:id="@+id/action_articlesListFragment_to_articleFragment"
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/articleFragment"
-        android:name="com.harnet.devnews.view.ArticleFragment"
+        android:name="com.harnet.devnewsradar.view.ArticleFragment"
         android:label="ArticleFragment">
         <action
             android:id="@+id/action_articleFragment_to_articlesListFragment"
@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/favouritesListFragment"
-        android:name="com.harnet.devnews.view.FavouritesListFragment"
+        android:name="com.harnet.devnewsradar.view.FavouritesListFragment"
         android:label="favourites_list_fragment"
         tools:layout="@layout/favourites_list_fragment">
         <action
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/favouriteFragment"
-        android:name="com.harnet.devnews.view.FavouriteFragment"
+        android:name="com.harnet.devnewsradar.view.FavouriteFragment"
         android:label="favourite_fragment"
         tools:layout="@layout/favourite_fragment">
         <argument
