@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.harnet.devnews.R
+import com.harnet.devnews.adapter.ArticlesListAdapter
 import com.harnet.devnews.viewModel.ArticlesListViewModel
 import kotlinx.android.synthetic.main.fragment_articles_list.*
 

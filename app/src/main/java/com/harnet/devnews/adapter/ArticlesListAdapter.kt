@@ -1,4 +1,4 @@
-package com.harnet.devnews.view
+package com.harnet.devnews.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +7,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.harnet.devnews.R
 import com.harnet.devnews.model.Article
-import com.harnet.devnews.model.ArticleDatabase
-import com.harnet.devnews.util.getProgressDrawable
+import com.harnet.devnews.view.ArticlesListFragmentDirections
 import kotlinx.android.synthetic.main.item_atricle.view.*
 
 class ArticlesListAdapter(val articlesList: ArrayList<Article>) : RecyclerView.Adapter<ArticlesListAdapter.ArticleViewHolder>() {
@@ -50,7 +49,8 @@ class ArticlesListAdapter(val articlesList: ArrayList<Article>) : RecyclerView.A
         //add click listener to article details item and bind it with detail page
         holder.view.article_details.setOnClickListener {
             // navigate to appropriate detail fragment
-            val action = ArticlesListFragmentDirections.actionArticlesListFragmentToArticleFragment()
+            val action =
+                ArticlesListFragmentDirections.actionArticlesListFragmentToArticleFragment()
             // send article id to ArticleFragment
             action.articleId = articlesList[position].uuid
             action.isFavourite = isFavourite
