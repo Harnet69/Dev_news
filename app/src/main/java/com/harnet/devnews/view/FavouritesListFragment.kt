@@ -39,7 +39,7 @@ class FavouritesListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(FavouritesListViewModel::class.java)
         context?.let { viewModel.refresh(it) }
-        favouritesListAdapter = FavouritesListAdapter(arrayListOf())
+        favouritesListAdapter = FavouritesListAdapter(arrayListOf(), viewModel)
 
 
         favourites_list.apply {

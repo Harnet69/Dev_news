@@ -12,9 +12,10 @@ import com.harnet.devnews.model.ArticleDatabase
 import com.harnet.devnews.model.Favourite
 import com.harnet.devnews.view.ArticlesListFragmentDirections
 import com.harnet.devnews.view.FavouritesListFragmentDirections
+import com.harnet.devnews.viewModel.FavouritesListViewModel
 import kotlinx.android.synthetic.main.item_atricle.view.*
 
-class FavouritesListAdapter(val favouritesList: ArrayList<Favourite>) : RecyclerView.Adapter<FavouritesListAdapter.FavouritesViewHolder>() {
+class FavouritesListAdapter(val favouritesList: ArrayList<Favourite>, val viewModel: FavouritesListViewModel) : RecyclerView.Adapter<FavouritesListAdapter.FavouritesViewHolder>() {
     //for updating information from a backend
 
     fun updateFavouritesList(newFavouritesList: List<Favourite>){
@@ -43,14 +44,15 @@ class FavouritesListAdapter(val favouritesList: ArrayList<Favourite>) : Recycler
         holder.view.favourite_img.setOnClickListener {
             isFavourite = isFavourite != true
             if(isFavourite){
+                //record the article to favourites
                 holder.view.favourite_img.setImageResource(android.R.drawable.btn_star_big_on)
-                //TODO record the article to favourites
             }else{
                 //delete the article from favourites
-//                ArticleDatabase.invoke(holder.view.context).favouriteDAO().deleteFavourite(favouritesList[position].id)
+                //TODO ask if user want to delete it from favourites
+                viewModel.deleteFromFavourites(holder.view.context, favouritesList[position].id)
                 holder.view.favourite_img.setImageResource(android.R.drawable.btn_star_big_off)
                 Toast.makeText(holder.view.context, "Remove from favourite", Toast.LENGTH_SHORT).show()
-                notifyDataSetChanged()
+                viewModel.mFavourites.value?.let { it1 -> updateFavouritesList(it1) }
             }
         }
         //add click listener to article details item and bind it with detail page
