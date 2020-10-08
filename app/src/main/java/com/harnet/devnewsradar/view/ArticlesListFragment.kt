@@ -34,7 +34,7 @@ class ArticlesListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         favouritesListViewModel = ViewModelProvider(this).get(FavouritesListViewModel:: class.java)
-        articlesListAdapter = ArticlesListAdapter(arrayListOf(), favouritesListViewModel)
+        articlesListAdapter = ArticlesListAdapter(arrayListOf())
         viewModel = ViewModelProvider(this).get(ArticlesListViewModel::class.java)
         viewModel.refresh()
 
