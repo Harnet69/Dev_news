@@ -3,7 +3,9 @@ package com.harnet.devnewsradar.viewModel
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.model.ArticleDatabase
 import com.harnet.devnewsradar.model.Favourite
 import io.reactivex.disposables.CompositeDisposable
@@ -25,11 +27,26 @@ class FavouritesListViewModel(application: Application) : BaseViewModel(applicat
 
     fun fetchFromFavourites(context: Context){
         launch {
-            var favourites = ArticleDatabase.invoke(context).favouriteDAO().getFavourites()
+            val favourites = ArticleDatabase.invoke(context).favouriteDAO().getFavourites()
             mFavourites.postValue(favourites)
             mIsFavouriteLoadError.postValue(false)
             mIsLoading.postValue(false)
-            Log.i("FavArticlees", "fetchFromFavourites: " + favourites)
+        }
+    }
+
+    fun addToFavourite(context: Context, article: Article) {
+        val favourite = Favourite(
+            article.id,
+            article.title,
+            article.author,
+            article.url,
+            article.time,
+            article.score
+        )
+        favourite.imageUrl = article.imageUrl
+        launch {
+            ArticleDatabase.invoke(context).favouriteDAO().insertAll(favourite)
+            Toast.makeText(context, "Article added to favourites", Toast.LENGTH_SHORT).show()
         }
     }
 

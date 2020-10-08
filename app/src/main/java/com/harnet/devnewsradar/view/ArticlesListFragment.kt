@@ -5,6 +5,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -13,12 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.adapter.ArticlesListAdapter
 import com.harnet.devnewsradar.viewModel.ArticlesListViewModel
+import com.harnet.devnewsradar.viewModel.FavouritesListViewModel
 import kotlinx.android.synthetic.main.fragment_articles_list.*
 
 class ArticlesListFragment : Fragment() {
     private lateinit var viewModel: ArticlesListViewModel
-    val articlesListAdapter = ArticlesListAdapter(arrayListOf())
-
+    private lateinit var favouritesListViewModel: FavouritesListViewModel
+    lateinit var articlesListAdapter: ArticlesListAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,7 +33,9 @@ class ArticlesListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(ArticlesListViewModel::class.java)
+        favouritesListViewModel = ViewModelProvider(this).get(FavouritesListViewModel:: class.java)
+        articlesListAdapter = ArticlesListAdapter(arrayListOf(), favouritesListViewModel)
+        viewModel = ViewModelProvider(this).get(ArticlesListViewModel::class.java)
         viewModel.refresh()
 
         articles_list.apply {
@@ -73,7 +77,7 @@ class ArticlesListFragment : Fragment() {
 
     fun observeViewModel(){
         // update the layout using values of mutable variables from a ViewModel
-        viewModel.mArticles.observe(this, Observer {articles ->
+        viewModel.mArticles.observe(viewLifecycleOwner, Observer {articles ->
             articles?.let {
                 articles_list.visibility = View.VISIBLE
                 articlesListAdapter.updateArticlesList(articles)
@@ -81,7 +85,7 @@ class ArticlesListFragment : Fragment() {
         })
 
         // make error TextViewVisible
-        viewModel.mIsArticleLoadError.observe(this, Observer {isError ->
+        viewModel.mIsArticleLoadError.observe(viewLifecycleOwner, Observer {isError ->
             // check isError not null
             isError?.let {
                 listError_TextView.visibility = if(it) View.VISIBLE else View.GONE
@@ -89,7 +93,7 @@ class ArticlesListFragment : Fragment() {
         })
 
         // loading spinner
-        viewModel.mIsLoading.observe(this, Observer { isLoading ->
+        viewModel.mIsLoading.observe(viewLifecycleOwner, Observer { isLoading ->
             //check isLoading not null
             isLoading?.let {
                 // if data still loading - show spinner, else - remove it
