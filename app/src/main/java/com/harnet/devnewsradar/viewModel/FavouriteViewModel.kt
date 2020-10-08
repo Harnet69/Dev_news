@@ -40,6 +40,14 @@ class FavouriteViewModel(application: Application) : BaseViewModel(application) 
         }
     }
 
+    fun addToFavourites(context: Context, favourite: Favourite) {
+        launch {
+            ArticleDatabase.invoke(context).favouriteDAO().insertAll(favourite)
+            Toast.makeText(context, "Article added to favourites", Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
+
     fun removeFromFavourites(context: Context, uuid: Int) {
         launch {
             ArticleDatabase.invoke(context).favouriteDAO().deleteFavourite(uuid)

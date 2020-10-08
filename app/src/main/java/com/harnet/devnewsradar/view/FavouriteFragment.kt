@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -78,7 +77,7 @@ class FavouriteFragment : Fragment() {
                             it2
                         )
                     }
-                removeFromFavourite(isFavourite, article)
+                    handleFavourite(isFavourite, article)
                 }
             }
         })
@@ -97,11 +96,18 @@ class FavouriteFragment : Fragment() {
         }
     }
 
-    // handle favourite image
-    private fun removeFromFavourite(viewFavourite: ImageView?, favourite: Favourite) {
+    // handle favourites
+    private fun handleFavourite(viewFavourite: ImageView?, favourite: Favourite) {
+        var isArticleFavourite = true
         viewFavourite?.setOnClickListener {
-            Log.i("DeleteFromFav", "makeFavourite: $favourite")
-            context?.let { it1 -> viewModel.removeFromFavourites(it1, favourite.uuid) }
+            if (isArticleFavourite) {
+                context?.let { it1 -> viewModel.removeFromFavourites(it1, favourite.uuid) }
+                isFavourite.setImageResource(android.R.drawable.btn_star_big_off)
+            } else {
+                context?.let { it1 -> viewModel.addToFavourites(it1, favourite) }
+                isFavourite.setImageResource(android.R.drawable.btn_star_big_on)
+            }
+            isArticleFavourite = !isArticleFavourite
         }
     }
 }
