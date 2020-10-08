@@ -12,6 +12,7 @@ import com.harnet.devnewsradar.model.Favourite
 import com.harnet.devnewsradar.view.FavouritesListFragmentDirections
 import com.harnet.devnewsradar.viewModel.FavouritesListViewModel
 import kotlinx.android.synthetic.main.item_atricle.view.*
+import kotlinx.android.synthetic.main.item_favourite.view.*
 
 class FavouritesListAdapter(val favouritesList: ArrayList<Favourite>, val viewModel: FavouritesListViewModel) : RecyclerView.Adapter<FavouritesListAdapter.FavouritesViewHolder>() {
     //for updating information from a backend
@@ -25,7 +26,7 @@ class FavouritesListAdapter(val favouritesList: ArrayList<Favourite>, val viewMo
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouritesViewHolder {
         val inflator = LayoutInflater.from(parent.context)
         // elements of the list transforms into views
-        val view = inflator.inflate(R.layout.item_atricle, parent, false)
+        val view = inflator.inflate(R.layout.item_favourite, parent, false)
         return FavouritesViewHolder(view)
     }
 
@@ -34,8 +35,8 @@ class FavouritesListAdapter(val favouritesList: ArrayList<Favourite>, val viewMo
     override fun onBindViewHolder(holder: FavouritesViewHolder, position: Int) {
         var isFavourite = true
         //attach view to information from a list
-        holder.view.articleTitle_in_list.text = favouritesList[position].title
-        holder.view.articleAuthor_in_list.text = favouritesList[position].author
+        holder.view.favouriteTitle_in_list.text = favouritesList[position].title
+        holder.view.favouriteAuthor_in_list.text = favouritesList[position].author
         holder.view.favourite_img.setImageResource(android.R.drawable.btn_star_big_on)
 
         // add click listener to favourite button
@@ -54,7 +55,7 @@ class FavouritesListAdapter(val favouritesList: ArrayList<Favourite>, val viewMo
             }
         }
         //add click listener to article details item and bind it with detail page
-        holder.view.article_details.setOnClickListener {
+        holder.view.favourite_details.setOnClickListener {
             // navigate to appropriate detail fragment
             val action = FavouritesListFragmentDirections.actionFavouritesListFragmentToFavouriteFragment()
             // send article id to ArticleFragment
