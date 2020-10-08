@@ -73,7 +73,7 @@ class ArticlesListFragment : Fragment() {
 
     fun observeViewModel(){
         // update the layout using values of mutable variables from a ViewModel
-        viewModel.mArticles.observe(this, Observer {articles ->
+        viewModel.mArticles.observe(viewLifecycleOwner, Observer {articles ->
             articles?.let {
                 articles_list.visibility = View.VISIBLE
                 articlesListAdapter.updateArticlesList(articles)
@@ -81,7 +81,7 @@ class ArticlesListFragment : Fragment() {
         })
 
         // make error TextViewVisible
-        viewModel.mIsArticleLoadError.observe(this, Observer {isError ->
+        viewModel.mIsArticleLoadError.observe(viewLifecycleOwner, Observer {isError ->
             // check isError not null
             isError?.let {
                 listError_TextView.visibility = if(it) View.VISIBLE else View.GONE
@@ -89,7 +89,7 @@ class ArticlesListFragment : Fragment() {
         })
 
         // loading spinner
-        viewModel.mIsLoading.observe(this, Observer { isLoading ->
+        viewModel.mIsLoading.observe(viewLifecycleOwner, Observer { isLoading ->
             //check isLoading not null
             isLoading?.let {
                 // if data still loading - show spinner, else - remove it
