@@ -15,6 +15,6 @@ interface ArticleDAO {
     @Query("DELETE FROM article")
     suspend fun deleteArticles()
 
-    @Query("SELECT * FROM article WHERE uuid = :articleId")
-    suspend fun getArticle(articleId: Int): Article
+    @Query("SELECT * FROM article WHERE uuid = :uuid")
+    suspend fun getArticle(uuid: Int): Article
 }

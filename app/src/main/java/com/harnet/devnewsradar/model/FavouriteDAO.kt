@@ -15,12 +15,12 @@ interface FavouriteDAO {
     @Query("DELETE FROM favourite")
     suspend fun deleteFavourites()
 
-    @Query("DELETE FROM favourite WHERE uuid = :favouriteId" )
-    suspend fun deleteFavourite(favouriteId: Int)
+    @Query("DELETE FROM favourite WHERE uuid = :uuId")
+    suspend fun deleteFavourite(uuId: Int)
 
-    @Query("DELETE FROM favourite WHERE id = :favouriteId" )
-    suspend fun deleteFavourite(favouriteId: String)
+    @Query("DELETE FROM favourite WHERE id = :id")
+    suspend fun deleteFavourite(id: String)
 
-    @Query("SELECT * FROM favourite WHERE uuid = :favouriteUuId")
-        suspend fun getFavourite(favouriteUuId: Int): Favourite
+    @Query("SELECT * FROM favourite WHERE uuid = :uuId")
+        suspend fun getFavourite(uuId: Int): Favourite
 }

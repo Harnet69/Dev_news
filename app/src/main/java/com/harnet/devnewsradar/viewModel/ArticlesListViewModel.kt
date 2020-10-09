@@ -37,17 +37,13 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
 
     // refresh mArticles with a new data TWO WAYS TO DO IT: PARSER & RETROFIT
     fun refresh() {
-        mIsArticleLoadError.value = false//TODO think is it necessary
+        mIsArticleLoadError.value = false
+        //TODO make a switcher between two ways of parsing
+
         // get data by old fashion manner parser
         makeArticlesListByParser(articlesLists.NEW_STORIES)
-
 //        get data by retrofit
 //        fetchFromRemote(articlesLists.NEW_STORIES)
-
-        //TODO show all favourites
-        launch {
-            Log.i("FavouriteArticls", "refresh: " + ArticleDatabase.invoke(getApplication()).favouriteDAO().getFavourites())
-        }
     }
 
     // fetches data from remote API using Retrofit
@@ -73,10 +69,12 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
                             // get list of DogBreed objects
                             override fun onSuccess(article: Article) {
                                 if (i != articlesIDs.size - 1) {
-                                    // add article to a list
+                                    // prevent from 'NOT NULL constraint failed' exception
                                     if (article.url == null) {
                                         article.url = ""
                                     }
+                                    article.imageUrl = ""
+                                    // add article to a list
                                     articlesFromAPI.add(article)
                                 } else {
                                     storeArticleInDatabase(articlesFromAPI)
