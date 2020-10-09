@@ -79,6 +79,7 @@ class FavouriteFragment : Fragment() {
                     }
                     handleFavourite(isFavourite, article)
                 }
+                loadingView_ProgressBar.visibility = View.GONE
             }
         })
     }

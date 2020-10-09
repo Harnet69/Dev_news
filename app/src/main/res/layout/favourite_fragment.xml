@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
@@ -13,10 +14,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:src="@mipmap/ic_dev_news"
-            android:scaleType="fitCenter"
+            android:layout_marginTop="10dp"
             android:minHeight="200dp"
-            android:layout_marginTop="10dp"/>
+            android:scaleType="fitCenter" />
 
         <TextView
             android:id="@+id/favourite_title"
@@ -29,8 +29,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="4dp"
-            android:gravity="center_horizontal"
-            android:text="Title" />
+            android:gravity="center_horizontal" />
 
         <TextView
             android:id="@+id/favourite_id"
@@ -42,35 +41,34 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
-            android:layout_marginBottom="4dp"
-            android:text="id" />
+            android:layout_marginBottom="4dp" />
+
         <TextView
             android:id="@+id/favourite_author"
+            style="@style/Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/favourite_id"
-            android:text="Author"
-            style="@style/Text"
             android:layout_centerHorizontal="true"
-            android:layout_margin="4dp"/>
+            android:layout_margin="4dp" />
+
         <TextView
             android:id="@+id/favourite_time"
+            style="@style/Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/favourite_author"
-            android:text="Time"
-            style="@style/Text"
             android:layout_centerHorizontal="true"
-            android:layout_margin="4dp"/>
+            android:layout_margin="4dp" />
+
         <ImageView
             android:id="@+id/isFavourite"
-            android:src="@android:drawable/btn_star_big_off"
+            style="@style/Text"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_below="@id/favourite_time"
-            style="@style/Text"
             android:layout_centerHorizontal="true"
-            android:layout_margin="4dp"/>
+            android:layout_margin="4dp" />
 
         <TextView
             android:id="@+id/favourite_url"
@@ -84,5 +82,21 @@
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="4dp"
             android:gravity="center_horizontal" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/loadingView_ProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </RelativeLayout>
 </layout>

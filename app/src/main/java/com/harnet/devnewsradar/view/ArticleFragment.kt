@@ -80,6 +80,7 @@ class ArticleFragment : Fragment() {
                         )
                     }
                 }
+                loadingView_ProgressBar.visibility = View.GONE
             }
         })
     }
