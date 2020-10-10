@@ -10,10 +10,11 @@ import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.view.ArticlesListFragmentDirections
 import kotlinx.android.synthetic.main.item_atricle.view.*
 
-class ArticlesListAdapter(val articlesList: ArrayList<Article>) : RecyclerView.Adapter<ArticlesListAdapter.ArticleViewHolder>() {
+class ArticlesListAdapter(val articlesList: ArrayList<Article>) :
+    RecyclerView.Adapter<ArticlesListAdapter.ArticleViewHolder>() {
 
     //for updating information from a backend
-    fun updateArticlesList(newArticlesList: List<Article>){
+    fun updateArticlesList(newArticlesList: List<Article>) {
         articlesList.clear()
         articlesList.addAll(newArticlesList)
         //reset RecycleView and recreate a list
@@ -30,7 +31,7 @@ class ArticlesListAdapter(val articlesList: ArrayList<Article>) : RecyclerView.A
     override fun getItemCount() = articlesList.size
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
-        var isFavourite = false
+        val isFavourite = false
         //attach view to information from a list
         holder.view.articleTitle_in_list.text = articlesList[position].title
         holder.view.articleAuthor_in_list.text = articlesList[position].author

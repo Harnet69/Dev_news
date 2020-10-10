@@ -11,8 +11,6 @@ import java.util.*
 import java.util.concurrent.ExecutionException
 
 class ParseService {
-    //TODO implement argument with max parsed articles list
-
     // get articles ids to Retrofit
     fun getArticlesIDs(url: String?, articlesToShow: Int): MutableList<String>? {
         val articlesIDs = mutableListOf<String>()
@@ -54,7 +52,7 @@ class ParseService {
     }
 
     // get articles ids for parser
-    private fun getAticlesIds (content: String, articlesToShow: Int): MutableList<URL> {
+    private fun getAticlesIds(content: String, articlesToShow: Int): MutableList<URL> {
         val articlesURLs: MutableList<URL> = ArrayList()
 
         try {
@@ -62,7 +60,8 @@ class ParseService {
             for (i in 0 until articlesToShow) {
                 val articleId = jsonArray.getString(i).toInt()
                 // TODO think about do it final or move to ENUM
-                val atricleURL = URL("https://hacker-news.firebaseio.com/v0/item/$articleId.json?print=pretty")
+                val atricleURL =
+                    URL("https://hacker-news.firebaseio.com/v0/item/$articleId.json?print=pretty")
                 articlesURLs.add(atricleURL)
             }
         } catch (e: JSONException) {
@@ -97,8 +96,9 @@ class ParseService {
         return site.toString()
     }
 
+    // images parser
     fun parseImages(pageContent: String?): List<String>? {
-        var imagesURL = mutableListOf<String>()
+        val imagesURL = mutableListOf<String>()
         val charSequence = pageContent as CharSequence
         val matcher = "http(.*?)jpg".toRegex()
         val articleImage = matcher.findAll(charSequence).map { it.value }.toList()

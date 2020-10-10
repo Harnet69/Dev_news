@@ -5,12 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = arrayOf(Article::class, Favourite:: class), version = 1)
-abstract class ArticleDatabase: RoomDatabase() {
+@Database(entities = arrayOf(Article::class, Favourite::class), version = 1)
+abstract class ArticleDatabase : RoomDatabase() {
     abstract fun articleDAO(): ArticleDAO
     abstract fun favouriteDAO(): FavouriteDAO
 
-    companion object{
+    companion object {
         @Volatile
         private var instance: ArticleDatabase? = null
         private val LOCK = Any()

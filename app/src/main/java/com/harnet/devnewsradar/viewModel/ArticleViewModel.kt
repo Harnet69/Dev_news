@@ -26,7 +26,7 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
         launch {
             val articleToShow =
                 ArticleDatabase.invoke(context).articleDAO().getArticle(articleId.toInt())
-                isArtFav(context, articleToShow.id)
+            isArtFav(context, articleToShow.id)
             try {
                 // set article image
                 val pageContent = webContentDownloader.execute(articleToShow.url).get()
@@ -36,18 +36,7 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
                 val articleDate = Date(articleToShow.time.toLong() * 1000)
                 articleToShow.time = articleDate.toString()
                 // set is article in favourite
-//                val artInFav = ArticleDatabase.invoke(context).favouriteDAO().getFavourite(articleToShow.id)
-//                Log.i("ArticleIsFav", "fetch: Id"+ articleToShow.id)
-//                Log.i("ArticleIsFav", "fetch: "+ artInFav)
-//                if(artInFav != null){
-                    articleToShow.isFavourite = isFavourite
-//                }
-
-                //handling in favourite table
-//                if (articleToShow.isFavourite) {
-//                    //record the article to favourites
-//                    addToFavourite(context, articleToShow)
-//                }
+                articleToShow.isFavourite = isFavourite
 
             } catch (e: Exception) {
                 Log.i("ArticleData", "fetch: No Data")
@@ -74,14 +63,6 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
         }
     }
 
-    fun removeFromFavourites(context: Context, uuid: Int) {
-        launch {
-            ArticleDatabase.invoke(context).favouriteDAO().deleteFavourite(uuid)
-            Toast.makeText(context, "Article removed from favourites", Toast.LENGTH_SHORT)
-                .show()
-        }
-    }
-
     fun removeFromFavourites(context: Context, id: String) {
         launch {
             ArticleDatabase.invoke(context).favouriteDAO().deleteFavourite(id)
@@ -90,25 +71,14 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
         }
     }
 
-    fun getFavourites(context: Context) {
-        launch {
-            Log.i(
-                "FavouriteArticls",
-                "fetch from favourites: " + ArticleDatabase.invoke(context).favouriteDAO()
-                    .getFavourites()
-            )
-        }
-    }
-
-    fun isArtFav(context: Context, id: String){
+    // check if article is favourite
+    fun isArtFav(context: Context, id: String) {
         mIsFavourite.value = false
         launch {
-            if(ArticleDatabase.invoke(context).favouriteDAO().getFavourite(id) != null){
+            if (ArticleDatabase.invoke(context).favouriteDAO().getFavourite(id) != null) {
                 mIsFavourite.value = true
-                Log.i("ArticleIsFav", "isFavourite: " + ArticleDatabase.invoke(context).favouriteDAO().getFavourite(id))
-            }else{
+            } else {
                 mIsFavourite.value = false
-                Log.i("ArticleIsFav", "isFavourite: False" + ArticleDatabase.invoke(context).favouriteDAO().getFavourite(id))
             }
         }
     }

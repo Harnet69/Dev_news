@@ -114,7 +114,6 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
                         val parsedArticle: Article? = parseArticleDetails(article)
                         parsedArticle?.let { articlesFromAPI.add(it) }
                     }
-//                    retrieveArticle(articlesFromAPI)
                     storeArticleInDatabase(articlesFromAPI)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -149,8 +148,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
 
     // get data by old fashion parser
     // parse for article details and add an article to articleDataSet
-    //TODO here we can add another fields for an article
-    fun parseArticleDetails(articleJSON: String): Article? {
+    private fun parseArticleDetails(articleJSON: String): Article? {
         var article: Article? = null
         try {
             val jsonObject = JSONObject(articleJSON)

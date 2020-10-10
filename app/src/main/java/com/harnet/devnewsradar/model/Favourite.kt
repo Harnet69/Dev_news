@@ -23,7 +23,7 @@ data class Favourite(
 
     @ColumnInfo
     var score: String
-){
+) {
     @PrimaryKey(autoGenerate = true)
     var uuid: Int = 0
 

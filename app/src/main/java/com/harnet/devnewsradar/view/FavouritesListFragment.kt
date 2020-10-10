@@ -25,7 +25,6 @@ class FavouritesListFragment : Fragment() {
         fun newInstance() = FavouritesListFragment()
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,7 +38,6 @@ class FavouritesListFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(FavouritesListViewModel::class.java)
         context?.let { viewModel.refresh(it) }
         favouritesListAdapter = FavouritesListAdapter(arrayListOf(), viewModel)
-
 
         favourites_list.apply {
             layoutManager = LinearLayoutManager(context)
@@ -58,9 +56,9 @@ class FavouritesListFragment : Fragment() {
         observeViewModel()
     }
 
-    private fun observeViewModel(){
+    private fun observeViewModel() {
         // update the layout using values of mutable variables from a ViewModel
-        viewModel.mFavourites.observe(viewLifecycleOwner, Observer {favourites ->
+        viewModel.mFavourites.observe(viewLifecycleOwner, Observer { favourites ->
             favourites?.let {
                 favourites_list.visibility = View.VISIBLE
                 favouritesListAdapter.updateFavouritesList(favourites)
@@ -68,10 +66,10 @@ class FavouritesListFragment : Fragment() {
         })
 
         // make error TextViewVisible
-        viewModel.mIsFavouriteLoadError.observe(viewLifecycleOwner, Observer {isError ->
+        viewModel.mIsFavouriteLoadError.observe(viewLifecycleOwner, Observer { isError ->
             // check isError not null
             isError?.let {
-                listError_TextView.visibility = if(it) View.VISIBLE else View.GONE
+                listError_TextView.visibility = if (it) View.VISIBLE else View.GONE
             }
         })
 
@@ -80,8 +78,8 @@ class FavouritesListFragment : Fragment() {
             //check isLoading not null
             isLoading?.let {
                 // if data still loading - show spinner, else - remove it
-                loadingView_ProgressBar.visibility = if(it) View.VISIBLE else View.GONE
-                if(it){
+                loadingView_ProgressBar.visibility = if (it) View.VISIBLE else View.GONE
+                if (it) {
                     //hide all views when progress bar is visible
                     listError_TextView.visibility = View.GONE
                     articles_list.visibility = View.GONE

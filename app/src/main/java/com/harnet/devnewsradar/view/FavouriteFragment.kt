@@ -1,23 +1,25 @@
 package com.harnet.devnewsradar.view
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.harnet.devnewsradar.viewModel.FavouriteViewModel
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.model.Favourite
 import com.harnet.devnewsradar.util.getProgressDrawable
 import com.harnet.devnewsradar.util.loadImage
+import com.harnet.devnewsradar.viewModel.FavouriteViewModel
 import kotlinx.android.synthetic.main.favourite_fragment.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -95,18 +97,26 @@ class FavouriteFragment : Fragment() {
         }
     }
 
-    // handle favourites
+    // handle with favourites
     private fun handleFavourite(viewFavourite: ImageView?, favourite: Favourite) {
         var isArticleFavourite = true
         viewFavourite?.setOnClickListener {
             if (isArticleFavourite) {
-                context?.let { it1 -> viewModel.removeFromFavourites(it1, favourite.uuid) }
-                isFavourite.setImageResource(android.R.drawable.btn_star_big_off)
+                AlertDialog.Builder(context)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Delete")
+                    .setMessage("Do you want to remove the article from favorite?")
+                    .setPositiveButton("Delete") { dialogInterface: DialogInterface, i: Int ->
+                        context?.let { it1 -> viewModel.removeFromFavourites(it1, favourite.uuid) }
+                        isFavourite.setImageResource(android.R.drawable.btn_star_big_off)
+                        isArticleFavourite = false
+                    }.setNegativeButton("Cancel") { dialogInterface: DialogInterface, i: Int ->
+                    }.show()
             } else {
                 context?.let { it1 -> viewModel.addToFavourites(it1, favourite) }
                 isFavourite.setImageResource(android.R.drawable.btn_star_big_on)
+                isArticleFavourite = true
             }
-            isArticleFavourite = !isArticleFavourite
         }
     }
 }

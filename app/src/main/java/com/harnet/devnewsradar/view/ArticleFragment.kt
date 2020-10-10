@@ -113,7 +113,6 @@ class ArticleFragment : Fragment() {
     // handle favourite image
     private fun makeFavourite(viewFavourite: ImageView?, article: Article) {
         article_favourite.setImageResource(android.R.drawable.btn_star_big_off)
-        Log.i("ArticleIsddd", "makeFavourite: " + viewModel.mIsFavourite.value)
         viewFavourite?.setOnClickListener {
             if (viewModel.mIsFavourite.value != null) {
                 if (viewModel.mIsFavourite.value!!) {
@@ -129,9 +128,6 @@ class ArticleFragment : Fragment() {
                     context?.let { it1 -> viewModel.addToFavourite(it1, article) }
                     viewModel.mIsFavourite.value = true
                 }
-                //TODO record changes to table of favourites articles
-                context?.let { it1 -> viewModel.getFavourites(it1) }
-
             }
         }
     }

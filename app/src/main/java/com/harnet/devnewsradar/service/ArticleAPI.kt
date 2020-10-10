@@ -11,5 +11,5 @@ interface ArticleAPI {
     // annotation used for knowing how this method can be used
     //dynamic URLs
     @GET("v0/item/{articleId}.json")// !!!this is an end point, not all url
-    fun getArticle(@Path("articleId") articleId: String ): Single<Article>
+    fun getArticle(@Path("articleId") articleId: String): Single<Article>
 }

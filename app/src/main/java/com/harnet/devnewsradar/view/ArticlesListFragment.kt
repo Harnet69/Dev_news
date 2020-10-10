@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
@@ -33,7 +32,7 @@ class ArticlesListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        favouritesListViewModel = ViewModelProvider(this).get(FavouritesListViewModel:: class.java)
+        favouritesListViewModel = ViewModelProvider(this).get(FavouritesListViewModel::class.java)
         articlesListAdapter = ArticlesListAdapter(arrayListOf())
         viewModel = ViewModelProvider(this).get(ArticlesListViewModel::class.java)
         viewModel.refresh()
@@ -64,20 +63,23 @@ class ArticlesListFragment : Fragment() {
 
     // handle with options menu items
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.favourites){
+        if (item.itemId == R.id.favourites) {
             Toast.makeText(context, "Favourites", Toast.LENGTH_SHORT).show()
-            Navigation.findNavController(view!!).navigate(ArticlesListFragmentDirections.actionArticlesListFragmentToFavouritesListFragment())
-           return true
+            Navigation.findNavController(view!!)
+                .navigate(ArticlesListFragmentDirections.actionArticlesListFragmentToFavouritesListFragment())
+            return true
         }
-        return NavigationUI.onNavDestinationSelected(item!!,
-            view!!.findNavController())
+        return NavigationUI.onNavDestinationSelected(
+            item!!,
+            view!!.findNavController()
+        )
                 || super.onOptionsItemSelected(item)
     }
 
 
-    fun observeViewModel(){
+    fun observeViewModel() {
         // update the layout using values of mutable variables from a ViewModel
-        viewModel.mArticles.observe(viewLifecycleOwner, Observer {articles ->
+        viewModel.mArticles.observe(viewLifecycleOwner, Observer { articles ->
             articles?.let {
                 articles_list.visibility = View.VISIBLE
                 articlesListAdapter.updateArticlesList(articles)
@@ -85,10 +87,10 @@ class ArticlesListFragment : Fragment() {
         })
 
         // make error TextViewVisible
-        viewModel.mIsArticleLoadError.observe(viewLifecycleOwner, Observer {isError ->
+        viewModel.mIsArticleLoadError.observe(viewLifecycleOwner, Observer { isError ->
             // check isError not null
             isError?.let {
-                listError_TextView.visibility = if(it) View.VISIBLE else View.GONE
+                listError_TextView.visibility = if (it) View.VISIBLE else View.GONE
             }
         })
 
@@ -97,8 +99,8 @@ class ArticlesListFragment : Fragment() {
             //check isLoading not null
             isLoading?.let {
                 // if data still loading - show spinner, else - remove it
-                loadingView_ProgressBar.visibility = if(it) View.VISIBLE else View.GONE
-                if(it){
+                loadingView_ProgressBar.visibility = if (it) View.VISIBLE else View.GONE
+                if (it) {
                     //hide all views when progress bar is visible
                     listError_TextView.visibility = View.GONE
                     articles_list.visibility = View.GONE
@@ -106,5 +108,4 @@ class ArticlesListFragment : Fragment() {
             }
         })
     }
-
 }
