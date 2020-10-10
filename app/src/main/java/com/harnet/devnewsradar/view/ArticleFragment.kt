@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.harnet.devnewsradar.R
@@ -39,6 +40,7 @@ class ArticleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(ArticleViewModel::class.java)
+        viewModel.mIsFavourite.value = false
         // get ID from Articles list adapter, receive arguments from sending fragment
         arguments?.let {
             val articleId = ArticleFragmentArgs.fromBundle(it).articleId
@@ -50,11 +52,12 @@ class ArticleFragment : Fragment() {
         }
         openWebsite(article_url)
         observeViewModel()
+        observeIsFav()
     }
 
     // observes article object and binds its data to view elements
     private fun observeViewModel() {
-        viewModel.mArticleLiveData.observe(this, Observer { article ->
+        viewModel.mArticleLiveData.observe(viewLifecycleOwner, Observer { article ->
             article?.let {
                 article_id.text = "Article id: " + article.id
                 article_title.text = article.title
@@ -63,11 +66,11 @@ class ArticleFragment : Fragment() {
                 article_url.paintFlags = article_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
                 article_url.text = article.url
                 // set image for favourite star
-                if (article.isFavourite) {
-                    article_favourite.setImageResource(android.R.drawable.btn_star_big_on)
-                } else {
-                    article_favourite.setImageResource(android.R.drawable.btn_star_big_off)
-                }
+//                if (viewModel.mIsFavourite.value!!) {
+//                    article_favourite.setImageResource(android.R.drawable.btn_star_big_on)
+//                } else {
+//                    article_favourite.setImageResource(android.R.drawable.btn_star_big_off)
+//                }
                 makeFavourite(article_favourite, article)
                 // parse page source code and insert image to an article
                 //TODO if article is favourite record page content to a database
@@ -80,6 +83,16 @@ class ArticleFragment : Fragment() {
                     }
                 }
                 loadingView_ProgressBar.visibility = View.GONE
+            }
+        })
+    }
+
+    fun observeIsFav() {
+        viewModel.mIsFavourite.observe(viewLifecycleOwner, Observer { isFav ->
+            if (isFav) {
+                article_favourite.setImageResource(android.R.drawable.btn_star_big_on)
+            } else {
+                article_favourite.setImageResource(android.R.drawable.btn_star_big_off)
             }
         })
     }
@@ -99,21 +112,27 @@ class ArticleFragment : Fragment() {
 
     // handle favourite image
     private fun makeFavourite(viewFavourite: ImageView?, article: Article) {
+        article_favourite.setImageResource(android.R.drawable.btn_star_big_off)
+        Log.i("ArticleIsddd", "makeFavourite: " + viewModel.mIsFavourite.value)
         viewFavourite?.setOnClickListener {
-//            context?.let { it1 -> ArticleDatabase.invoke(it1).favouriteDAO().getFavourites() }
-            if (article.isFavourite) {
-                article_favourite.setImageResource(android.R.drawable.btn_star_big_off)
-                // remove from favourites
-                context?.let { it1 -> viewModel.removeFromFavourites(it1, article.id) }
-                article.isFavourite = false
-            } else {
-                article.isFavourite = true
-                article_favourite.setImageResource(android.R.drawable.btn_star_big_on)
-                // add to favourites
-                context?.let { it1 -> viewModel.addToFavourite(it1, article) }
+            if (viewModel.mIsFavourite.value != null) {
+                if (viewModel.mIsFavourite.value!!) {
+                    article_favourite.setImageResource(android.R.drawable.btn_star_big_off)
+                    // remove from favourites
+                    context?.let { it1 -> viewModel.removeFromFavourites(it1, article.id) }
+                    article.isFavourite = false
+                    viewModel.mIsFavourite.value = false
+                } else {
+                    article.isFavourite = true
+                    article_favourite.setImageResource(android.R.drawable.btn_star_big_on)
+                    // add to favourites
+                    context?.let { it1 -> viewModel.addToFavourite(it1, article) }
+                    viewModel.mIsFavourite.value = true
+                }
+                //TODO record changes to table of favourites articles
+                context?.let { it1 -> viewModel.getFavourites(it1) }
+
             }
-            //TODO record changes to table of favourites articles
-            context?.let { it1 -> viewModel.getFavourites(it1) }
         }
     }
 }

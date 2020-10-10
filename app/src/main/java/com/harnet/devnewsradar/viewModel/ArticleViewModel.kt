@@ -16,6 +16,8 @@ import java.util.*
 
 class ArticleViewModel(application: Application) : BaseViewModel(application) {
     val mArticleLiveData = MutableLiveData<Article>()
+    val mIsFavourite = MutableLiveData<Boolean>()
+
     private val webContentDownloader = WebContentDownloader()
     private val parseService = ParseService()
 
@@ -33,7 +35,13 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
                 val articleDate = Date(articleToShow.time.toLong() * 1000)
                 articleToShow.time = articleDate.toString()
                 // set is article in favourite
-                articleToShow.isFavourite = isFavourite
+//                val artInFav = ArticleDatabase.invoke(context).favouriteDAO().getFavourite(articleToShow.id)
+//                Log.i("ArticleIsFav", "fetch: Id"+ articleToShow.id)
+//                Log.i("ArticleIsFav", "fetch: "+ artInFav)
+                    isArtFav(context, articleToShow.id)
+//                if(artInFav != null){
+                    articleToShow.isFavourite = isFavourite
+//                }
 
                 //handling in favourite table
 //                if (articleToShow.isFavourite) {
@@ -89,6 +97,19 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
                 "fetch from favourites: " + ArticleDatabase.invoke(context).favouriteDAO()
                     .getFavourites()
             )
+        }
+    }
+
+    fun isArtFav(context: Context, id: String){
+        mIsFavourite.value = false
+        launch {
+            if(ArticleDatabase.invoke(context).favouriteDAO().getFavourite(id) != null){
+                mIsFavourite.value = true
+                Log.i("ArticleIsFav", "isFavourite: " + ArticleDatabase.invoke(context).favouriteDAO().getFavourite(id))
+            }else{
+                mIsFavourite.value = false
+                Log.i("ArticleIsFav", "isFavourite: False" + ArticleDatabase.invoke(context).favouriteDAO().getFavourite(id))
+            }
         }
     }
 }
