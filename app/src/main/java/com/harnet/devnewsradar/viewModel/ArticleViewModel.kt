@@ -26,8 +26,8 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
         launch {
             val articleToShow =
                 ArticleDatabase.invoke(context).articleDAO().getArticle(articleId.toInt())
-            isArtFav(context, articleToShow.id)
             try {
+                isArtFav(context, articleToShow.id)
                 // set article image
                 val pageContent = webContentDownloader.execute(articleToShow.url).get()
                 val imagesURL = parseService.parseImages(pageContent)
