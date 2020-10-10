@@ -62,8 +62,6 @@ class ArticleFragment : Fragment() {
                 article_time.text = "Time: " + article.time
                 article_url.paintFlags = article_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
                 article_url.text = article.url
-                // set is article favourite
-                Log.i("isArticleFavourite", "observeViewModel: " + article.isFavourite)
                 // set image for favourite star
                 if (article.isFavourite) {
                     article_favourite.setImageResource(android.R.drawable.btn_star_big_on)
@@ -72,6 +70,7 @@ class ArticleFragment : Fragment() {
                 }
                 makeFavourite(article_favourite, article)
                 // parse page source code and insert image to an article
+                //TODO if article is favourite record page content to a database
                 article.let {
                     context?.let { it1 -> getProgressDrawable(it1) }?.let { it2 ->
                         article_image.loadImage(
