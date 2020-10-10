@@ -1,4 +1,4 @@
-# Dev news [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Harnet69_Dev_news&metric=alert_status)]
+# Dev news [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Harnet69_Dev_news&metric=alert_status)](https://sonarcloud.io/dashboard?id=Harnet69_Dev_news)
 
 ## About app
 Easy to use aplication for reading and managing software development related articles from third part API
@@ -7,8 +7,9 @@ Easy to use aplication for reading and managing software development related art
 ![Game process](https://github.com/Harnet69/Dev_news/blob/master/app/GitHubMediaFile/devNewsRadar.gif)
 
 ## Application installation:
-- download app from [Google Play](https://play.google.com/store/apps/details?id=com.harnet.devnews) or scan this QR code by your Android phone
-![Game process](https://github.com/Harnet69/DogBreeds/blob/master/app/GitHubMediaFile/dev_news_QR.png)
+- download app from 
+![Google Play](https://play.google.com/store/apps/details?id=com.harnet.devnews) or scan this QR code by your Android phone
+![QR](https://github.com/Harnet69/Dev_news/blob/master/app/GitHubMediaFile/GooglePlayQR.gif)
 - download .apk [DevNewsRadar v.1.2 installer](https://drive.google.com/file/d/1I7hS8r6y6qHiJIx1iAfupAJJcxiy8rSV/view?usp=sharing) and run it on Android phone
 - clone a project code from this repo to your computer, and run it via Android studio or another Android emulator
 
@@ -18,15 +19,15 @@ Easy to use aplication for reading and managing software development related art
 ## Technologies:
 - AndroidX
 - MVVM architecture pattern
-- Navigation library switch between fragments
-- DataBinding library map information from backend to interfaces
-- fragments as UI screens
-- retrofit library retrieve data from API
-- rxJava generate objects for RecyclerView items from
-- Room database stores and handles with data
-- Palette Library for managing backgrond of details page
+- Navigation library for switching between fragments
+- DataBinding library for mapping information from backend to interfaces
+- Fragments as UI screens
+- Retrofit library for retrieving data from API
+- RxJava for generating objects for RecyclerView items
+- Room database for storing and handling data
+- Palette Library for managing backgronds of pages
 - Android permissions for SMS message
 - Share preferences for sharring app's data between another apps
 - Notifications when something new happens
 - Multidex for errors fixing
-- pool(drag down) to refresh an RecyckerView
+- SonarCloud for eliminating code bugs and vulnerabilities
