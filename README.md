@@ -4,7 +4,7 @@
 Easy to use aplication for reading and managing software development related articles from third part API
 
 ## Application screenshots:
-![Game process](https://github.com/Harnet69/DogBreeds/blob/master/app/GitHubMediaFile/devNewsRadar.gif)
+![Game process](https://github.com/Harnet69/Dev_news/blob/master/app/GitHubMediaFile/devNewsRadar.gif)
 
 ## Application installation:
 - download app from [Google Play](https://play.google.com/store/apps/details?id=com.harnet.devnews) or scan this QR code by your Android phone
