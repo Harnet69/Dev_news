@@ -26,6 +26,7 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
         launch {
             val articleToShow =
                 ArticleDatabase.invoke(context).articleDAO().getArticle(articleId.toInt())
+                isArtFav(context, articleToShow.id)
             try {
                 // set article image
                 val pageContent = webContentDownloader.execute(articleToShow.url).get()
@@ -38,7 +39,6 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
 //                val artInFav = ArticleDatabase.invoke(context).favouriteDAO().getFavourite(articleToShow.id)
 //                Log.i("ArticleIsFav", "fetch: Id"+ articleToShow.id)
 //                Log.i("ArticleIsFav", "fetch: "+ artInFav)
-                    isArtFav(context, articleToShow.id)
 //                if(artInFav != null){
                     articleToShow.isFavourite = isFavourite
 //                }
