@@ -64,8 +64,6 @@ class FavouriteFragment : Fragment() {
                 favourite_time.text = "Time: " + article.time
                 favourite_url.paintFlags = favourite_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
                 favourite_url.text = article.url
-                // set is article favourite
-
                 // set image for favourite star
                 isFavourite.setImageResource(android.R.drawable.btn_star_big_on)
 

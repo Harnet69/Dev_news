@@ -53,7 +53,7 @@ class FavouritesListViewModel(application: Application) : BaseViewModel(applicat
     fun deleteFromFavourites(context: Context, id: String){
         launch {
             ArticleDatabase.invoke(context).favouriteDAO().deleteFavourite(id)
-            var favourites = ArticleDatabase.invoke(context).favouriteDAO().getFavourites()
+            val favourites = ArticleDatabase.invoke(context).favouriteDAO().getFavourites()
             mFavourites.postValue(favourites)
         }
     }

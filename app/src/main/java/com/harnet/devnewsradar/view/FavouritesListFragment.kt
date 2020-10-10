@@ -58,7 +58,7 @@ class FavouritesListFragment : Fragment() {
         observeViewModel()
     }
 
-    fun observeViewModel(){
+    private fun observeViewModel(){
         // update the layout using values of mutable variables from a ViewModel
         viewModel.mFavourites.observe(viewLifecycleOwner, Observer {favourites ->
             favourites?.let {

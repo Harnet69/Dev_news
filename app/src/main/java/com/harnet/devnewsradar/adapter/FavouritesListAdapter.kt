@@ -1,6 +1,8 @@
 package com.harnet.devnewsradar.adapter
 
-import android.util.Log
+import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,18 +13,22 @@ import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.model.Favourite
 import com.harnet.devnewsradar.view.FavouritesListFragmentDirections
 import com.harnet.devnewsradar.viewModel.FavouritesListViewModel
-import kotlinx.android.synthetic.main.item_atricle.view.*
 import kotlinx.android.synthetic.main.item_favourite.view.*
+import java.io.IOException
 
-class FavouritesListAdapter(val favouritesList: ArrayList<Favourite>, val viewModel: FavouritesListViewModel) : RecyclerView.Adapter<FavouritesListAdapter.FavouritesViewHolder>() {
+class FavouritesListAdapter(
+    val favouritesList: ArrayList<Favourite>,
+    val viewModel: FavouritesListViewModel
+) : RecyclerView.Adapter<FavouritesListAdapter.FavouritesViewHolder>() {
     //for updating information from a backend
 
-    fun updateFavouritesList(newFavouritesList: List<Favourite>){
+    fun updateFavouritesList(newFavouritesList: List<Favourite>) {
         favouritesList.clear()
         favouritesList.addAll(newFavouritesList)
         //reset RecycleView and recreate a list
         notifyDataSetChanged()
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouritesViewHolder {
         val inflator = LayoutInflater.from(parent.context)
         // elements of the list transforms into views
@@ -42,22 +48,44 @@ class FavouritesListAdapter(val favouritesList: ArrayList<Favourite>, val viewMo
         // add click listener to favourite button
         holder.view.favourite_img.setOnClickListener {
             isFavourite = isFavourite != true
-            if(isFavourite){
+            if (isFavourite) {
                 //record the article to favourites
                 holder.view.favourite_img.setImageResource(android.R.drawable.btn_star_big_on)
-            }else{
+            } else {
                 //delete the article from favourites
-                //TODO ask if user want to delete it from favourites
-                viewModel.deleteFromFavourites(holder.view.context, favouritesList[position].id)
-                holder.view.favourite_img.setImageResource(android.R.drawable.btn_star_big_off)
-                Toast.makeText(holder.view.context, "Remove from favourite", Toast.LENGTH_SHORT).show()
-                viewModel.mFavourites.value?.let { it1 -> updateFavouritesList(it1) }
+                try {
+                    AlertDialog.Builder(holder.view.context)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Delete")
+                        .setMessage("Do you want to remove the article from favorite?")
+                        .setPositiveButton("Delete") { dialogInterface: DialogInterface, i: Int ->
+                            try {
+                                viewModel.deleteFromFavourites(
+                                    holder.view.context,
+                                    favouritesList[position].id
+                                )
+                                holder.view.favourite_img.setImageResource(android.R.drawable.btn_star_big_off)
+                                Toast.makeText(
+                                    holder.view.context,
+                                    "Remove from favourite",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                viewModel.mFavourites.value?.let { it1 -> updateFavouritesList(it1) }
+                            } catch (e: IOException) {
+                                e.printStackTrace()
+                            }
+                        }.setNegativeButton("Cancel") { dialogInterface: DialogInterface, i: Int ->
+                        }.show()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
             }
         }
         //add click listener to article details item and bind it with detail page
         holder.view.favourite_details.setOnClickListener {
             // navigate to appropriate detail fragment
-            val action = FavouritesListFragmentDirections.actionFavouritesListFragmentToFavouriteFragment()
+            val action =
+                FavouritesListFragmentDirections.actionFavouritesListFragmentToFavouriteFragment()
             // send article id to ArticleFragment
             action.articleId = favouritesList[position].uuid
             action.isFavourite = true
@@ -66,4 +94,22 @@ class FavouritesListAdapter(val favouritesList: ArrayList<Favourite>, val viewMo
     }
 
     class FavouritesViewHolder(var view: View) : RecyclerView.ViewHolder(view)
+
+    private fun alertDialog(context: Context, viewModel: FavouritesListViewModel) {
+        try {
+            AlertDialog.Builder(context)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Delete")
+                .setMessage("Do you want to remove the article from favorite?")
+                .setPositiveButton("Save") { dialog, which ->
+                    try {
+
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }.show()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
 }
