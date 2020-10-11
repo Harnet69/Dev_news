@@ -8,6 +8,7 @@ import com.harnet.devnewsradar.model.ArticleDatabase
 import com.harnet.devnewsradar.service.ArticleApiServis
 import com.harnet.devnewsradar.model.ArticleLists
 import com.harnet.devnewsradar.service.ParseService
+import com.harnet.devnewsradar.util.SharedPreferencesHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
@@ -20,6 +21,9 @@ import java.util.concurrent.CompletableFuture
 
 class ArticlesListViewModel(application: Application) : BaseViewModel(application) {
     private val ARTICLES_TO_SHOW: Int = 20
+
+    // helper for SharedPreferences functionality
+    private var sharedPrefHelper = SharedPreferencesHelper(getApplication())
 
     // old fashion parse service
     private val parseService: ParseService = ParseService()
@@ -147,6 +151,8 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
             }
             retrieveArticle(articlesList)
         }
+        // save the current time of storing to a database
+        sharedPrefHelper.saveTimeOfUpd(System.nanoTime())
     }
 
 
