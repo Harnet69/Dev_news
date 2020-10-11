@@ -55,11 +55,15 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
             makeArticlesListByParser(articlesLists.NEW_STORIES)
 //        get data by retrofit
 //        fetchFromRemote(articlesLists.NEW_STORIES)
-            Toast.makeText(getApplication(), "DATA FROM API", Toast.LENGTH_SHORT).show()
+            Toast.makeText(getApplication(), "Getting news", Toast.LENGTH_SHORT).show()
         } else {
             launch {
                 retrieveArticle(ArticleDatabase.invoke(getApplication()).articleDAO().getArticles())
-                Toast.makeText(getApplication(), "Left: " + timeToRefreshFromAPI(timeToUpd) + " sec", Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    getApplication(),
+                    "Freeware.Time to update: " + timeToRefreshFromAPI(timeToUpd),
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
         }
@@ -201,9 +205,10 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
     }
 
     private fun timeToRefreshFromAPI(timeToUpd: Long?): String {
-        val timeLeftNanosec: Long? = timeToUpd?.minus(System.nanoTime())
-        val timeLeftSec = timeLeftNanosec?.div(1000_000_000.0.toLong())
-
-        return timeLeftSec.toString()
+        val timeLeftSec = timeToUpd?.minus(System.nanoTime())?.div(1000_000_000.0.toLong())
+        val formatted: String = "${(timeLeftSec?.div(60)).toString().padStart(2, '0')} min : ${(timeLeftSec?.rem(
+            60
+        )).toString().padStart(2, '0')} sec"
+        return formatted
     }
 }
