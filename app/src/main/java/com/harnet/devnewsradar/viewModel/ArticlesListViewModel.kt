@@ -45,7 +45,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
     // refresh mArticles with a new data TWO WAYS TO DO IT: PARSER & RETROFIT
     fun refresh() {
         mIsArticleLoadError.value = false
-        val timeToUpd = sharedPrefHelper.getLastUpdateTime()
+        val timeToUpd: Long? = sharedPrefHelper.getLastUpdateTime()
             ?.plus(convertMinToNanosec(API_UPDATING_TIME_QUANTITY))
         //TODO make observable variable for time!!!
         if (System.nanoTime() > timeToUpd!!) {
@@ -59,7 +59,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
         } else {
             launch {
                 retrieveArticle(ArticleDatabase.invoke(getApplication()).articleDAO().getArticles())
-                Toast.makeText(getApplication(), "DATA FROM database", Toast.LENGTH_SHORT)
+                Toast.makeText(getApplication(), "Left: " + timeToRefreshFromAPI(timeToUpd) + " sec", Toast.LENGTH_SHORT)
                     .show()
             }
         }
@@ -198,5 +198,12 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
 
     private fun convertMinToNanosec(min: Int): Long {
         return min * 60 * 1000 * 1000 * 1000L
+    }
+
+    private fun timeToRefreshFromAPI(timeToUpd: Long?): String {
+        val timeLeftNanosec: Long? = timeToUpd?.minus(System.nanoTime())
+        val timeLeftSec = timeLeftNanosec?.div(1000_000_000.0.toLong())
+
+        return timeLeftSec.toString()
     }
 }
