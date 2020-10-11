@@ -55,13 +55,13 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
             makeArticlesListByParser(articlesLists.NEW_STORIES)
 //        get data by retrofit
 //        fetchFromRemote(articlesLists.NEW_STORIES)
-            Toast.makeText(getApplication(), "Getting news", Toast.LENGTH_SHORT).show()
+            Toast.makeText(getApplication(), "Getting news", Toast.LENGTH_LONG).show()
         } else {
             launch {
                 retrieveArticle(ArticleDatabase.invoke(getApplication()).articleDAO().getArticles())
                 Toast.makeText(
                     getApplication(),
-                    "Freeware.Time to update: " + timeToRefreshFromAPI(timeToUpd),
+                    "Freeware. " + timeToRefreshFromAPI(timeToUpd) + " left",
                     Toast.LENGTH_SHORT
                 )
                     .show()
