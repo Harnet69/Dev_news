@@ -1,7 +1,9 @@
 package com.harnet.devnewsradar.viewModel
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.model.ArticleDatabase
@@ -21,6 +23,7 @@ import java.util.concurrent.CompletableFuture
 
 class ArticlesListViewModel(application: Application) : BaseViewModel(application) {
     private val ARTICLES_TO_SHOW: Int = 20
+    private val API_UPDATING_TIME_QUANTITY = 1
 
     // helper for SharedPreferences functionality
     private var sharedPrefHelper = SharedPreferencesHelper(getApplication())
@@ -42,12 +45,24 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
     // refresh mArticles with a new data TWO WAYS TO DO IT: PARSER & RETROFIT
     fun refresh() {
         mIsArticleLoadError.value = false
-        //TODO make a switcher between two ways of parsing
+        val timeToUpd = sharedPrefHelper.getLastUpdateTime()
+            ?.plus(convertMinToNanosec(API_UPDATING_TIME_QUANTITY))
+        //TODO make observable variable for time!!!
+        if (System.nanoTime() > timeToUpd!!) {
+            //TODO make a switcher between two ways of parsing
 
-        // get data by old fashion manner parser
-        makeArticlesListByParser(articlesLists.NEW_STORIES)
+            //get data by old fashion manner parser
+            makeArticlesListByParser(articlesLists.NEW_STORIES)
 //        get data by retrofit
 //        fetchFromRemote(articlesLists.NEW_STORIES)
+            Toast.makeText(getApplication(), "DATA FROM API", Toast.LENGTH_SHORT).show()
+        } else {
+            launch {
+                retrieveArticle(ArticleDatabase.invoke(getApplication()).articleDAO().getArticles())
+                Toast.makeText(getApplication(), "DATA FROM database", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
     }
 
     // fetches data from remote API using Retrofit
@@ -179,5 +194,9 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
     // parse article HTML
     fun parseHTML(urlString: String?): String? {
         return parseService.parse(urlString)
+    }
+
+    private fun convertMinToNanosec(min: Int): Long {
+        return min * 60 * 1000 * 1000 * 1000L
     }
 }
