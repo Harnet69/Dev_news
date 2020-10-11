@@ -131,11 +131,15 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
         mIsLoading.postValue(false)
     }
 
+    // store articles in a database
     private fun storeArticleInDatabase(articlesList: List<Article>) {
         launch {
             val dao = ArticleDatabase(getApplication()).articleDAO()
+            // delete previous version
             dao.deleteArticles()
+            // add newly parced articles to a database
             val result = dao.insertAll(*articlesList.toTypedArray())
+            // assign id to article uuid field
             for (i in result.indices) {
                 if (i < articlesList.size - 1 || i < result.size - 1) {
                     articlesList[i].uuid = result[i].toInt()

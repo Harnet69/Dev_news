@@ -29,4 +29,9 @@ abstract class ArticleDatabase : RoomDatabase() {
             "articlesDatabase"
         ).build()
     }
+
+    //save time of the last updating data from API
+    fun saveTimeOfLastUpd(time: Long){
+
+    }
 }
