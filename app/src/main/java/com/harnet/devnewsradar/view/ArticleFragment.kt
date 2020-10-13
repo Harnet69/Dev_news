@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.harnet.devnewsradar.R
@@ -39,9 +37,11 @@ class ArticleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel = ViewModelProvider(this).get(ArticleViewModel::class.java)
         viewModel.mIsFavourite.value = false
-        // get ID from Articles list adapter, receive arguments from sending fragment
+
+        // get id from Articles list adapter, receive arguments from sending fragment
         arguments?.let {
             val articleId = ArticleFragmentArgs.fromBundle(it).articleId
             val isFavourite = ArticleFragmentArgs.fromBundle(it).isFavourite
@@ -50,6 +50,7 @@ class ArticleFragment : Fragment() {
                 viewModel.fetch(view.context, articleId.toString(), isFavourite)
             }
         }
+
         openWebsite(article_url)
         observeViewModel()
         observeIsFav()
@@ -65,15 +66,11 @@ class ArticleFragment : Fragment() {
                 article_time.text = "Time: " + article.time
                 article_url.paintFlags = article_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
                 article_url.text = article.url
+
                 // set image for favourite star
-//                if (viewModel.mIsFavourite.value!!) {
-//                    article_favourite.setImageResource(android.R.drawable.btn_star_big_on)
-//                } else {
-//                    article_favourite.setImageResource(android.R.drawable.btn_star_big_off)
-//                }
                 makeFavourite(article_favourite, article)
+
                 // parse page source code and insert image to an article
-                //TODO if article is favourite record page content to a database
                 article.let {
                     context?.let { it1 -> getProgressDrawable(it1) }?.let { it2 ->
                         article_image.loadImage(
@@ -82,12 +79,14 @@ class ArticleFragment : Fragment() {
                         )
                     }
                 }
+
                 loadingView_ProgressBar.visibility = View.GONE
             }
         })
     }
 
-    fun observeIsFav() {
+    // observe is article favourite and set the appropriate image
+    private fun observeIsFav() {
         viewModel.mIsFavourite.observe(viewLifecycleOwner, Observer { isFav ->
             if (isFav) {
                 article_favourite.setImageResource(android.R.drawable.btn_star_big_on)
@@ -97,7 +96,7 @@ class ArticleFragment : Fragment() {
         })
     }
 
-    // open a website by URL from view value
+    // open a website by URL from the view value
     private fun openWebsite(view: TextView?) {
         view?.setOnClickListener {
             val webPage = view.text.toString()

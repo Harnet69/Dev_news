@@ -24,13 +24,14 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
     //retrieve data from a database by id
     fun fetch(context: Context, articleId: String, isFavourite: Boolean) {
         launch {
-            val articleToShow =
-                ArticleDatabase.invoke(context).articleDAO().getArticle(articleId.toInt())
+            val articleToShow = ArticleDatabase.invoke(context).articleDAO().getArticle(articleId.toInt())
             try {
                 isArtFav(context, articleToShow.id)
-                // set article image
+                // parse webpage and get an article image
+                //TODO can use this pageContent to store this webpage in our database
                 val pageContent = webContentDownloader.execute(articleToShow.url).get()
                 val imagesURL = parseService.parseImages(pageContent)
+                //TODO can make a image checker for all images in imagesURL
                 articleToShow.imageUrl = imagesURL?.get(0) as String
                 // set article date
                 val articleDate = Date(articleToShow.time.toLong() * 1000)
@@ -47,6 +48,7 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
         }
     }
 
+    // create Favourite from Article and add it to Favourites table
     fun addToFavourite(context: Context, article: Article) {
         val favourite = Favourite(
             article.id,
@@ -63,6 +65,7 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
         }
     }
 
+    // remove from favourite by Article id
     fun removeFromFavourites(context: Context, id: String) {
         launch {
             ArticleDatabase.invoke(context).favouriteDAO().deleteFavourite(id)
@@ -72,7 +75,7 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
     }
 
     // check if article is favourite
-    fun isArtFav(context: Context, id: String) {
+    private fun isArtFav(context: Context, id: String) {
         mIsFavourite.value = false
         launch {
             if (ArticleDatabase.invoke(context).favouriteDAO().getFavourite(id) != null) {
