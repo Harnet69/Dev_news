@@ -33,6 +33,8 @@ class ArticleFragment : Fragment() {
     ): View? {
         // inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_article, container, false)
+        // DataBinding approach
+//        return DataBindingUtil.inflate<FragmentArticleBinding>(inflater,R.layout.fragment_article, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
