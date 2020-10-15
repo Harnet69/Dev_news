@@ -21,13 +21,14 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginTop="10dp"
-
+            android:bindImageUrl="@{article.imageUrl}"
             android:minHeight="200dp"
             android:scaleType="fitCenter" />
 
         <TextView
             android:id="@+id/article_title"
             style="@style/Title"
+            android:text="@{article.title}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/article_image"
@@ -41,6 +42,7 @@
         <TextView
             android:id="@+id/article_id"
             style="@style/Text"
+            android:text="@{article.id}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/article_title"
@@ -53,6 +55,7 @@
         <TextView
             android:id="@+id/article_author"
             style="@style/Text"
+            android:text="@{article.author}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/article_id"
@@ -62,6 +65,7 @@
         <TextView
             android:id="@+id/article_time"
             style="@style/Text"
+            android:text="@{article.time}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/article_author"
@@ -80,6 +84,7 @@
         <TextView
             android:id="@+id/article_url"
             style="@style/URL"
+            android:text="@{article.url}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/article_favourite"

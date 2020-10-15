@@ -10,10 +10,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.harnet.devnewsradar.R
+import com.harnet.devnewsradar.databinding.FragmentArticleBinding
 import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.util.getProgressDrawable
 import com.harnet.devnewsradar.util.loadImage
@@ -24,17 +26,19 @@ import kotlinx.coroutines.launch
 
 
 class ArticleFragment : Fragment() {
-    lateinit var viewModel: ArticleViewModel
-
+    private lateinit var viewModel: ArticleViewModel
+    private lateinit var dataBinding: FragmentArticleBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_article, container, false)
+//        return inflater.inflate(R.layout.fragment_article, container, false)
         // DataBinding approach
-//        return DataBindingUtil.inflate<FragmentArticleBinding>(inflater,R.layout.fragment_article, container, false)
+        dataBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_article, container, false)
+
+        return  dataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,25 +66,26 @@ class ArticleFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.mArticleLiveData.observe(viewLifecycleOwner, Observer { article ->
             article?.let {
-                article_id.text = "Article id: " + article.id
-                article_title.text = article.title
-                article_author.text = "Author: " + article.author
-                article_time.text = "Time: " + article.time
-                article_url.paintFlags = article_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-                article_url.text = article.url
-
-                // set image for favourite star
-                makeFavourite(article_favourite, article)
-
-                // parse page source code and insert image to an article
-                article.let {
-                    context?.let { it1 -> getProgressDrawable(it1) }?.let { it2 ->
-                        article_image.loadImage(
-                            article.imageUrl,
-                            it2
-                        )
-                    }
-                }
+                dataBinding.article = article
+//                article_id.text = "Article id: " + article.id
+//                article_title.text = article.title
+//                article_author.text = "Author: " + article.author
+//                article_time.text = "Time: " + article.time
+//                article_url.paintFlags = article_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+//                article_url.text = article.url
+//
+//                // set image for favourite star
+//                makeFavourite(article_favourite, article)
+//
+//                // parse page source code and insert image to an article
+//                article.let {
+//                    context?.let { it1 -> getProgressDrawable(it1) }?.let { it2 ->
+//                        article_image.loadImage(
+//                            article.imageUrl,
+//                            it2
+//                        )
+//                    }
+//                }
 
                 loadingView_ProgressBar.visibility = View.GONE
             }
