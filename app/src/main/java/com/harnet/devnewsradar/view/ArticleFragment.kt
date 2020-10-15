@@ -17,8 +17,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.databinding.FragmentArticleBinding
 import com.harnet.devnewsradar.model.Article
-import com.harnet.devnewsradar.util.getProgressDrawable
-import com.harnet.devnewsradar.util.loadImage
 import com.harnet.devnewsradar.viewModel.ArticleViewModel
 import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.coroutines.GlobalScope
@@ -33,8 +31,6 @@ class ArticleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_article, container, false)
         // DataBinding approach
         dataBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_article, container, false)
 
@@ -46,6 +42,8 @@ class ArticleFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(ArticleViewModel::class.java)
         viewModel.mIsFavourite.value = false
+
+        loadingView_ProgressBar.visibility = View.VISIBLE
 
         // get id from Articles list adapter, receive arguments from sending fragment
         arguments?.let {
@@ -59,35 +57,21 @@ class ArticleFragment : Fragment() {
 
         openWebsite(article_url)
         observeViewModel()
-        observeIsFav()
     }
 
     // observes article object and binds its data to view elements
     private fun observeViewModel() {
         viewModel.mArticleLiveData.observe(viewLifecycleOwner, Observer { article ->
             article?.let {
+                // bind article to layout
                 dataBinding.article = article
-//                article_id.text = "Article id: " + article.id
-//                article_title.text = article.title
-//                article_author.text = "Author: " + article.author
-//                article_time.text = "Time: " + article.time
-//                article_url.paintFlags = article_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-//                article_url.text = article.url
-//
-//                // set image for favourite star
-//                makeFavourite(article_favourite, article)
-//
-//                // parse page source code and insert image to an article
-//                article.let {
-//                    context?.let { it1 -> getProgressDrawable(it1) }?.let { it2 ->
-//                        article_image.loadImage(
-//                            article.imageUrl,
-//                            it2
-//                        )
-//                    }
-//                }
-
+                // underscore URL
+                article_url.paintFlags = article_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+                // set favourite image
+                observeIsFav()
+                makeFavourite(article_favourite, article)
                 loadingView_ProgressBar.visibility = View.GONE
+                article_image.visibility = View.VISIBLE
             }
         })
     }
