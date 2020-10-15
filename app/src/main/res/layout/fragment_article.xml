@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="article"
+            type="com.harnet.devnewsradar.model.Article" />
+    </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,9 +20,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:scaleType="fitCenter"
+            android:layout_marginTop="10dp"
+
             android:minHeight="200dp"
-            android:layout_marginTop="10dp"/>
+            android:scaleType="fitCenter" />
 
         <TextView
             android:id="@+id/article_title"
@@ -28,7 +36,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="4dp"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal" />
 
         <TextView
             android:id="@+id/article_id"
@@ -40,31 +48,34 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
-            android:layout_marginBottom="4dp"/>
+            android:layout_marginBottom="4dp" />
+
         <TextView
             android:id="@+id/article_author"
+            style="@style/Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/article_id"
-            style="@style/Text"
             android:layout_centerHorizontal="true"
-            android:layout_margin="4dp"/>
+            android:layout_margin="4dp" />
+
         <TextView
             android:id="@+id/article_time"
+            style="@style/Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/article_author"
-            style="@style/Text"
             android:layout_centerHorizontal="true"
-            android:layout_margin="4dp"/>
+            android:layout_margin="4dp" />
+
         <ImageView
             android:id="@+id/article_favourite"
+            style="@style/Text"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_below="@id/article_time"
-            style="@style/Text"
             android:layout_centerHorizontal="true"
-            android:layout_margin="4dp"/>
+            android:layout_margin="4dp" />
 
         <TextView
             android:id="@+id/article_url"
