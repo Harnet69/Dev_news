@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.harnet.devnewsradar.R
+import com.harnet.devnewsradar.databinding.ItemFavouriteBinding
 import com.harnet.devnewsradar.model.Favourite
 import com.harnet.devnewsradar.view.FavouritesListFragmentDirections
 import com.harnet.devnewsradar.viewModel.FavouritesListViewModel
@@ -32,7 +34,8 @@ class FavouritesListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouritesViewHolder {
         val inflator = LayoutInflater.from(parent.context)
         // elements of the list transforms into views
-        val view = inflator.inflate(R.layout.item_favourite, parent, false)
+//        val view = inflator.inflate(R.layout.item_favourite, parent, false)
+        val view = DataBindingUtil.inflate<ItemFavouriteBinding>(inflator,R.layout.item_favourite, parent, false)
         return FavouritesViewHolder(view)
     }
 
@@ -40,60 +43,61 @@ class FavouritesListAdapter(
 
     override fun onBindViewHolder(holder: FavouritesViewHolder, position: Int) {
         var isFavourite = true
-        //attach view to information from a list
-        holder.view.favouriteTitle_in_list.text = favouritesList[position].title
-        holder.view.favouriteAuthor_in_list.text = favouritesList[position].author
-        holder.view.favourite_img.setImageResource(android.R.drawable.btn_star_big_on)
-
-        // add click listener to favourite button
-        holder.view.favourite_img.setOnClickListener {
-            isFavourite = isFavourite != true
-            if (isFavourite) {
-                //record the article to favourites
-                holder.view.favourite_img.setImageResource(android.R.drawable.btn_star_big_on)
-            } else {
-                //delete the article from favourites
-                try {
-                    AlertDialog.Builder(holder.view.context)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("Delete")
-                        .setMessage("Do you want to remove the article from favorite?")
-                        .setPositiveButton("Delete") { dialogInterface: DialogInterface, i: Int ->
-                            try {
-                                viewModel.deleteFromFavourites(
-                                    holder.view.context,
-                                    favouritesList[position].id
-                                )
-                                holder.view.favourite_img.setImageResource(android.R.drawable.btn_star_big_off)
-                                Toast.makeText(
-                                    holder.view.context,
-                                    "Remove from favourite",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                viewModel.mFavourites.value?.let { it1 -> updateFavouritesList(it1) }
-                            } catch (e: IOException) {
-                                e.printStackTrace()
-                            }
-                        }.setNegativeButton("Cancel") { dialogInterface: DialogInterface, i: Int ->
-                        }.show()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-            }
-        }
-        //add click listener to article details item and bind it with detail page
-        holder.view.favourite_details.setOnClickListener {
-            // navigate to appropriate detail fragment
-            val action =
-                FavouritesListFragmentDirections.actionFavouritesListFragmentToFavouriteFragment()
-            // send article id to ArticleFragment
-            action.articleId = favouritesList[position].uuid
-            action.isFavourite = true
-            Navigation.findNavController(it).navigate(action)
-        }
+        holder.view.favourite = favouritesList[position]
+//        //attach view to information from a list
+//        holder.view.favouriteTitle_in_list.text = favouritesList[position].title
+//        holder.view.favouriteAuthor_in_list.text = favouritesList[position].author
+//        holder.view.favourite_img.setImageResource(android.R.drawable.btn_star_big_on)
+//
+//        // add click listener to favourite button
+//        holder.view.favourite_img.setOnClickListener {
+//            isFavourite = isFavourite != true
+//            if (isFavourite) {
+//                //record the article to favourites
+//                holder.view.favourite_img.setImageResource(android.R.drawable.btn_star_big_on)
+//            } else {
+//                //delete the article from favourites
+//                try {
+//                    AlertDialog.Builder(holder.view.context)
+//                        .setIcon(android.R.drawable.ic_dialog_alert)
+//                        .setTitle("Delete")
+//                        .setMessage("Do you want to remove the article from favorite?")
+//                        .setPositiveButton("Delete") { dialogInterface: DialogInterface, i: Int ->
+//                            try {
+//                                viewModel.deleteFromFavourites(
+//                                    holder.view.context,
+//                                    favouritesList[position].id
+//                                )
+//                                holder.view.favourite_img.setImageResource(android.R.drawable.btn_star_big_off)
+//                                Toast.makeText(
+//                                    holder.view.context,
+//                                    "Remove from favourite",
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
+//                                viewModel.mFavourites.value?.let { it1 -> updateFavouritesList(it1) }
+//                            } catch (e: IOException) {
+//                                e.printStackTrace()
+//                            }
+//                        }.setNegativeButton("Cancel") { dialogInterface: DialogInterface, i: Int ->
+//                        }.show()
+//                } catch (e: IOException) {
+//                    e.printStackTrace()
+//                }
+//            }
+//        }
+//        //add click listener to article details item and bind it with detail page
+//        holder.view.favourite_details.setOnClickListener {
+//            // navigate to appropriate detail fragment
+//            val action =
+//                FavouritesListFragmentDirections.actionFavouritesListFragmentToFavouriteFragment()
+//            // send article id to ArticleFragment
+//            action.articleId = favouritesList[position].uuid
+//            action.isFavourite = true
+//            Navigation.findNavController(it).navigate(action)
+//        }
     }
 
-    class FavouritesViewHolder(var view: View) : RecyclerView.ViewHolder(view)
+    class FavouritesViewHolder(var view: ItemFavouriteBinding) : RecyclerView.ViewHolder(view.root)
 
     private fun alertDialog(context: Context, viewModel: FavouritesListViewModel) {
         try {

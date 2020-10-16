@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+        <variable
+            name="favourite"
+            type="com.harnet.devnewsradar.model.Favourite" />
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="125dp"
@@ -26,16 +32,18 @@
             <TextView
                 android:id="@+id/favouriteTitle_in_list"
                 style="@style/Title"
+                android:text="@{favourite.title}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Articles title" />
+                 />
 
             <TextView
                 android:id="@+id/favouriteAuthor_in_list"
                 style="@style/Text"
+                android:text="@{favourite.author}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Author" />
+                 />
 
         </LinearLayout>
     </LinearLayout>
