@@ -34,8 +34,12 @@ class FavouritesListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouritesViewHolder {
         val inflator = LayoutInflater.from(parent.context)
         // elements of the list transforms into views
-//        val view = inflator.inflate(R.layout.item_favourite, parent, false)
-        val view = DataBindingUtil.inflate<ItemFavouriteBinding>(inflator,R.layout.item_favourite, parent, false)
+        val view = DataBindingUtil.inflate<ItemFavouriteBinding>(
+            inflator,
+            R.layout.item_favourite,
+            parent,
+            false
+        )
         return FavouritesViewHolder(view)
     }
 
@@ -43,12 +47,8 @@ class FavouritesListAdapter(
 
     override fun onBindViewHolder(holder: FavouritesViewHolder, position: Int) {
         var isFavourite = true
+//        // bind view to information from a list
         holder.view.favourite = favouritesList[position]
-//        //attach view to information from a list
-        holder.view.favouriteImg.setImageResource(android.R.drawable.btn_star_big_on)
-//        holder.view.favouriteTitle_in_list.text = favouritesList[position].title
-//        holder.view.favouriteAuthor_in_list.text = favouritesList[position].author
-//
 //        // add click listener to favourite button
         holder.view.favouriteImg.setOnClickListener {
             isFavourite = isFavourite != true

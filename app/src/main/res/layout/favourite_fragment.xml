@@ -2,6 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    
+    <data>
+        <variable
+            name="favourite"
+            type="com.harnet.devnewsradar.model.Favourite" />
+    </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -11,6 +17,8 @@
 
         <ImageView
             android:id="@+id/favourite_image"
+            android:bindImageUrl="@{favourite.imageUrl}"
+            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -21,6 +29,7 @@
         <TextView
             android:id="@+id/favourite_title"
             style="@style/Title"
+            android:text="@{favourite.title}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/favourite_image"
@@ -34,6 +43,7 @@
         <TextView
             android:id="@+id/favourite_id"
             style="@style/Text"
+            android:text="@{favourite.id}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/favourite_title"
@@ -46,6 +56,7 @@
         <TextView
             android:id="@+id/favourite_author"
             style="@style/Text"
+            android:text="@{favourite.author}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/favourite_id"
@@ -55,6 +66,7 @@
         <TextView
             android:id="@+id/favourite_time"
             style="@style/Text"
+            android:text="@{favourite.time}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/favourite_author"
@@ -64,6 +76,8 @@
         <ImageView
             android:id="@+id/isFavourite"
             style="@style/Text"
+            android:visibility="invisible"
+            android:src="@android:drawable/btn_star_big_on"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_below="@id/favourite_time"
@@ -73,6 +87,7 @@
         <TextView
             android:id="@+id/favourite_url"
             style="@style/URL"
+            android:text="@{favourite.url}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/isFavourite"
