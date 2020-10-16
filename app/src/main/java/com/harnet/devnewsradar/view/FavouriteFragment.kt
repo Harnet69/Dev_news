@@ -34,7 +34,6 @@ class FavouriteFragment : Fragment() {
         fun newInstance() = FavouriteFragment()
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

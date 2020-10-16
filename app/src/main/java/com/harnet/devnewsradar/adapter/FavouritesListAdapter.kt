@@ -47,6 +47,7 @@ class FavouritesListAdapter(
 
     override fun onBindViewHolder(holder: FavouritesViewHolder, position: Int) {
         var isFavourite = true
+        holder.view.favouriteImg.setImageResource(android.R.drawable.btn_star_big_on)
 //        // bind view to information from a list
         holder.view.favourite = favouritesList[position]
 //        // add click listener to favourite button
