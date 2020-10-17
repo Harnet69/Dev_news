@@ -36,6 +36,8 @@ class ArticlesListFragment : Fragment() {
         articlesListAdapter = ArticlesListAdapter(arrayListOf())
         viewModel = ViewModelProvider(this).get(ArticlesListViewModel::class.java)
         viewModel.refresh()
+        //Fix blinking RecyclerView
+        articlesListAdapter.setHasStableIds(true)
 
         articles_list.apply {
             layoutManager = LinearLayoutManager(context)
