@@ -18,8 +18,8 @@ import kotlinx.android.synthetic.main.fragment_articles_list.loadingView_Progres
 import kotlinx.android.synthetic.main.fragment_articles_list.refreshLayout
 
 class FavouritesListFragment : Fragment() {
-    lateinit var favouritesListAdapter: FavouritesListAdapter
     private lateinit var viewModel: FavouritesListViewModel
+    lateinit var favouritesListAdapter: FavouritesListAdapter
 
     companion object {
         fun newInstance() = FavouritesListFragment()
@@ -35,12 +35,14 @@ class FavouritesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel = ViewModelProvider(this).get(FavouritesListViewModel::class.java)
         context?.let { viewModel.refresh(it) }
         favouritesListAdapter = FavouritesListAdapter(arrayListOf(), viewModel)
 
         favourites_list.apply {
             layoutManager = LinearLayoutManager(context)
+            favouritesListAdapter.setHasStableIds(true)
             adapter = favouritesListAdapter
         }
 

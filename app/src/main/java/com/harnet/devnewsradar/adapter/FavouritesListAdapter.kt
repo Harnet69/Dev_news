@@ -22,8 +22,8 @@ class FavouritesListAdapter(
     val favouritesList: ArrayList<Favourite>,
     val viewModel: FavouritesListViewModel
 ) : RecyclerView.Adapter<FavouritesListAdapter.FavouritesViewHolder>() {
-    //for updating information from a backend
 
+    //for updating information from a backend
     fun updateFavouritesList(newFavouritesList: List<Favourite>) {
         favouritesList.clear()
         favouritesList.addAll(newFavouritesList)
@@ -117,5 +117,10 @@ class FavouritesListAdapter(
         } catch (e: IOException) {
             e.printStackTrace()
         }
+    }
+
+    //Fix blinking RecyclerView
+    override fun getItemId(position: Int): Long {
+        return favouritesList.get(position).id.toLong()
     }
 }
