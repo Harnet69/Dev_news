@@ -22,7 +22,7 @@ import java.net.URL
 import java.util.concurrent.CompletableFuture
 
 class ArticlesListViewModel(application: Application) : BaseViewModel(application) {
-    private val ARTICLES_TO_SHOW: Int = 50
+    private val ARTICLES_TO_SHOW: Int = 30
     private val API_UPDATING_TIME_QUANTITY = 1
 
     // helper for SharedPreferences functionality
