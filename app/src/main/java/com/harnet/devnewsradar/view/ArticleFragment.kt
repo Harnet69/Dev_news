@@ -1,7 +1,9 @@
 package com.harnet.devnewsradar.view
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,9 +16,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.palette.graphics.Palette
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.databinding.FragmentArticleBinding
 import com.harnet.devnewsradar.model.Article
+import com.harnet.devnewsradar.model.ArticlePalette
 import com.harnet.devnewsradar.viewModel.ArticleViewModel
 import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.coroutines.GlobalScope
@@ -65,6 +72,10 @@ class ArticleFragment : Fragment() {
             article?.let {
                 // bind article to layout
                 dataBinding.article = article
+                // set image tto Palette
+                it.imageUrl?.let {
+                    setupBackgroundColor(it)
+                }
                 // underscore URL
                 article_url.paintFlags = article_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
                 // set favourite image
@@ -120,5 +131,28 @@ class ArticleFragment : Fragment() {
                 }
             }
         }
+    }
+
+    // Palette handler
+    private fun setupBackgroundColor(url: String){
+        Glide.with(this)
+            .asBitmap()
+            .load(url)
+            .into(object : CustomTarget<Bitmap>(){
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                        Palette.from(resource)
+                            .generate {palette->
+                                //extract color. If rgb is null intColor = 0
+                                val intColor = palette?.vibrantSwatch?.rgb ?: 0
+                                //create an object of Palette
+                                val articlePalette = ArticlePalette(intColor)
+                                //bind object to View xml
+                                dataBinding.palette = articlePalette
+                            }
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+                }
+            })
     }
 }
