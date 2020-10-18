@@ -7,12 +7,16 @@
         <variable
             name="favourite"
             type="com.harnet.devnewsradar.model.Favourite" />
+        <variable
+            name="palette"
+            type="com.harnet.devnewsradar.model.ArticlePalette" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.FavouriteFragment">
+        tools:context=".view.FavouriteFragment"
+        android:background="@{palette.color}">
 
 
         <ImageView

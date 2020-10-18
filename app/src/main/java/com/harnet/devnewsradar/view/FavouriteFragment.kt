@@ -18,9 +18,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.databinding.FavouriteFragmentBinding
+import com.harnet.devnewsradar.databinding.FragmentArticleBinding
 import com.harnet.devnewsradar.model.Favourite
-import com.harnet.devnewsradar.util.getProgressDrawable
-import com.harnet.devnewsradar.util.loadImage
+import com.harnet.devnewsradar.service.PaletteService
 import com.harnet.devnewsradar.viewModel.FavouriteViewModel
 import kotlinx.android.synthetic.main.favourite_fragment.*
 import kotlinx.coroutines.GlobalScope
@@ -29,6 +29,7 @@ import kotlinx.coroutines.launch
 class FavouriteFragment : Fragment() {
     private lateinit var viewModel: FavouriteViewModel
     private lateinit var dataBinding: FavouriteFragmentBinding
+    private lateinit var paletteService: PaletteService
 
     companion object {
         fun newInstance() = FavouriteFragment()
@@ -64,6 +65,18 @@ class FavouriteFragment : Fragment() {
         viewModel.mFavoriteLiveData.observe(viewLifecycleOwner, Observer { article ->
             article?.let {
                 dataBinding.favourite = article
+
+                // set image to Palette
+                it.imageUrl?.let {
+                    paletteService = PaletteService()
+                    context?.let { it1 ->
+                        paletteService.setupBackgroundColor(
+                            it1,
+                            it,
+                            dataBinding
+                        )
+                    }
+                }
                 // underscore URL address
                 favourite_url.paintFlags = favourite_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 

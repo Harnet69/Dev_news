@@ -24,6 +24,7 @@ import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.databinding.FragmentArticleBinding
 import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.model.ArticlePalette
+import com.harnet.devnewsradar.service.PaletteService
 import com.harnet.devnewsradar.viewModel.ArticleViewModel
 import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.coroutines.GlobalScope
@@ -33,15 +34,16 @@ import kotlinx.coroutines.launch
 class ArticleFragment : Fragment() {
     private lateinit var viewModel: ArticleViewModel
     private lateinit var dataBinding: FragmentArticleBinding
+    private lateinit var paletteService: PaletteService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // DataBinding approach
-        dataBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_article, container, false)
+        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_article, container, false)
 
-        return  dataBinding.root
+        return dataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,15 +74,23 @@ class ArticleFragment : Fragment() {
             article?.let {
                 // bind article to layout
                 dataBinding.article = article
-                // set image tto Palette
+                // set image to Palette
                 it.imageUrl?.let {
-                    setupBackgroundColor(it)
+                    paletteService = PaletteService()
+                    context?.let { it1 ->
+                        paletteService.setupBackgroundColor(
+                            it1,
+                            it,
+                            dataBinding
+                        )
+                    }
                 }
                 // underscore URL
                 article_url.paintFlags = article_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
                 // set favourite image
                 observeIsFav()
                 makeFavourite(article_favourite, article)
+                //handle with loading elements
                 loadingView_ProgressBar.visibility = View.GONE
                 article_image.visibility = View.VISIBLE
             }
@@ -131,28 +141,5 @@ class ArticleFragment : Fragment() {
                 }
             }
         }
-    }
-
-    // Palette handler
-    private fun setupBackgroundColor(url: String){
-        Glide.with(this)
-            .asBitmap()
-            .load(url)
-            .into(object : CustomTarget<Bitmap>(){
-                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        Palette.from(resource)
-                            .generate {palette->
-                                //extract color. If rgb is null intColor = 0
-                                val intColor = palette?.vibrantSwatch?.rgb ?: 0
-                                //create an object of Palette
-                                val articlePalette = ArticlePalette(intColor)
-                                //bind object to View xml
-                                dataBinding.palette = articlePalette
-                            }
-                }
-
-                override fun onLoadCleared(placeholder: Drawable?) {
-                }
-            })
     }
 }
