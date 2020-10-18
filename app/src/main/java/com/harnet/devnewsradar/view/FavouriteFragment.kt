@@ -3,7 +3,9 @@ package com.harnet.devnewsradar.view
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,11 +18,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.palette.graphics.Palette
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.databinding.FavouriteFragmentBinding
-import com.harnet.devnewsradar.databinding.FragmentArticleBinding
+import com.harnet.devnewsradar.model.ArticlePalette
 import com.harnet.devnewsradar.model.Favourite
-import com.harnet.devnewsradar.service.PaletteService
 import com.harnet.devnewsradar.viewModel.FavouriteViewModel
 import kotlinx.android.synthetic.main.favourite_fragment.*
 import kotlinx.coroutines.GlobalScope
@@ -29,7 +34,6 @@ import kotlinx.coroutines.launch
 class FavouriteFragment : Fragment() {
     private lateinit var viewModel: FavouriteViewModel
     private lateinit var dataBinding: FavouriteFragmentBinding
-    private lateinit var paletteService: PaletteService
 
     companion object {
         fun newInstance() = FavouriteFragment()
@@ -67,15 +71,8 @@ class FavouriteFragment : Fragment() {
                 dataBinding.favourite = article
 
                 // set image to Palette
-                it.imageUrl?.let {
-                    paletteService = PaletteService()
-                    context?.let { it1 ->
-                        paletteService.setupBackgroundColor(
-                            it1,
-                            it,
-                            dataBinding
-                        )
-                    }
+                it.imageUrl.let { url ->
+                    setupBackgroundColor(url)
                 }
                 // underscore URL address
                 favourite_url.paintFlags = favourite_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
@@ -124,5 +121,28 @@ class FavouriteFragment : Fragment() {
                 isArticleFavourite = true
             }
         }
+    }
+
+    // Palette handler
+    private fun setupBackgroundColor(url: String){
+        Glide.with(this)
+            .asBitmap()
+            .load(url)
+            .into(object : CustomTarget<Bitmap>(){
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    Palette.from(resource)
+                        .generate {palette->
+                            //extract color. If rgb is null intColor = 0
+                            val intColor = palette?.vibrantSwatch?.rgb ?: 0
+                            //create an object of Palette
+                            val articlePalette = ArticlePalette(intColor)
+                            //bind object to View xml
+                            dataBinding.palette = articlePalette
+                        }
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+                }
+            })
     }
 }
