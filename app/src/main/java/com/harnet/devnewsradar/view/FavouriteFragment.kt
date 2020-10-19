@@ -84,6 +84,11 @@ class FavouriteFragment : Fragment() {
                         )
                     }
                 }
+
+                // color URL link
+                it.imageUrl.let { url ->
+                    context?.let { it1 -> paletteService.setColorToUrl(it1, url, null, dataBinding) }
+                }
                 // underscore URL address
                 favourite_url.paintFlags = favourite_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 

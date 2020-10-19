@@ -78,6 +78,10 @@ class ArticleFragment : Fragment() {
                 it.imageUrl.let { url ->
                     context?.let { it1 -> paletteService.setupBackgroundColor(it1, url, dataBinding, null) }
                 }
+                // color URL link
+                it.imageUrl.let { url ->
+                    context?.let { it1 -> paletteService.setColorToUrl(it1, url, dataBinding, null) }
+                }
                 // underscore URL
                 article_url.paintFlags = article_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
                 // set favourite image
