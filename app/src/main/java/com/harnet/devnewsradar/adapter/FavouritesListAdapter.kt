@@ -101,24 +101,6 @@ class FavouritesListAdapter(
 
     class FavouritesViewHolder(var view: ItemFavouriteBinding) : RecyclerView.ViewHolder(view.root)
 
-    private fun alertDialog(context: Context, viewModel: FavouritesListViewModel) {
-        try {
-            AlertDialog.Builder(context)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle("Delete")
-                .setMessage("Do you want to remove the article from favorite?")
-                .setPositiveButton("Save") { dialog, which ->
-                    try {
-
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                }.show()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-    }
-
     //Fix blinking RecyclerView
     override fun getItemId(position: Int): Long {
         return favouritesList.get(position).id.toLong()
