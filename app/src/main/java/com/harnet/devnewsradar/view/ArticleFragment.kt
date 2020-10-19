@@ -24,6 +24,7 @@ import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.databinding.FragmentArticleBinding
 import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.model.ArticlePalette
+import com.harnet.devnewsradar.service.PaletteService
 import com.harnet.devnewsradar.viewModel.ArticleViewModel
 import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.coroutines.GlobalScope
@@ -33,6 +34,7 @@ import kotlinx.coroutines.launch
 class ArticleFragment : Fragment() {
     private lateinit var viewModel: ArticleViewModel
     private lateinit var dataBinding: FragmentArticleBinding
+    private var paletteService = PaletteService()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,9 +74,9 @@ class ArticleFragment : Fragment() {
             article?.let {
                 // bind article to layout
                 dataBinding.article = article
-                // Palette
-                it.imageUrl?.let {url ->
-                    setupBackgroundColor(url)
+                // Palette background handler
+                it.imageUrl.let { url ->
+                    context?.let { it1 -> paletteService.setupBackgroundColor(it1, url, dataBinding, null) }
                 }
                 // underscore URL
                 article_url.paintFlags = article_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
@@ -131,28 +133,5 @@ class ArticleFragment : Fragment() {
                 }
             }
         }
-    }
-
-    // Palette handler
-    private fun setupBackgroundColor(url: String){
-        Glide.with(this)
-            .asBitmap()
-            .load(url)
-            .into(object : CustomTarget<Bitmap>(){
-                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        Palette.from(resource)
-                            .generate {palette->
-                                //extract color. If rgb is null intColor = 0
-                                val intColor = palette?.vibrantSwatch?.rgb ?: 0
-                                //create an object of Palette
-                                val articlePalette = ArticlePalette(intColor)
-                                //bind object to View xml
-                                dataBinding.palette = articlePalette
-                            }
-                }
-
-                override fun onLoadCleared(placeholder: Drawable?) {
-                }
-            })
     }
 }
