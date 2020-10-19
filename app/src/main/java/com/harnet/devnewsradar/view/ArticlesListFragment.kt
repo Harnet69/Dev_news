@@ -20,6 +20,7 @@ class ArticlesListFragment : Fragment() {
     private lateinit var viewModel: ArticlesListViewModel
     private lateinit var favouritesListViewModel: FavouritesListViewModel
     lateinit var articlesListAdapter: ArticlesListAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -72,14 +73,13 @@ class ArticlesListFragment : Fragment() {
             return true
         }
         return NavigationUI.onNavDestinationSelected(
-            item!!,
+            item,
             view!!.findNavController()
         )
                 || super.onOptionsItemSelected(item)
     }
 
-
-    fun observeViewModel() {
+    private fun observeViewModel() {
         // update the layout using values of mutable variables from a ViewModel
         viewModel.mArticles.observe(viewLifecycleOwner, Observer { articles ->
             articles?.let {

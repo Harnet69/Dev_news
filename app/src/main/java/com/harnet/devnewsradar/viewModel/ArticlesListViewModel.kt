@@ -22,7 +22,7 @@ import java.net.URL
 import java.util.concurrent.CompletableFuture
 
 class ArticlesListViewModel(application: Application) : BaseViewModel(application) {
-    private val ARTICLES_TO_SHOW: Int = 30
+    private val ARTICLES_TO_SHOW: Int = 20
     private val API_UPDATING_TIME_QUANTITY = 1
 
     // helper for SharedPreferences functionality
@@ -40,16 +40,16 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
     val mArticles = MutableLiveData<List<Article>>()
     val mIsArticleLoadError = MutableLiveData<Boolean>()
     val mIsLoading = MutableLiveData<Boolean>()
-    //TODO implement here observable articles list switcher
+    //implement here observable articles list switcher
 
     // refresh mArticles with a new data TWO WAYS TO DO IT: PARSER & RETROFIT
     fun refresh() {
         mIsArticleLoadError.value = false
         val timeToUpd: Long? = sharedPrefHelper.getLastUpdateTime()
             ?.plus(convertMinToNanosec(API_UPDATING_TIME_QUANTITY))
-        //TODO make observable variable for time!!!
+        //make observable variable for time!!!
         if (System.nanoTime() > timeToUpd!!) {
-            //TODO make a switcher between two ways of parsing
+            //make a switcher between two ways of parsing
 
             //get data by old fashion manner parser
             makeArticlesListByParser(articlesLists.NEW_STORIES)

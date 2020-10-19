@@ -3,7 +3,6 @@ package com.harnet.devnewsradar.service
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.util.Log
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
@@ -14,7 +13,7 @@ import com.harnet.devnewsradar.model.ArticlePalette
 
 class PaletteService {
 
-    // Palette handler
+    // Palette handler for article background
     fun setupBackgroundColor(
         context: Context,
         url: String,
@@ -51,16 +50,21 @@ class PaletteService {
             })
     }
 
-    // set links dolor depends of an article image
+    // Set URL links color depends of an article image
     fun setColorToUrl(
         context: Context,
         url: String,
         articleDataBinding: FragmentArticleBinding?,
         favouriteDataBinding: FavouriteFragmentBinding?
     ) {
+        val dEFAULT_URL_COLOR = -14669752
         //define default values for URL links color
-        articleDataBinding?.let{articleDataBinding.paletteURL = ArticlePalette(-14669752)}
-        favouriteDataBinding?.let{favouriteDataBinding.paletteURL = ArticlePalette(-14669752)}
+        articleDataBinding?.let {
+            articleDataBinding.paletteURL = ArticlePalette(dEFAULT_URL_COLOR)
+        }
+        favouriteDataBinding?.let {
+            favouriteDataBinding.paletteURL = ArticlePalette(dEFAULT_URL_COLOR)
+        }
 
         Glide.with(context)
             .asBitmap()
@@ -73,8 +77,7 @@ class PaletteService {
                     Palette.from(resource)
                         .generate { palette ->
                             //extract color. If rgb is null intColor = 0
-                            val intColor = palette?.darkMutedSwatch?.rgb ?: -14669752
-                            Log.i("WhatColor", "onResourceReady: " + intColor)
+                            val intColor = palette?.darkMutedSwatch?.rgb ?: dEFAULT_URL_COLOR
                             //create an object of Palette
                             val articlePalette = ArticlePalette(intColor)
                             //bind object to View xml
@@ -89,7 +92,6 @@ class PaletteService {
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
-
                 }
             })
     }

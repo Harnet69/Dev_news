@@ -21,10 +21,7 @@ class ArticlesListAdapter(val articlesList: ArrayList<Article>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
         val inflator = LayoutInflater.from(parent.context)
-        // elements of the list transforms into views
-        //classic approach
-//        val view = inflator.inflate(R.layout.item_atricle, parent, false)
-        // DataBinding approach
+        // elements of the list transforms into views. DataBinding approach
         val view = DataBindingUtil.inflate<ItemAtricleBinding>(
             inflator,
             R.layout.item_atricle,
@@ -37,7 +34,6 @@ class ArticlesListAdapter(val articlesList: ArrayList<Article>) :
     override fun getItemCount() = articlesList.size
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
-        val isFavourite = false
 
         //attach article to holder by DataBinding approach to variable in the layout
         holder.view.article = articlesList[position]
