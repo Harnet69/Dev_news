@@ -8,9 +8,9 @@ Easy to use aplication for reading and managing software development related art
 
 ## Application installation:
 - download app from 
-![Google Play](https://play.google.com/store/apps/details?id=com.harnet.devnews) or scan this QR code by your Android phone
+[Google Play](https://play.google.com/store/apps/details?id=com.harnet.devnews) or scan this QR code by your Android phone
 ![QR](https://github.com/Harnet69/Dev_news/blob/master/app/GitHubMediaFile/GooglePlayQR.png)
-- download .apk [DevNewsRadar v.1.2 installer](https://drive.google.com/file/d/1I7hS8r6y6qHiJIx1iAfupAJJcxiy8rSV/view?usp=sharing) and run it on Android phone
+- download .apk [DevNewsRadar v.1.3 installer](https://drive.google.com/file/d/1Ec8aJje7kC_nf_aWNvCk50z31wfiiGsE/view?usp=sharing) and run it on Android phone
 - clone a project code from this repo to your computer, and run it via Android studio or another Android emulator
 
 ## Application pdf presentation: 
