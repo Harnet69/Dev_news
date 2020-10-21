@@ -10,6 +10,7 @@ import com.harnet.devnewsradar.model.ArticleDatabase
 import com.harnet.devnewsradar.service.ArticleApiServis
 import com.harnet.devnewsradar.model.ArticleLists
 import com.harnet.devnewsradar.service.ParseService
+import com.harnet.devnewsradar.util.NotificationsHelper
 import com.harnet.devnewsradar.util.SharedPreferencesHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -56,6 +57,8 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
 //        get data by retrofit
 //        fetchFromRemote(articlesLists.NEW_STORIES)
             Toast.makeText(getApplication(), "Getting news", Toast.LENGTH_LONG).show()
+            // create a notification
+            NotificationsHelper(getApplication()).createNotification()
         } else {
             launch {
                 retrieveArticle(ArticleDatabase.invoke(getApplication()).articleDAO().getArticles())
