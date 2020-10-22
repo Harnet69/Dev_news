@@ -46,6 +46,12 @@ class ArticlesListFragment : Fragment() {
             adapter = articlesListAdapter
         }
 
+        // click listener for favourites btn
+        fab_btn.setOnClickListener {
+            Navigation.findNavController(view)
+                .navigate(ArticlesListFragmentDirections.actionArticlesListFragmentToFavouritesListFragment())
+        }
+
         // Swiper refresh listener(screen refreshing process)
         refreshLayout.setOnRefreshListener {
             articles_list.visibility = View.GONE
