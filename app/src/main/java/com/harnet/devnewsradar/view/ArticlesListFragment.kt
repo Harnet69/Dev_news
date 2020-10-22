@@ -1,6 +1,7 @@
 package com.harnet.devnewsradar.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -115,6 +116,16 @@ class ArticlesListFragment : Fragment() {
                     //hide all views when progress bar is visible
                     listError_TextView.visibility = View.GONE
                     articles_list.visibility = View.GONE
+                }
+            }
+        })
+
+        viewModel.mIsSmthNew.observe(viewLifecycleOwner, Observer { isSmthNew ->
+            // check isError not null
+            isSmthNew?.let {
+                if (it) {
+                    Toast.makeText(context, "New Articles are ready", Toast.LENGTH_SHORT).show()
+                    viewModel.mIsSmthNew.postValue(false)
                 }
             }
         })

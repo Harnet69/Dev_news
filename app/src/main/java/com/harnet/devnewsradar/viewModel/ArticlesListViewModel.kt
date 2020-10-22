@@ -1,14 +1,13 @@
 package com.harnet.devnewsradar.viewModel
 
+import android.app.Activity
 import android.app.Application
-import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.model.ArticleDatabase
-import com.harnet.devnewsradar.service.ArticleApiServis
 import com.harnet.devnewsradar.model.ArticleLists
+import com.harnet.devnewsradar.service.ArticleApiServis
 import com.harnet.devnewsradar.service.ParseService
 import com.harnet.devnewsradar.util.NotificationsHelper
 import com.harnet.devnewsradar.util.SharedPreferencesHelper
@@ -42,6 +41,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
     val mArticles = MutableLiveData<List<Article>>()
     val mIsArticleLoadError = MutableLiveData<Boolean>()
     val mIsLoading = MutableLiveData<Boolean>()
+    val mIsSmthNew = MutableLiveData<Boolean>()
     //implement here observable articles list switcher
 
     // refresh mArticles with a new data TWO WAYS TO DO IT: PARSER & RETROFIT
@@ -58,7 +58,6 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
 //        get data by retrofit
 //        fetchFromRemote(articlesLists.NEW_STORIES)
 //            var newLastArtId = mArticles.value?.get(0)?.id
-//            Log.i("FisrtArtId", "refresh: last/new " + lastArticleId + "/" + newLastArtId)
             Toast.makeText(getApplication(), "Getting news", Toast.LENGTH_LONG).show()
             // create a notification
 
@@ -134,6 +133,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
     // generate articles list from webController data
     private fun makeArticlesListByParser(articlesList: String) {
         val articlesFromAPI = mutableListOf<Article>()
+        mIsSmthNew.postValue(false)
         CompletableFuture.supplyAsync {
             parseService.getArticlesURLs(articlesList, ARTICLES_TO_SHOW)
         }
@@ -149,8 +149,11 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
                             if(i == 0){
                                 // if it's a new article exists
                                 if(it.id.toIntOrNull() != lastArticleId){
+                                    // new articles notification
                                     NotificationsHelper(getApplication()).createNotification()
                                     lastArticleId = it.id.toIntOrNull()!!
+                                    // new articles toast
+                                    mIsSmthNew.postValue(true)
                                 }
                             }
                         }
