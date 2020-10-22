@@ -35,8 +35,8 @@ class NotificationsHelper(val context: Context) {
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.notif_icon_sm)// icon for the notification
             .setLargeIcon(icon)
-            .setContentTitle("Get dogs from API")
-            .setContentText("Update list of dog breeds")
+            .setContentTitle("New article")
+            .setContentText("You have a new article")
                 // notification can be expanded and shows a large icon as a large image
             .setStyle(NotificationCompat.BigPictureStyle()
                 .bigPicture(icon)

@@ -25,6 +25,7 @@ import java.util.concurrent.CompletableFuture
 class ArticlesListViewModel(application: Application) : BaseViewModel(application) {
     private val ARTICLES_TO_SHOW: Int = 20
     private val API_UPDATING_TIME_QUANTITY = 1
+    private var lastArticleId = 0
 
     // helper for SharedPreferences functionality
     private var sharedPrefHelper = SharedPreferencesHelper(getApplication())
@@ -56,9 +57,12 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
             makeArticlesListByParser(articlesLists.NEW_STORIES)
 //        get data by retrofit
 //        fetchFromRemote(articlesLists.NEW_STORIES)
+//            var newLastArtId = mArticles.value?.get(0)?.id
+//            Log.i("FisrtArtId", "refresh: last/new " + lastArticleId + "/" + newLastArtId)
             Toast.makeText(getApplication(), "Getting news", Toast.LENGTH_LONG).show()
             // create a notification
-            NotificationsHelper(getApplication()).createNotification()
+
+//            NotificationsHelper(getApplication()).createNotification()
         } else {
             launch {
                 retrieveArticle(ArticleDatabase.invoke(getApplication()).articleDAO().getArticles())
@@ -136,9 +140,20 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
             .thenAccept { URLs: MutableList<URL>? ->
                 try {
                     for (i in 0 until ARTICLES_TO_SHOW) {
+
                         val article: String = parseService.parse(URLs?.get(i).toString())
                         val parsedArticle: Article? = parseArticleDetails(article)
-                        parsedArticle?.let { articlesFromAPI.add(it) }
+                        parsedArticle?.let {
+                            articlesFromAPI.add(it)
+                            // add the first articles id for a notification purposes
+                            if(i == 0){
+                                // if it's a new article exists
+                                if(it.id.toIntOrNull() != lastArticleId){
+                                    NotificationsHelper(getApplication()).createNotification()
+                                    lastArticleId = it.id.toIntOrNull()!!
+                                }
+                            }
+                        }
                     }
                     storeArticleInDatabase(articlesFromAPI)
                 } catch (e: Exception) {
