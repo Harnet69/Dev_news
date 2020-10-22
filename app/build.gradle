@@ -61,6 +61,7 @@ dependencies {
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     kapt "androidx.room:room-compiler:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1"
