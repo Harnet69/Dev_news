@@ -15,14 +15,14 @@
         <action
             android:id="@+id/action_articlesListFragment_to_favouritesListFragment"
             app:destination="@id/favouritesListFragment" />
+        <action
+            android:id="@+id/action_articlesListFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/articleFragment"
         android:name="com.harnet.devnewsradar.view.ArticleFragment"
         android:label="ArticleFragment">
-        <action
-            android:id="@+id/action_articleFragment_to_articlesListFragment"
-            app:destination="@id/articlesListFragment" />
         <argument
             android:name="articleId"
             android:defaultValue="0"
@@ -55,4 +55,8 @@
             android:defaultValue="false"
             app:argType="boolean" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.harnet.devnewsradar.view.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>

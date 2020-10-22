@@ -66,12 +66,21 @@ class ArticlesListFragment : Fragment() {
 
     // handle with options menu items
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // navigate to Favourites
         if (item.itemId == R.id.favourites) {
             Toast.makeText(context, "Favourites", Toast.LENGTH_SHORT).show()
             Navigation.findNavController(view!!)
                 .navigate(ArticlesListFragmentDirections.actionArticlesListFragmentToFavouritesListFragment())
             return true
         }
+        // navigate to Settings
+        if (item.itemId == R.id.settings) {
+            Toast.makeText(context, "Settings", Toast.LENGTH_SHORT).show()
+            Navigation.findNavController(view!!)
+                .navigate(ArticlesListFragmentDirections.actionArticlesListFragmentToSettingsFragment())
+            return true
+        }
+
         return NavigationUI.onNavDestinationSelected(
             item,
             view!!.findNavController()
