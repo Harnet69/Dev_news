@@ -50,10 +50,12 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_btn"
+                android:alpha="0.8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"
-                android:layout_margin="16dp"
+                android:layout_margin="20dp"
+                android:backgroundTint="#00c9ff"
                 android:contentDescription="submit"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
