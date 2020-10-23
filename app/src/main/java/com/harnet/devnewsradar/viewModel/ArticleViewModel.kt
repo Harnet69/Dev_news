@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.model.ArticleDatabase
+import com.harnet.devnewsradar.model.ArticleRead
 import com.harnet.devnewsradar.model.Favourite
 import com.harnet.devnewsradar.service.ParseService
 import com.harnet.devnewsradar.service.WebContentDownloader
@@ -43,7 +44,9 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
                 Log.i("ArticleData", "fetch: No Data")
             }
             val article: Article = articleToShow
-
+            // add to read articles
+            addToReadArticles(article)
+            //update mutableData
             mArticleLiveData.value = article
         }
     }
@@ -83,6 +86,13 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
             } else {
                 mIsFavourite.value = false
             }
+        }
+    }
+
+    fun addToReadArticles(articleToAdd: Article){
+        launch {
+//            ArticleDatabase.invoke(getApplication()).articleReadDAO().insertAll(articleToAdd)
+            Log.i("articleToAdd1", "addToReadArticles: $articleToAdd")
         }
     }
 }
