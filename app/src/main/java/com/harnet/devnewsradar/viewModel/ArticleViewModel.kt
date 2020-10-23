@@ -45,7 +45,7 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
             }
             val article: Article = articleToShow
             // add to read articles
-            addToReadArticles(article)
+            addToArticlesRead(article)
             //update mutableData
             mArticleLiveData.value = article
         }
@@ -68,6 +68,23 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
         }
     }
 
+    // create ArticeRead from Article and add it to ArticlesRead table
+    fun addToArticlesRead(article: Article) {
+        val articleRead = ArticleRead(
+            article.id,
+            article.title,
+            article.author,
+            article.url,
+            article.time,
+            article.score
+        )
+        articleRead.imageUrl = article.imageUrl
+        launch {
+//            ArticleDatabase.invoke(context).articleReadDAO().insertAll(articleRead)
+            Toast.makeText(getApplication(), "Article added to ArticleRead", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     // remove from favourite by Article id
     fun removeFromFavourites(context: Context, id: String) {
         launch {
@@ -86,13 +103,6 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
             } else {
                 mIsFavourite.value = false
             }
-        }
-    }
-
-    fun addToReadArticles(articleToAdd: Article){
-        launch {
-//            ArticleDatabase.invoke(getApplication()).articleReadDAO().insertAll(articleToAdd)
-            Log.i("articleToAdd1", "addToReadArticles: $articleToAdd")
         }
     }
 }
