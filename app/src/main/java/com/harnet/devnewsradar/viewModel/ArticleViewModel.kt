@@ -68,7 +68,7 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
         }
     }
 
-    // create ArticeRead from Article and add it to ArticlesRead table
+    // create ArticleRead from Article and add it to ArticlesRead table
     fun addToArticlesRead(article: Article) {
         val articleRead = ArticleRead(
             article.id,
@@ -80,8 +80,8 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
         )
         articleRead.imageUrl = article.imageUrl
         launch {
-//            ArticleDatabase.invoke(context).articleReadDAO().insertAll(articleRead)
-            Toast.makeText(getApplication(), "Article added to ArticleRead", Toast.LENGTH_SHORT).show()
+            val addToRead = ArticleDatabase.invoke(getApplication()).articleReadDAO().insertAll(articleRead)
+            Toast.makeText(getApplication(), "Article added to ArticleRead $addToRead", Toast.LENGTH_SHORT).show()
         }
     }
 
