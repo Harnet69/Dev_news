@@ -2,6 +2,7 @@ package com.harnet.devnewsradar.viewModel
 
 import android.app.Activity
 import android.app.Application
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.harnet.devnewsradar.model.Article
@@ -54,7 +55,9 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
             //make a switcher between two ways of parsing
 
             //get data by old fashion manner parser
-            makeArticlesListByParser(articlesLists.NEW_STORIES)
+            launch {
+                makeArticlesListByParser(articlesLists.NEW_STORIES)
+            }
 //        get data by retrofit
 //        fetchFromRemote(articlesLists.NEW_STORIES)
 //            var newLastArtId = mArticles.value?.get(0)?.id
@@ -106,8 +109,9 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
                                     // add article to a list
                                     articlesFromAPI.add(article)
                                 } else {
-                                    storeArticleInDatabase(articlesFromAPI)
-//                                    retrieveArticle(articlesFromAPI)
+                                    //TODO set articles were read
+                                    val updatedArticles = setArticlesHaveBeenRead(articlesFromAPI)
+                                    storeArticleInDatabase(updatedArticles)
                                 }
                             }
 
@@ -158,7 +162,9 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
                             }
                         }
                     }
-                    storeArticleInDatabase(articlesFromAPI)
+                    //TODO set articles were read
+                    val updatedArticles = setArticlesHaveBeenRead(articlesFromAPI)
+                    storeArticleInDatabase(updatedArticles)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -195,6 +201,11 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
         sharedPrefHelper.saveTimeOfUpd(System.nanoTime())
     }
 
+    //TODO implement check if articles were read
+    private fun setArticlesHaveBeenRead(articlesFromAPI: List<Article>): List<Article>{
+        Log.i("HereSetAll", "setArticlesHaveBeenRead: ")
+        return articlesFromAPI
+    }
 
     // get data by old fashion parser
     // parse for article details and add an article to articleDataSet

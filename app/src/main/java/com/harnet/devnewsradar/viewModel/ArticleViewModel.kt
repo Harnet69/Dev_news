@@ -69,7 +69,7 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
     }
 
     // create ArticleRead from Article and add it to ArticlesRead table
-    fun addToArticlesRead(article: Article) {
+    private fun addToArticlesRead(article: Article) {
         val articleRead = ArticleRead(
             article.id,
             article.title,

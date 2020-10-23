@@ -36,5 +36,7 @@ open class Article(
 
     var isFavourite: Boolean = false
 
+    var isWasRead: Boolean = false
+
     var imageUrl: String = ""
 }
