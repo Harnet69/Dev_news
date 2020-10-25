@@ -68,7 +68,14 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
 //            NotificationsHelper(getApplication()).createNotification()
         } else {
             launch {
-                retrieveArticle(ArticleDatabase.invoke(getApplication()).articleDAO().getArticles())
+                val articlesList = ArticleDatabase.invoke(getApplication()).articleDAO().getArticles()
+                // get articles were read already
+                val articlesWereRead = ArticleDatabase.invoke(getApplication()).articleReadDAO().getArticles()
+                //TODO set articles were read in articleList
+                val markedIsReadArticles: List<Article> =  markReadArticles(articlesList, articlesWereRead)
+
+                retrieveArticle(markedIsReadArticles)
+
                 Toast.makeText(
                     getApplication(),
                     "Freeware. " + timeToRefreshFromAPI(timeToUpd) + " left",
@@ -185,7 +192,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
             // get articles were read already
             val articlesWereRead = ArticleDatabase.invoke(getApplication()).articleReadDAO().getArticles()
             //TODO set articles were read in articleList
-            val markedIsReadArticles: List<Article> = markReadArticles(articlesList, articlesWereRead)
+            val markedIsReadArticles: List<Article> =  markReadArticles(articlesList, articlesWereRead)
 
             val dao = ArticleDatabase(getApplication()).articleDAO()
             // delete previous version
