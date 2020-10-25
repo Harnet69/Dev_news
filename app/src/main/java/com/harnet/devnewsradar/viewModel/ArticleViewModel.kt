@@ -76,11 +76,15 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
             article.author,
             article.url,
             article.time,
-            article.score
+            article.score,
+            System.nanoTime()
         )
         articleRead.imageUrl = article.imageUrl
         launch {
             val addToRead = ArticleDatabase.invoke(getApplication()).articleReadDAO().insertAll(articleRead)
+            Log.i("ArticlesWereRead", "addToRead: "+ ArticleDatabase.invoke(getApplication())
+                .articleReadDAO().getArticles().get(ArticleDatabase.invoke(getApplication())
+                    .articleReadDAO().getArticles().size -1).timeWhenRead)
             Toast.makeText(getApplication(), "Article added to ArticleRead $addToRead", Toast.LENGTH_SHORT).show()
         }
     }

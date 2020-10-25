@@ -111,10 +111,12 @@ class ArticleFragment : Fragment() {
         })
     }
 
+    // when click to URl link
     private fun clickOnUrlLink(view: TextView?, article: Article) {
         view?.setOnClickListener {
             // add to read articles
             viewModel.addToArticlesRead(article)
+            // open the link in default browser
             openWebsite(view)
         }
     }
