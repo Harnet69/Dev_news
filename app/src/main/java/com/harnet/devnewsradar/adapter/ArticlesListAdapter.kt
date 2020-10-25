@@ -41,7 +41,7 @@ class ArticlesListAdapter(val articlesList: ArrayList<Article>) :
         holder.view.article = articlesList[position]
             Log.i("IsWasRead", "onBindViewHolder: " + articlesList[position].isWasRead)
         if(articlesList[position].isWasRead){
-            holder.view.articleTitleInList.setTypeface(holder.view.articleTitleInList.typeface, Typeface.BOLD_ITALIC)
+            holder.view.articleTitleInList.setTypeface(holder.view.articleTitleInList.typeface, Typeface.ITALIC)
         }
     }
 
