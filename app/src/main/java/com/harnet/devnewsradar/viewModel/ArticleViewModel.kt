@@ -44,8 +44,8 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
                 Log.i("ArticleData", "fetch: No Data")
             }
             val article: Article = articleToShow
-            // add to read articles
-            addToArticlesRead(article)
+//            // add to read articles
+//            addToArticlesRead(article)
             //update mutableData
             mArticleLiveData.value = article
         }
@@ -69,7 +69,7 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
     }
 
     // create ArticleRead from Article and add it to ArticlesRead table
-    private fun addToArticlesRead(article: Article) {
+    fun addToArticlesRead(article: Article) {
         val articleRead = ArticleRead(
             article.id,
             article.title,

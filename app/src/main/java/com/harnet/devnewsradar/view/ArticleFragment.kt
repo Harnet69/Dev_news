@@ -34,9 +34,9 @@ class ArticleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // DataBinding approach
-        dataBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_article, container, false)
+        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_article, container, false)
 
-        return  dataBinding.root
+        return dataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,8 +56,6 @@ class ArticleFragment : Fragment() {
                 viewModel.fetch(view.context, articleId.toString(), isFavourite)
             }
         }
-
-        openWebsite(article_url)
         observeViewModel()
     }
 
@@ -67,13 +65,29 @@ class ArticleFragment : Fragment() {
             article?.let {
                 // bind article to layout
                 dataBinding.article = article
+
+                clickOnUrlLink(article_url, article)
                 // Palette background handler
                 it.imageUrl.let { url ->
-                    context?.let { it1 -> paletteService.setupBackgroundColor(it1, url, dataBinding, null) }
+                    context?.let { it1 ->
+                        paletteService.setupBackgroundColor(
+                            it1,
+                            url,
+                            dataBinding,
+                            null
+                        )
+                    }
                 }
                 // color URL link
                 it.imageUrl.let { url ->
-                    context?.let { it1 -> paletteService.setColorToUrl(it1, url, dataBinding, null) }
+                    context?.let { it1 ->
+                        paletteService.setColorToUrl(
+                            it1,
+                            url,
+                            dataBinding,
+                            null
+                        )
+                    }
                 }
                 // underscore URL
                 article_url.paintFlags = article_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
@@ -97,16 +111,22 @@ class ArticleFragment : Fragment() {
         })
     }
 
-    // open a website by URL from the view value
-    private fun openWebsite(view: TextView?) {
+    private fun clickOnUrlLink(view: TextView?, article: Article) {
         view?.setOnClickListener {
-            val webPage = view.text.toString()
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(webPage))
-            try {
-                startActivity(browserIntent)
-            } catch (e: Exception) {
-                Toast.makeText(context, "Wrong URL", Toast.LENGTH_SHORT).show()
-            }
+            // add to read articles
+            viewModel.addToArticlesRead(article)
+            openWebsite(view)
+        }
+    }
+
+    // open a website by URL from the view value
+    private fun openWebsite(view: TextView) {
+        val webPage = view.text.toString()
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(webPage))
+        try {
+            startActivity(browserIntent)
+        } catch (e: Exception) {
+            Toast.makeText(context, "Wrong URL", Toast.LENGTH_SHORT).show()
         }
     }
 
