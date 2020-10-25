@@ -1,5 +1,7 @@
 package com.harnet.devnewsradar.adapter
 
+import android.graphics.Typeface
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -37,6 +39,10 @@ class ArticlesListAdapter(val articlesList: ArrayList<Article>) :
 
         //attach article to holder by DataBinding approach to variable in the layout
         holder.view.article = articlesList[position]
+            Log.i("IsWasRead", "onBindViewHolder: " + articlesList[position].isWasRead)
+        if(articlesList[position].isWasRead){
+            holder.view.articleTitleInList.setTypeface(holder.view.articleTitleInList.typeface, Typeface.BOLD_ITALIC)
+        }
     }
 
     class ArticleViewHolder(var view: ItemAtricleBinding) : RecyclerView.ViewHolder(view.root)

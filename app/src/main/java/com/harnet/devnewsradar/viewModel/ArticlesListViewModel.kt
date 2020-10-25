@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.model.ArticleDatabase
 import com.harnet.devnewsradar.model.ArticleLists
+import com.harnet.devnewsradar.model.ArticleRead
 import com.harnet.devnewsradar.service.ArticleApiServis
 import com.harnet.devnewsradar.service.ParseService
 import com.harnet.devnewsradar.util.NotificationsHelper
@@ -109,9 +110,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
                                     // add article to a list
                                     articlesFromAPI.add(article)
                                 } else {
-                                    //TODO set articles were read
-                                    val updatedArticles = setArticlesHaveBeenRead(articlesFromAPI)
-                                    storeArticleInDatabase(updatedArticles)
+                                    storeArticleInDatabase(articlesFromAPI)
                                 }
                             }
 
@@ -163,8 +162,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
                         }
                     }
                     //TODO set articles were read
-                    val updatedArticles = setArticlesHaveBeenRead(articlesFromAPI)
-                    storeArticleInDatabase(updatedArticles)
+                    storeArticleInDatabase(articlesFromAPI)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -184,11 +182,16 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
     // store articles in a database
     private fun storeArticleInDatabase(articlesList: List<Article>) {
         launch {
+            // get articles were read already
+            val articlesWereRead = ArticleDatabase.invoke(getApplication()).articleReadDAO().getArticles()
+            //TODO set articles were read in articleList
+            val markedIsReadArticles: List<Article> = markReadArticles(articlesList, articlesWereRead)
+
             val dao = ArticleDatabase(getApplication()).articleDAO()
             // delete previous version
             dao.deleteArticles()
             // add newly parced articles to a database
-            val result = dao.insertAll(*articlesList.toTypedArray())
+            val result = dao.insertAll(*markedIsReadArticles.toTypedArray())
             // assign id to article uuid field
             for (i in result.indices) {
                 if (i < articlesList.size - 1 || i < result.size - 1) {
@@ -201,10 +204,26 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
         sharedPrefHelper.saveTimeOfUpd(System.nanoTime())
     }
 
-    //TODO implement check if articles were read
-    private fun setArticlesHaveBeenRead(articlesFromAPI: List<Article>): List<Article>{
-        Log.i("HereSetAll", "setArticlesHaveBeenRead: ")
-        return articlesFromAPI
+    //check if the article was read
+    private fun isArticleWasRead(articlesWereRead: List<ArticleRead>, article: Article): Boolean{
+        var isWasRead: Boolean = false
+        for(articleWasRead in articlesWereRead){
+            if(article.id == articleWasRead.id){
+                isWasRead = true
+            }
+        }
+
+        return isWasRead
+    }
+
+    // mark articles were read in the past
+    fun markReadArticles(articlesList: List<Article>, articlesWereRead: List<ArticleRead>): List<Article>{
+        for(article in articlesList){
+            if(isArticleWasRead(articlesWereRead, article)){
+                article.isWasRead = true
+            }
+        }
+        return articlesList
     }
 
     // get data by old fashion parser
