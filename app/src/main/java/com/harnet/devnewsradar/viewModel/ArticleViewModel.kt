@@ -81,11 +81,10 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
         )
         articleRead.imageUrl = article.imageUrl
         launch {
-            val addToRead = ArticleDatabase.invoke(getApplication()).articleReadDAO().insertAll(articleRead)
-            Log.i("ArticlesWereRead", "addToRead: "+ ArticleDatabase.invoke(getApplication())
-                .articleReadDAO().getArticles().get(ArticleDatabase.invoke(getApplication())
-                    .articleReadDAO().getArticles().size -1).timeWhenRead)
-            Toast.makeText(getApplication(), "Article added to ArticleRead $addToRead", Toast.LENGTH_SHORT).show()
+            if(!ArticleDatabase.invoke(getApplication()).articleReadDAO().isExists(articleRead.id)){
+                val addToRead = ArticleDatabase.invoke(getApplication()).articleReadDAO().insertAll(articleRead)
+                Toast.makeText(getApplication(), "Article added to ArticleRead $addToRead", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

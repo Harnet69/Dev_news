@@ -28,6 +28,6 @@ abstract class ArticleDatabase : RoomDatabase() {
             context.applicationContext,
             ArticleDatabase::class.java,
             "articlesDatabase"
-        ).build()
+        ).allowMainThreadQueries().build()
     }
 }

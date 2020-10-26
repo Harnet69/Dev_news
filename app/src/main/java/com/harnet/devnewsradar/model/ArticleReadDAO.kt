@@ -17,4 +17,7 @@ interface ArticleReadDAO {
 
     @Query("SELECT * FROM articleRead WHERE uuid = :uuid")
     suspend fun getArticle(uuid: Int): ArticleRead
+
+    @Query("SELECT EXISTS(SELECT * FROM articleRead WHERE id = :id)")
+    fun isExists(id: String): Boolean
 }
