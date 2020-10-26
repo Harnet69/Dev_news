@@ -3,7 +3,7 @@
     <data>
         <variable
             name="article"
-            type="com.harnet.devnewsradar.model.Article" />
+            type="com.harnet.devnewsradar.model.ArticleRead" />
     </data>
 
     <LinearLayout

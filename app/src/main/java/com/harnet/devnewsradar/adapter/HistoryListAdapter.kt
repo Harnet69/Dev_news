@@ -7,12 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.databinding.ItemHistoryBinding
 import com.harnet.devnewsradar.model.Article
+import com.harnet.devnewsradar.model.ArticleRead
 
-class HistoryListAdapter(val articlesList: ArrayList<Article>) :
+class HistoryListAdapter(val articlesList: ArrayList<ArticleRead>) :
     RecyclerView.Adapter<HistoryListAdapter.ArticleViewHolder>() {
 
     //for updating information from a backend
-    fun updateArticlesList(newArticlesList: List<Article>) {
+    fun updateArticlesList(newArticlesList: List<ArticleRead>) {
         articlesList.clear()
         articlesList.addAll(newArticlesList)
         //reset RecycleView and recreate a list

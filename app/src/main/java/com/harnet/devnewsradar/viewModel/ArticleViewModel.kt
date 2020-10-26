@@ -80,10 +80,11 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
             System.nanoTime()
         )
         articleRead.imageUrl = article.imageUrl
+
         launch {
             if(!ArticleDatabase.invoke(getApplication()).articleReadDAO().isExists(articleRead.id)){
                 val addToRead = ArticleDatabase.invoke(getApplication()).articleReadDAO().insertAll(articleRead)
-                Toast.makeText(getApplication(), "Article added to ArticleRead $addToRead", Toast.LENGTH_SHORT).show()
+                Toast.makeText(getApplication(), "Article added to ArticleRead $addToRead: " + articleRead.timeWhenRead, Toast.LENGTH_SHORT).show()
             }
         }
     }
