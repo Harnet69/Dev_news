@@ -4,6 +4,9 @@
         android:title="Favourites"
         android:id="@+id/favourites" />
     <item
+        android:title="History"
+        android:id="@+id/history" />
+    <item
         android:title="Settings"
         android:id="@+id/settings" />
 </menu>

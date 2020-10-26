@@ -62,7 +62,6 @@ class FavouriteViewModel(application: Application) : BaseViewModel(application) 
         }
     }
 
-
     fun addToFavourites(context: Context, favourite: Favourite) {
         launch {
             ArticleDatabase.invoke(context).favouriteDAO().insertAll(favourite)

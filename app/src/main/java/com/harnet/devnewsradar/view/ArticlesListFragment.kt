@@ -80,6 +80,14 @@ class ArticlesListFragment : Fragment() {
                 .navigate(ArticlesListFragmentDirections.actionArticlesListFragmentToFavouritesListFragment())
             return true
         }
+
+        // navigate to History
+        if (item.itemId == R.id.history) {
+            Toast.makeText(context, "Reading history", Toast.LENGTH_SHORT).show()
+            Navigation.findNavController(view!!)
+                .navigate(ArticlesListFragmentDirections.actionArticlesListFragmentToHistoryFragment())
+            return true
+        }
         // navigate to Settings
         if (item.itemId == R.id.settings) {
             Toast.makeText(context, "Settings", Toast.LENGTH_SHORT).show()

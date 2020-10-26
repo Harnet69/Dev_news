@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_articlesListFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_articlesListFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
     </fragment>
     <fragment
         android:id="@+id/articleFragment"
@@ -59,4 +62,9 @@
         android:id="@+id/settingsFragment"
         android:name="com.harnet.devnewsradar.view.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.harnet.devnewsradar.view.HistoryFragment"
+        android:label="history_fragment"
+        tools:layout="@layout/history_fragment" />
 </navigation>
