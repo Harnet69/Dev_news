@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.adapter.ArticlesListAdapter
+import com.harnet.devnewsradar.adapter.HistoryListAdapter
 import com.harnet.devnewsradar.viewModel.ArticlesListViewModel
 import com.harnet.devnewsradar.viewModel.HistoryViewModel
 import kotlinx.android.synthetic.main.fragment_articles_list.*
@@ -17,7 +18,7 @@ import kotlinx.android.synthetic.main.history_fragment.*
 
 class HistoryFragment : Fragment() {
     private lateinit var viewModel: HistoryViewModel
-    lateinit var historyListAdapter: ArticlesListAdapter
+    lateinit var historyListAdapter: HistoryListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,7 +30,7 @@ class HistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        historyListAdapter = ArticlesListAdapter(arrayListOf())
+        historyListAdapter = HistoryListAdapter(arrayListOf())
         viewModel = ViewModelProvider(this).get(HistoryViewModel::class.java)
         viewModel.refresh()
 
