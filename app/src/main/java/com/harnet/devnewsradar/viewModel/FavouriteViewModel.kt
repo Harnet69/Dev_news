@@ -5,7 +5,9 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.model.ArticleDatabase
+import com.harnet.devnewsradar.model.ArticleRead
 import com.harnet.devnewsradar.model.Favourite
 import com.harnet.devnewsradar.service.ParseService
 import com.harnet.devnewsradar.service.WebContentDownloader
@@ -39,6 +41,27 @@ class FavouriteViewModel(application: Application) : BaseViewModel(application) 
             mFavoriteLiveData.value = article
         }
     }
+
+    // create ArticleRead from Article and add it to ArticlesRead table
+    fun addToArticlesRead(favourite: Favourite) {
+        val articleRead = ArticleRead(
+            favourite.id,
+            favourite.title,
+            favourite.author,
+            favourite.url,
+            favourite.time,
+            favourite.score,
+            System.nanoTime()
+        )
+        articleRead.imageUrl = favourite.imageUrl
+        launch {
+            if(!ArticleDatabase.invoke(getApplication()).articleReadDAO().isExists(articleRead.id)){
+                val addToRead = ArticleDatabase.invoke(getApplication()).articleReadDAO().insertAll(articleRead)
+                Toast.makeText(getApplication(), "Article added to ArticleRead $addToRead", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 
     fun addToFavourites(context: Context, favourite: Favourite) {
         launch {

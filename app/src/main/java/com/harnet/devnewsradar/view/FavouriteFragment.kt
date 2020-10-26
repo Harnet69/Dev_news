@@ -18,6 +18,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.databinding.FavouriteFragmentBinding
+import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.model.Favourite
 import com.harnet.devnewsradar.service.PaletteService
 import com.harnet.devnewsradar.viewModel.FavouriteViewModel
@@ -55,7 +56,7 @@ class FavouriteFragment : Fragment() {
                 viewModel.fetch(view.context, favouriteUuId)
             }
         }
-        openWebsite(favourite_url)
+
         observeViewModel()
 
     }
@@ -65,6 +66,8 @@ class FavouriteFragment : Fragment() {
         viewModel.mFavoriteLiveData.observe(viewLifecycleOwner, Observer { article ->
             article?.let {
                 dataBinding.favourite = article
+
+                clickOnUrlLink(favourite_url, article)
 
                 // Palette handler
                 it.imageUrl.let { url ->
@@ -95,17 +98,25 @@ class FavouriteFragment : Fragment() {
         })
     }
 
+    // when click to URl link
+    private fun clickOnUrlLink(view: TextView?, favourite: Favourite) {
+        view?.setOnClickListener {
+            // add to read articles
+            viewModel.addToArticlesRead(favourite)
+            // open the link in default browser
+            openWebsite(view)
+        }
+    }
+
     // open a website by URL from view value
     private fun openWebsite(view: TextView?) {
-        view?.setOnClickListener {
-            val webPage = view.text.toString()
+            val webPage = view?.text.toString()
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(webPage))
             try {
                 startActivity(browserIntent)
             } catch (e: Exception) {
                 Toast.makeText(context, "Wrong URL", Toast.LENGTH_SHORT).show()
             }
-        }
     }
 
     // handle with favourites
