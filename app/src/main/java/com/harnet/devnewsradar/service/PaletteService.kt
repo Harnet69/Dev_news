@@ -45,7 +45,7 @@ class PaletteService {
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
-
+                    // doesn't use
                 }
             })
     }
@@ -57,13 +57,13 @@ class PaletteService {
         articleDataBinding: FragmentArticleBinding?,
         favouriteDataBinding: FavouriteFragmentBinding?
     ) {
-        val dEFAULT_URL_COLOR = -14669752
+        val DEFAULT_URL_COLOR = -14669752
         //define default values for URL links color
         articleDataBinding?.let {
-            articleDataBinding.paletteURL = ArticlePalette(dEFAULT_URL_COLOR)
+            articleDataBinding.paletteURL = ArticlePalette(DEFAULT_URL_COLOR)
         }
         favouriteDataBinding?.let {
-            favouriteDataBinding.paletteURL = ArticlePalette(dEFAULT_URL_COLOR)
+            favouriteDataBinding.paletteURL = ArticlePalette(DEFAULT_URL_COLOR)
         }
 
         Glide.with(context)
@@ -77,7 +77,7 @@ class PaletteService {
                     Palette.from(resource)
                         .generate { palette ->
                             //extract color. If rgb is null intColor = 0
-                            val intColor = palette?.darkMutedSwatch?.rgb ?: dEFAULT_URL_COLOR
+                            val intColor = palette?.darkMutedSwatch?.rgb ?: DEFAULT_URL_COLOR
                             //create an object of Palette
                             val articlePalette = ArticlePalette(intColor)
                             //bind object to View xml
@@ -92,6 +92,7 @@ class PaletteService {
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
+                    // doesn't use
                 }
             })
     }

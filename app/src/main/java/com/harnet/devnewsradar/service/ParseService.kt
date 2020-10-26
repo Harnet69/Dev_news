@@ -59,7 +59,7 @@ class ParseService {
             val jsonArray = JSONArray(content)
             for (i in 0 until articlesToShow) {
                 val articleId = jsonArray.getString(i).toInt()
-                // TODO think about do it final or move to ENUM
+                // !! think about do it final or move to ENUM
                 val atricleURL =
                     URL("https://hacker-news.firebaseio.com/v0/item/$articleId.json?print=pretty")
                 articlesURLs.add(atricleURL)

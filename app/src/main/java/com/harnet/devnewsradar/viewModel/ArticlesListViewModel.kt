@@ -60,18 +60,16 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
                 makeArticlesListByParser(articlesLists.NEW_STORIES)
             }
 //        get data by retrofit
-//        fetchFromRemote(articlesLists.NEW_STORIES)
-//            var newLastArtId = mArticles.value?.get(0)?.id
+//        !!fetchFromRemote(articlesLists.NEW_STORIES)
+//            !!var newLastArtId = mArticles.value?.get(0)?.id
             Toast.makeText(getApplication(), "Getting news", Toast.LENGTH_LONG).show()
-            // create a notification
-
-//            NotificationsHelper(getApplication()).createNotification()
         } else {
             launch {
                 val articlesList = ArticleDatabase.invoke(getApplication()).articleDAO().getArticles()
+
                 // get articles were read already
                 val articlesWereRead = ArticleDatabase.invoke(getApplication()).articleReadDAO().getArticles()
-                //TODO set articles were read in articleList
+                //set articles as were read in articleList
                 val markedIsReadArticles: List<Article> =  markReadArticles(articlesList, articlesWereRead)
 
                 retrieveArticle(markedIsReadArticles)
@@ -88,7 +86,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
 
     // fetches data from remote API using Retrofit
     private fun fetchFromRemote(articlesList: String) {
-        //TODO !!!DON'T FORGET TO ADD INTERNET PERMISSION BEFORE IMPLEMENTING!!!
+        //!!!DON'T FORGET TO ADD INTERNET PERMISSION BEFORE IMPLEMENTING!!!
         val articlesFromAPI = mutableListOf<Article>()
         // list of articles ids
         val articlesIDs = parseService.getArticlesIDs(articlesList, ARTICLES_TO_SHOW)
@@ -168,7 +166,6 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
                             }
                         }
                     }
-                    //TODO set articles were read
                     storeArticleInDatabase(articlesFromAPI)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -191,7 +188,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
         launch {
             // get articles were read already
             val articlesWereRead = ArticleDatabase.invoke(getApplication()).articleReadDAO().getArticles()
-            //TODO set articles were read in articleList
+            //!!set articles were read in articleList
             val markedIsReadArticles: List<Article> =  markReadArticles(articlesList, articlesWereRead)
 
             val dao = ArticleDatabase(getApplication()).articleDAO()

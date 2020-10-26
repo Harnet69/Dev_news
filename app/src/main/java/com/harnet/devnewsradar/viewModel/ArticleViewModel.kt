@@ -29,10 +29,10 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
             try {
                 isArtFav(context, articleToShow.id)
                 // parse webpage and get an article image
-                //TODO can use this pageContent to store this webpage in our database
+                //!!can use this pageContent to store this webpage in our database
                 val pageContent = webContentDownloader.execute(articleToShow.url).get()
                 val imagesURL = parseService.parseImages(pageContent)
-                //TODO can make a image checker for all images in imagesURL
+                //!!can make a image checker for all images in imagesURL
                 articleToShow.imageUrl = imagesURL?.get(0) as String
                 // set article date
                 val articleDate = Date(articleToShow.time.toLong() * 1000)
