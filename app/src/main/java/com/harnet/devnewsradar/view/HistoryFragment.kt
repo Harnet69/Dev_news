@@ -48,7 +48,7 @@ class HistoryFragment : Fragment() {
         viewModel.mArticles.observe(viewLifecycleOwner, Observer { articles ->
             articles?.let {
                 history_list.visibility = View.VISIBLE
-                historyListAdapter.updateArticlesList(articles)
+                historyListAdapter.updateArticlesList(articles.reversed())
             }
         })
 

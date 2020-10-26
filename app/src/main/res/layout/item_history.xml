@@ -8,21 +8,21 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
         android:orientation="horizontal">
 
         <LinearLayout
             android:id="@+id/article_details"
-            android:goToArticle="@{article.uuid}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:goToArticle="@{article.uuid}"
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:padding="4dp">
 
             <TextView
                 android:id="@+id/articleTitle_in_list"
-                style="@style/Title"
+                style="@style/TitleInHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{article.title}" />
