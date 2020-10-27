@@ -26,8 +26,8 @@ class ArticlesListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // switch on a menu
         setHasOptionsMenu(true)
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_articles_list, container, false)
     }
 
