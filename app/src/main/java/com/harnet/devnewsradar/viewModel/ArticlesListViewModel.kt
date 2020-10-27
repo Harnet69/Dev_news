@@ -1,8 +1,6 @@
 package com.harnet.devnewsradar.viewModel
 
-import android.app.Activity
 import android.app.Application
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.harnet.devnewsradar.model.Article
