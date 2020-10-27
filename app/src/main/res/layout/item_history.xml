@@ -15,7 +15,7 @@
             android:id="@+id/article_details"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:goToArticle="@{article.uuid}"
+            android:goToUrlFromHistory="@{article.url}"
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:padding="4dp">
@@ -38,7 +38,7 @@
                 style="@style/Text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{article.time}" />
+                android:getDateTimeFromLong="@{article.timeWhenRead}"/>
 
         </LinearLayout>
     </LinearLayout>

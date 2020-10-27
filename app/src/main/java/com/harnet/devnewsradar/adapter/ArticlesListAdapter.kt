@@ -39,7 +39,6 @@ class ArticlesListAdapter(val articlesList: ArrayList<Article>) :
 
         //attach article to holder by DataBinding approach to variable in the layout
         holder.view.article = articlesList[position]
-            Log.i("IsWasRead", "onBindViewHolder: " + articlesList[position].isWasRead)
         if(articlesList[position].isWasRead){
             holder.view.articleTitleInList.setTypeface(holder.view.articleTitleInList.typeface, Typeface.ITALIC)
         }

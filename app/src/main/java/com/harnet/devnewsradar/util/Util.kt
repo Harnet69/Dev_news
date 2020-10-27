@@ -1,9 +1,14 @@
 package com.harnet.devnewsradar.util
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.BindingAdapter
 import androidx.navigation.Navigation
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
@@ -15,6 +20,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.view.ArticlesListFragmentDirections
+import java.text.SimpleDateFormat
+import java.util.*
 
 //little loading spinner for image loading
 fun getProgressDrawable(context: Context): CircularProgressDrawable {
@@ -78,4 +85,24 @@ fun goToArticle(view: View, articleUuid: Int?) {
         }
         Navigation.findNavController(it).navigate(action)
     }
+}
+
+@BindingAdapter("android:goToUrlFromHistory")
+fun goToUrlFromHistory(view: View, articleUrl: String?) {
+    view.setOnClickListener {
+        val browserIntent: Intent = Intent(Intent.ACTION_VIEW, Uri.parse(articleUrl))
+        try {
+            startActivity(view.context, browserIntent, null)
+        } catch (e: Exception) {
+            Toast.makeText(view.context, "Wrong URL", Toast.LENGTH_SHORT).show()
+        }
+    }
+}
+
+@BindingAdapter("android:getDateTimeFromLong")
+fun getDateTime(view: TextView, timde: Long) {
+    // set article date
+    val time = System.nanoTime()
+    val articleDate = Date(time * 1000)
+    view.text =  articleDate.toString()
 }

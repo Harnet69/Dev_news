@@ -151,6 +151,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
 
                         val article: String = parseService.parse(URLs?.get(i).toString())
                         val parsedArticle: Article? = parseArticleDetails(article)
+
                         parsedArticle?.let {
                             articlesFromAPI.add(it)
                             // add the first articles id for a notification purposes
