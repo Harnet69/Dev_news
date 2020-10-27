@@ -24,8 +24,10 @@ import java.net.URL
 import java.util.concurrent.CompletableFuture
 
 class ArticlesListViewModel(application: Application) : BaseViewModel(application) {
+    //TODO FOR SETTING PURPOSES!!!
     private val ARTICLES_TO_SHOW: Int = 20
     private val API_UPDATING_TIME_QUANTITY = 1
+
     private var lastArticleId = 0
 
     // helper for SharedPreferences functionality

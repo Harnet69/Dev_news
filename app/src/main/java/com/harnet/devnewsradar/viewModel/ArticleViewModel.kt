@@ -16,8 +16,8 @@ import java.lang.Exception
 import java.util.*
 
 class ArticleViewModel(application: Application) : BaseViewModel(application) {
-    //TODO FOR SETTING PURPOSES!!! 1 WEEK / 2 WEEK / 1 MONTH
-    val DEAD_LINE_TIME = 7 // in days
+//    //TODO FOR SETTING PURPOSES!!! 1 WEEK / 2 WEEK / 1 MONTH
+//    val DEAD_LINE_TIME = 7 // in days
     val mArticleLiveData = MutableLiveData<Article>()
     val mIsFavourite = MutableLiveData<Boolean>()
 
@@ -83,7 +83,7 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
         )
         articleRead.imageUrl = article.imageUrl
 
-        deleteOldArticles()
+//        deleteOldArticles()
 
         launch {
             if(!ArticleDatabase.invoke(getApplication()).articleReadDAO().isExists(articleRead.id)){
@@ -93,15 +93,15 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
         }
     }
 
-    // delete old news from History List 1 week/2 weeks / 1 month
-    fun deleteOldArticles(){
+//    // delete old news from History List 1 week/2 weeks / 1 month
+//    fun deleteOldArticles(){
+////        val timeToLive: Long = DEAD_LINE_TIME * 86400000L
 //        val timeToLive: Long = DEAD_LINE_TIME * 86400000L
-        val timeToLive: Long = DEAD_LINE_TIME * 86400000L
-        val deadLineTime = System.currentTimeMillis() - timeToLive
-        launch {
-            ArticleDatabase.invoke(getApplication()).articleReadDAO().deleteOldArticles(deadLineTime)
-        }
-    }
+//        val deadLineTime = System.currentTimeMillis() - timeToLive
+//        launch {
+//            ArticleDatabase.invoke(getApplication()).articleReadDAO().deleteOldArticles(deadLineTime)
+//        }
+//    }
 
     // remove from favourite by Article id
     fun removeFromFavourites(context: Context, id: String) {
