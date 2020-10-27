@@ -95,11 +95,11 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
 
     // delete old news from History List 1 week/2 weeks / 1 month
     fun deleteOldArticles(){
+//        val timeToLive: Long = DEAD_LINE_TIME * 86400000L
         val timeToLive: Long = DEAD_LINE_TIME * 86400000L
         val deadLineTime = System.currentTimeMillis() - timeToLive
         launch {
             ArticleDatabase.invoke(getApplication()).articleReadDAO().deleteOldArticles(deadLineTime)
-            Log.i("ArticleWasDeleted", "deleteOldArticles: " + Date(deadLineTime))
         }
     }
 

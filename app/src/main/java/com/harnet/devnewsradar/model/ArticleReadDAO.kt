@@ -15,7 +15,7 @@ interface ArticleReadDAO {
     @Query("DELETE FROM articleRead")
     suspend fun deleteArticles()
 
-    @Query("DELETE FROM articleRead WHERE timeWhenRead > :deadLine")
+    @Query("DELETE FROM articleRead WHERE timeWhenRead < :deadLine")
     suspend fun deleteOldArticles(deadLine: Long)
 
     @Query("SELECT * FROM articleRead WHERE uuid = :uuid")
