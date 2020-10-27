@@ -51,7 +51,7 @@ class FavouriteViewModel(application: Application) : BaseViewModel(application) 
             favourite.url,
             favourite.time,
             favourite.score,
-            System.nanoTime()
+            System.currentTimeMillis()
         )
         articleRead.imageUrl = favourite.imageUrl
         launch {

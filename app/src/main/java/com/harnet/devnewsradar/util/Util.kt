@@ -87,6 +87,7 @@ fun goToArticle(view: View, articleUuid: Int?) {
     }
 }
 
+// go to website from history list
 @BindingAdapter("android:goToUrlFromHistory")
 fun goToUrlFromHistory(view: View, articleUrl: String?) {
     view.setOnClickListener {
@@ -99,7 +100,11 @@ fun goToUrlFromHistory(view: View, articleUrl: String?) {
     }
 }
 
+// show time when user read the article
 @BindingAdapter("android:getDateTimeFromLong")
 fun getDateTime(view: TextView, time: Long) {
-    view.text =  Date(time).toString()
+    val pattern = "yyyy-MM-dd HH:mm:ss"
+    val simpleDateFormat = SimpleDateFormat(pattern, Locale.UK)
+    val date = simpleDateFormat.format(Date(time))
+    view.text =  date
 }
