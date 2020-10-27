@@ -16,6 +16,8 @@ import java.lang.Exception
 import java.util.*
 
 class ArticleViewModel(application: Application) : BaseViewModel(application) {
+    //TODO FOR SETTING PURPOSES!!! 1 WEEK / 2 WEEK / 1 MONTH
+    val DEAD_LINE_TIME = 7 // in days
     val mArticleLiveData = MutableLiveData<Article>()
     val mIsFavourite = MutableLiveData<Boolean>()
 
@@ -81,11 +83,23 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
         )
         articleRead.imageUrl = article.imageUrl
 
+        deleteOldArticles()
+
         launch {
             if(!ArticleDatabase.invoke(getApplication()).articleReadDAO().isExists(articleRead.id)){
                 val addToRead = ArticleDatabase.invoke(getApplication()).articleReadDAO().insertAll(articleRead)
-                Toast.makeText(getApplication(), "Article added to ArticleRead $addToRead: " + articleRead.timeWhenRead, Toast.LENGTH_SHORT).show()
+                Toast.makeText(getApplication(), "Article added to ArticleRead", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    // delete old news from History List 1 week/2 weeks / 1 month
+    fun deleteOldArticles(){
+        val timeToLive: Long = DEAD_LINE_TIME * 86400000L
+        val deadLineTime = System.currentTimeMillis() - timeToLive
+        launch {
+            ArticleDatabase.invoke(getApplication()).articleReadDAO().deleteOldArticles(deadLineTime)
+            Log.i("ArticleWasDeleted", "deleteOldArticles: " + Date(deadLineTime))
         }
     }
 
