@@ -73,35 +73,36 @@ class ArticlesListFragment : Fragment() {
 
     // handle with options menu items
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        var message = ""
         when (item.itemId) {
             // navigate to Favourites
             R.id.favourites -> {
-                Toast.makeText(context, "Favourites", Toast.LENGTH_SHORT).show()
-                Navigation.findNavController(view!!)
-                    .navigate(ArticlesListFragmentDirections.actionArticlesListFragmentToFavouritesListFragment())
-                return true
+                message = "Favourites"
+                view?.let {
+                    Navigation.findNavController(it)
+                        .navigate(ArticlesListFragmentDirections.actionArticlesListFragmentToFavouritesListFragment())
+                }
             }
             // navigate to History
             R.id.history -> {
-                Toast.makeText(context, "Reading history", Toast.LENGTH_SHORT).show()
-                Navigation.findNavController(view!!)
-                    .navigate(ArticlesListFragmentDirections.actionArticlesListFragmentToHistoryFragment())
-                return true
+                message = "Reading history"
+                view?.let {
+                    Navigation.findNavController(it)
+                        .navigate(ArticlesListFragmentDirections.actionArticlesListFragmentToHistoryFragment())
+                }
             }
             // navigate to Settings
             R.id.settings -> {
-                Toast.makeText(context, "Settings", Toast.LENGTH_SHORT).show()
-                Navigation.findNavController(view!!)
-                    .navigate(ArticlesListFragmentDirections.actionArticlesListFragmentToSettingsFragment())
-                return true
+                message = "Settings"
+                view?.let {
+                    Navigation.findNavController(it)
+                        .navigate(ArticlesListFragmentDirections.actionArticlesListFragmentToSettingsFragment())
+                }
             }
         }
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 
-        return NavigationUI.onNavDestinationSelected(
-            item,
-            view!!.findNavController()
-        )
-                || super.onOptionsItemSelected(item)
+        return super.onOptionsItemSelected(item)
     }
 
     private fun observeViewModel() {
