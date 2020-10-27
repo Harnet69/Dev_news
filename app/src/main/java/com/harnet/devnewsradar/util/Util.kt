@@ -100,9 +100,6 @@ fun goToUrlFromHistory(view: View, articleUrl: String?) {
 }
 
 @BindingAdapter("android:getDateTimeFromLong")
-fun getDateTime(view: TextView, timde: Long) {
-    // set article date
-    val time = System.nanoTime()
-    val articleDate = Date(time * 1000)
-    view.text =  articleDate.toString()
+fun getDateTime(view: TextView, time: Long) {
+    view.text =  Date(time).toString()
 }

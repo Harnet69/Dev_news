@@ -77,7 +77,7 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
             article.url,
             article.time,
             article.score,
-            System.nanoTime()
+            System.currentTimeMillis()
         )
         articleRead.imageUrl = article.imageUrl
 
