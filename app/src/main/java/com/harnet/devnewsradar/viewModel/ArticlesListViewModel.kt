@@ -25,7 +25,7 @@ import java.util.concurrent.CompletableFuture
 class ArticlesListViewModel(application: Application) : BaseViewModel(application) {
     //TODO FOR SETTING PURPOSES!!!
     private var articlesToShowInt: Int = 10
-    private val API_UPDATING_TIME_QUANTITY = 1
+    private var updateTime = 1
 
     private var lastArticleId = 0
 
@@ -50,10 +50,12 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
     // refresh mArticles with a new data TWO WAYS TO DO IT: PARSER & RETROFIT
     fun refresh() {
         // set quantity of articles in a list
-        checkDeadLineTime()
+        checkArticlesQtt()
+        // set update from API delaying
+        checkUpdateTime()
         mIsArticleLoadError.value = false
         val timeToUpd: Long? = sharedPrefHelper.getLastUpdateTime()
-            ?.plus(convertMinToNanosec(API_UPDATING_TIME_QUANTITY))
+            ?.plus(convertMinToNanosec(updateTime))
         //make observable variable for time!!!
         if (System.nanoTime() > timeToUpd!!) {
             //make a switcher between two ways of parsing
@@ -272,7 +274,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
     }
 
     // handle with SharedPreferences
-    private fun checkDeadLineTime(){
+    private fun checkArticlesQtt(){
         //get value from SharedPreferences
         val articlesToShowFromShP = sharedPrefHelper.getArticleQtt()
         try {
@@ -281,6 +283,21 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
             articlesToShowInt = articlesToShowFromShP?.toInt() ?: 7
 
             Toast.makeText(getApplication(), "Showing $articlesToShowInt articles", Toast.LENGTH_SHORT).show()
+        }catch (e: NumberFormatException){
+            e.printStackTrace()
+        }
+    }
+
+    // handle with SharedPreferences
+    private fun checkUpdateTime(){
+        //get value from SharedPreferences
+        val updateTimeFromShP = sharedPrefHelper.getApiParseDelaying()
+        try {
+            // check if value can be converted to Int, if can't - assign 7 as default
+            //TODO can be used in paid version functionality
+            updateTime = updateTimeFromShP?.toInt() ?: 7
+
+            Toast.makeText(getApplication(), "List updates each $updateTime minutes", Toast.LENGTH_SHORT).show()
         }catch (e: NumberFormatException){
             e.printStackTrace()
         }
