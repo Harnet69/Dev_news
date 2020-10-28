@@ -18,12 +18,13 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.json.JSONObject
+import java.lang.NumberFormatException
 import java.net.URL
 import java.util.concurrent.CompletableFuture
 
 class ArticlesListViewModel(application: Application) : BaseViewModel(application) {
     //TODO FOR SETTING PURPOSES!!!
-    private val ARTICLES_TO_SHOW: Int = 20
+    private var articlesToShowInt: Int = 10
     private val API_UPDATING_TIME_QUANTITY = 1
 
     private var lastArticleId = 0
@@ -48,6 +49,8 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
 
     // refresh mArticles with a new data TWO WAYS TO DO IT: PARSER & RETROFIT
     fun refresh() {
+        // set quantity of articles in a list
+        checkDeadLineTime()
         mIsArticleLoadError.value = false
         val timeToUpd: Long? = sharedPrefHelper.getLastUpdateTime()
             ?.plus(convertMinToNanosec(API_UPDATING_TIME_QUANTITY))
@@ -57,7 +60,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
 
             //get data by old fashion manner parser
             launch {
-                makeArticlesListByParser(articlesLists.NEW_STORIES)
+                makeArticlesListByParser(articlesLists.NEW_STORIES, articlesToShowInt)
             }
 //        get data by retrofit
 //        !!fetchFromRemote(articlesLists.NEW_STORIES)
@@ -89,7 +92,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
         //!!!DON'T FORGET TO ADD INTERNET PERMISSION BEFORE IMPLEMENTING!!!
         val articlesFromAPI = mutableListOf<Article>()
         // list of articles ids
-        val articlesIDs = parseService.getArticlesIDs(articlesList, ARTICLES_TO_SHOW)
+        val articlesIDs = parseService.getArticlesIDs(articlesList, articlesToShowInt)
 
         // set loading flag to true
         mIsLoading.value = true
@@ -139,15 +142,15 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
 
     // get data by old fashion parser
     // generate articles list from webController data
-    private fun makeArticlesListByParser(articlesList: String) {
+    private fun makeArticlesListByParser(articlesList: String, articlesOnPage: Int) {
         val articlesFromAPI = mutableListOf<Article>()
         mIsSmthNew.postValue(false)
         CompletableFuture.supplyAsync {
-            parseService.getArticlesURLs(articlesList, ARTICLES_TO_SHOW)
+            parseService.getArticlesURLs(articlesList, articlesOnPage)
         }
             .thenAccept { URLs: MutableList<URL>? ->
                 try {
-                    for (i in 0 until ARTICLES_TO_SHOW) {
+                    for (i in 0 until articlesOnPage) {
 
                         val article: String = parseService.parse(URLs?.get(i).toString())
                         val parsedArticle: Article? = parseArticleDetails(article)
@@ -266,5 +269,20 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
             60
         )).toString().padStart(2, '0')} sec"
         return formatted
+    }
+
+    // handle with SharedPreferences
+    private fun checkDeadLineTime(){
+        //get value from SharedPreferences
+        val articlesToShowFromShP = sharedPrefHelper.getArticleQtt()
+        try {
+            // check if value can be converted to Int, if can't - assign 7 as default
+            //TODO can be used in paid version functionality
+            articlesToShowInt = articlesToShowFromShP?.toInt() ?: 7
+
+            Toast.makeText(getApplication(), "Showing $articlesToShowInt articles", Toast.LENGTH_SHORT).show()
+        }catch (e: NumberFormatException){
+            e.printStackTrace()
+        }
     }
 }
