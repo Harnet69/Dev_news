@@ -23,6 +23,7 @@ class HistoryViewModel(application: Application): BaseViewModel(application){
 
     // refresh mArticles with a new data
     fun refresh() {
+        //set quantity of days keeping history
         checkDeadLineTime()
         //delete old articles
         deleteOldArticles()
@@ -51,6 +52,7 @@ class HistoryViewModel(application: Application): BaseViewModel(application){
         }
     }
 
+    // handle with SharedPreferences
     private fun checkDeadLineTime(){
         //get value from SharedPreferences
         val daysToDeadLine = sharedPrefHelper.getHistoryKeepingDays()
@@ -59,8 +61,12 @@ class HistoryViewModel(application: Application): BaseViewModel(application){
             //TODO can be used in paid version functionality
             val daysToDeadLineInt = daysToDeadLine?.toInt() ?: 7
             deadLineTime = daysToDeadLineInt
-            Toast.makeText(getApplication(), "History keeping $deadLineTime days", Toast.LENGTH_SHORT).show()
-            Log.i("HistoryKeepsDays", "checkDeadLineTime: $deadLineTime")
+            var days = "days"
+
+            if(deadLineTime == 1){
+                days = "day"
+            }
+            Toast.makeText(getApplication(), "History keeping $deadLineTime $days", Toast.LENGTH_SHORT).show()
         }catch (e: NumberFormatException){
             e.printStackTrace()
         }
