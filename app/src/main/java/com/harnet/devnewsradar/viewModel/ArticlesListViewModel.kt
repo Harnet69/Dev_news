@@ -1,6 +1,7 @@
 package com.harnet.devnewsradar.viewModel
 
 import android.app.Application
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.harnet.devnewsradar.model.Article
@@ -25,7 +26,7 @@ import java.util.concurrent.CompletableFuture
 class ArticlesListViewModel(application: Application) : BaseViewModel(application) {
     //TODO FOR SETTING PURPOSES!!!
     private var articlesToShowInt: Int = 10
-    private var updateTime = 1
+    private var updateTime: Long = 1L
 
     private var lastArticleId = 0
 
@@ -49,13 +50,18 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
 
     // refresh mArticles with a new data TWO WAYS TO DO IT: PARSER & RETROFIT
     fun refresh() {
+        mIsArticleLoadError.value = false
         // set quantity of articles in a list
         checkArticlesQtt()
         // set update from API delaying
         checkUpdateTime()
-        mIsArticleLoadError.value = false
-        val timeToUpd: Long? = sharedPrefHelper.getLastUpdateTime()
-            ?.plus(convertMinToNanosec(updateTime))
+
+        val timeFromShP: Long? = sharedPrefHelper.getLastUpdateTime()
+        var timeToUpd = timeFromShP
+        // if user set 0 minutes of API updating
+        if(updateTime != 0L){
+            timeToUpd = timeFromShP?.plus(convertMinToNanosec(updateTime))
+        }
         //make observable variable for time!!!
         if (System.nanoTime() > timeToUpd!!) {
             //make a switcher between two ways of parsing
@@ -261,7 +267,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
         return parseService.parse(urlString)
     }
 
-    private fun convertMinToNanosec(min: Int): Long {
+    private fun convertMinToNanosec(min: Long): Long {
         return min * 60 * 1000 * 1000 * 1000L
     }
 
@@ -286,7 +292,6 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
             }else{
                 articlesToShowInt = 50
             }
-            Toast.makeText(getApplication(), "Showing $articlesToShowInt articles", Toast.LENGTH_SHORT).show()
         }catch (e: NumberFormatException){
             e.printStackTrace()
         }
@@ -296,12 +301,11 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
     private fun checkUpdateTime(){
         //get value from SharedPreferences
         val updateTimeFromShP = sharedPrefHelper.getApiParseDelaying()
+        Log.i("ApiUpdateMin", "checkUpdateTime: $updateTimeFromShP")
         try {
             // check if value can be converted to Int, if can't - assign 7 as default
             //TODO can be used in paid version functionality
-            updateTime = updateTimeFromShP?.toInt() ?: 7
-
-            Toast.makeText(getApplication(), "List updates each $updateTime minutes", Toast.LENGTH_SHORT).show()
+            updateTime = updateTimeFromShP?.toLong() ?: 7L
         }catch (e: NumberFormatException){
             e.printStackTrace()
         }

@@ -66,7 +66,6 @@ class HistoryViewModel(application: Application): BaseViewModel(application){
             if(deadLineTime == 1){
                 days = "day"
             }
-            Toast.makeText(getApplication(), "History keeping $deadLineTime $days", Toast.LENGTH_SHORT).show()
         }catch (e: NumberFormatException){
             e.printStackTrace()
         }

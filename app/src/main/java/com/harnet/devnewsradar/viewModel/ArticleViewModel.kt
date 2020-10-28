@@ -83,25 +83,12 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
         )
         articleRead.imageUrl = article.imageUrl
 
-//        deleteOldArticles()
-
         launch {
             if(!ArticleDatabase.invoke(getApplication()).articleReadDAO().isExists(articleRead.id)){
                 val addToRead = ArticleDatabase.invoke(getApplication()).articleReadDAO().insertAll(articleRead)
-                Toast.makeText(getApplication(), "Article added to ArticleRead", Toast.LENGTH_SHORT).show()
             }
         }
     }
-
-//    // delete old news from History List 1 week/2 weeks / 1 month
-//    fun deleteOldArticles(){
-////        val timeToLive: Long = DEAD_LINE_TIME * 86400000L
-//        val timeToLive: Long = DEAD_LINE_TIME * 86400000L
-//        val deadLineTime = System.currentTimeMillis() - timeToLive
-//        launch {
-//            ArticleDatabase.invoke(getApplication()).articleReadDAO().deleteOldArticles(deadLineTime)
-//        }
-//    }
 
     // remove from favourite by Article id
     fun removeFromFavourites(context: Context, id: String) {
