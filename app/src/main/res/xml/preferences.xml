@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="paid_version"
-        android:title="Paid version" />
-
     <EditTextPreference
         android:defaultValue="1"
+        android:icon="@android:drawable/ic_menu_recent_history"
         android:inputType="number"
         android:key="api_parse_delaying"
+        android:layout="@layout/font_layout"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="API parsing delay(minutes)" />
 
     <EditTextPreference
         android:defaultValue="10"
+        android:icon="@android:drawable/ic_menu_agenda"
         android:inputType="number"
         android:key="articles_qtt"
+        android:layout="@layout/font_layout"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="Articles list size(articles)" />
 
     <EditTextPreference
         android:defaultValue="7"
+        android:icon="@android:drawable/ic_menu_day"
         android:inputType="number"
         android:key="storing_history_days"
+        android:layout="@layout/font_layout"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="Keeping articles in history(days)" />
