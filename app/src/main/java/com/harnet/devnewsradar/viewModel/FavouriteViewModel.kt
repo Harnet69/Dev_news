@@ -55,8 +55,7 @@ class FavouriteViewModel(application: Application) : BaseViewModel(application) 
         articleRead.imageUrl = favourite.imageUrl
         launch {
             if(!ArticleDatabase.invoke(getApplication()).articleReadDAO().isExists(articleRead.id)){
-                val addToRead = ArticleDatabase.invoke(getApplication()).articleReadDAO().insertAll(articleRead)
-                Toast.makeText(getApplication(), "Article added to ArticleRead $addToRead", Toast.LENGTH_SHORT).show()
+                ArticleDatabase.invoke(getApplication()).articleReadDAO().insertAll(articleRead)
             }
         }
     }
