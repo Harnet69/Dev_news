@@ -21,10 +21,6 @@ class FavouritesListFragment : Fragment() {
     private lateinit var viewModel: FavouritesListViewModel
     lateinit var favouritesListAdapter: FavouritesListAdapter
 
-    companion object {
-        fun newInstance() = FavouritesListFragment()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,7 +59,7 @@ class FavouritesListFragment : Fragment() {
         viewModel.mFavourites.observe(viewLifecycleOwner, Observer { favourites ->
             favourites?.let {
                 favourites_list.visibility = View.VISIBLE
-                favouritesListAdapter.updateFavouritesList(favourites)
+                favouritesListAdapter.updateFavouritesList(favourites.reversed())
             }
         })
 

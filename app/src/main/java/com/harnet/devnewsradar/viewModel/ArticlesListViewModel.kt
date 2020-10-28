@@ -59,7 +59,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
         val timeFromShP: Long? = sharedPrefHelper.getLastUpdateTime()
         var timeToUpd = timeFromShP
         // if user set 0 minutes of API updating
-        if(updateTime != 0L){
+        if(updateTime > 0L){
             timeToUpd = timeFromShP?.plus(convertMinToNanosec(updateTime))
         }
         //make observable variable for time!!!

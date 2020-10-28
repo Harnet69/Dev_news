@@ -5,7 +5,6 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
-import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.model.ArticleDatabase
 import com.harnet.devnewsradar.model.ArticleRead
 import com.harnet.devnewsradar.model.Favourite

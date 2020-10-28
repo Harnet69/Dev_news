@@ -31,10 +31,6 @@ class FavouriteFragment : Fragment() {
     private lateinit var dataBinding: FavouriteFragmentBinding
     private val paletteService = PaletteService()
 
-    companion object {
-        fun newInstance() = FavouriteFragment()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
