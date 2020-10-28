@@ -280,8 +280,12 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
         try {
             // check if value can be converted to Int, if can't - assign 7 as default
             //TODO can be used in paid version functionality
-            articlesToShowInt = articlesToShowFromShP?.toInt() ?: 7
-
+            val articlesToShow = articlesToShowFromShP?.toInt() ?: 7
+            if(articlesToShow <=50){
+                articlesToShowInt = articlesToShow
+            }else{
+                articlesToShowInt = 50
+            }
             Toast.makeText(getApplication(), "Showing $articlesToShowInt articles", Toast.LENGTH_SHORT).show()
         }catch (e: NumberFormatException){
             e.printStackTrace()
