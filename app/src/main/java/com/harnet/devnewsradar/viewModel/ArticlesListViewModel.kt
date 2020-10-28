@@ -172,7 +172,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
                                     // new articles notification
                                     NotificationsHelper(getApplication()).createNotification()
                                     lastArticleId = it.id.toIntOrNull()!!
-                                    // new articles toast
+
                                     mIsSmthNew.postValue(true)
                                 }
                             }
@@ -287,10 +287,13 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
             // check if value can be converted to Int, if can't - assign 7 as default
             //TODO can be used in paid version functionality
             val articlesToShow = articlesToShowFromShP?.toInt() ?: 7
-            if(articlesToShow <=50){
-                articlesToShowInt = articlesToShow
-            }else{
-                articlesToShowInt = 50
+
+            if(articlesToShow > 0){
+                if(articlesToShow <=50){
+                    articlesToShowInt = articlesToShow
+                }else{
+                    articlesToShowInt = 50
+                }
             }
         }catch (e: NumberFormatException){
             e.printStackTrace()

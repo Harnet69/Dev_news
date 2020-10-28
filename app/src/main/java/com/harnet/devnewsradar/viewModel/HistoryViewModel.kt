@@ -10,7 +10,7 @@ import com.harnet.devnewsradar.util.SharedPreferencesHelper
 import kotlinx.coroutines.launch
 import java.lang.NumberFormatException
 
-class HistoryViewModel(application: Application): BaseViewModel(application){
+class HistoryViewModel(application: Application) : BaseViewModel(application) {
     // how long keeping articles were read(in days)
     private var deadLineTime = 7
 
@@ -28,7 +28,8 @@ class HistoryViewModel(application: Application): BaseViewModel(application){
         //delete old articles
         deleteOldArticles()
         launch {
-            val historyList: List<ArticleRead> = ArticleDatabase.invoke(getApplication()).articleReadDAO().getArticles()
+            val historyList: List<ArticleRead> =
+                ArticleDatabase.invoke(getApplication()).articleReadDAO().getArticles()
             retrieveArticle(historyList)
         }
     }
@@ -44,29 +45,33 @@ class HistoryViewModel(application: Application): BaseViewModel(application){
     }
 
     // delete old news from History List 1 week/2 weeks / 1 month
-    private fun deleteOldArticles(){
+    private fun deleteOldArticles() {
         val timeToLive: Long = deadLineTime * 86400000L
         val deadLineTime = System.currentTimeMillis() - timeToLive
         launch {
-            ArticleDatabase.invoke(getApplication()).articleReadDAO().deleteOldArticles(deadLineTime)
+            ArticleDatabase.invoke(getApplication()).articleReadDAO()
+                .deleteOldArticles(deadLineTime)
         }
     }
 
     // handle with SharedPreferences
-    private fun checkDeadLineTime(){
+    private fun checkDeadLineTime() {
         //get value from SharedPreferences
         val daysToDeadLine = sharedPrefHelper.getHistoryKeepingDays()
+
         try {
             // check if value can be converted to Int, if can't - assign 7 as default
             //TODO can be used in paid version functionality
             val daysToDeadLineInt = daysToDeadLine?.toInt() ?: 7
-            deadLineTime = daysToDeadLineInt
-            var days = "days"
+            if (daysToDeadLineInt > 0) {
+                deadLineTime = daysToDeadLineInt
+                var days = "days"
 
-            if(deadLineTime == 1){
-                days = "day"
+                if (deadLineTime == 1) {
+                    days = "day"
+                }
             }
-        }catch (e: NumberFormatException){
+        } catch (e: NumberFormatException) {
             e.printStackTrace()
         }
     }
