@@ -45,4 +45,16 @@ class SharedPreferencesHelper {
     fun getLastUpdateTime(): Long? {
         return prefs?.getLong(UPD_TIME, 0)
     }
+
+    // get a value of paid_version settings
+    fun getIsPaidVersion() = prefs?.getString("paid_version", "")
+
+    // get a value of api_parse_delaying settings
+    fun getApiParseDelaying() = prefs?.getString("api_parse_delaying", "")
+
+    // get a value of articles quantity in ArticleList settings
+    fun getArticleQtt() = prefs?.getString("articles_qtt", "")
+
+    // get a value of quantity day of history storing settings
+    fun getHistoryKeepingDays() = prefs?.getString("storing_history_days", "")
 }

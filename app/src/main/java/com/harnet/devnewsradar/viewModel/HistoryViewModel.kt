@@ -1,15 +1,21 @@
 package com.harnet.devnewsradar.viewModel
 
 import android.app.Application
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
-import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.model.ArticleDatabase
 import com.harnet.devnewsradar.model.ArticleRead
+import com.harnet.devnewsradar.util.SharedPreferencesHelper
 import kotlinx.coroutines.launch
+import java.lang.NumberFormatException
 
 class HistoryViewModel(application: Application): BaseViewModel(application){
-    //TODO FOR SETTING PURPOSES!!! 1 WEEK / 2 WEEK / 1 MONTH
-    val DEAD_LINE_TIME = 7 // in days
+    // how long keeping articles were read(in days)
+    private var deadLineTime = 7
+
+    // helper for SharedPreferences functionality
+    private var sharedPrefHelper = SharedPreferencesHelper(getApplication())
 
     val mArticles = MutableLiveData<List<ArticleRead>>()
     val mIsArticleLoadError = MutableLiveData<Boolean>()
@@ -17,7 +23,8 @@ class HistoryViewModel(application: Application): BaseViewModel(application){
 
     // refresh mArticles with a new data
     fun refresh() {
-        //deleteold articles
+        checkDeadLineTime()
+        //delete old articles
         deleteOldArticles()
         launch {
             val historyList: List<ArticleRead> = ArticleDatabase.invoke(getApplication()).articleReadDAO().getArticles()
@@ -36,11 +43,26 @@ class HistoryViewModel(application: Application): BaseViewModel(application){
     }
 
     // delete old news from History List 1 week/2 weeks / 1 month
-    fun deleteOldArticles(){
-        val timeToLive: Long = DEAD_LINE_TIME * 86400000L
+    private fun deleteOldArticles(){
+        val timeToLive: Long = deadLineTime * 86400000L
         val deadLineTime = System.currentTimeMillis() - timeToLive
         launch {
             ArticleDatabase.invoke(getApplication()).articleReadDAO().deleteOldArticles(deadLineTime)
+        }
+    }
+
+    private fun checkDeadLineTime(){
+        //get value from SharedPreferences
+        val daysToDeadLine = sharedPrefHelper.getHistoryKeepingDays()
+        try {
+            // check if value can be converted to Int, if can't - assign 7 as default
+            //TODO can be used in paid version functionality
+            val daysToDeadLineInt = daysToDeadLine?.toInt() ?: 7
+            deadLineTime = daysToDeadLineInt
+            Toast.makeText(getApplication(), "History keeping $deadLineTime days", Toast.LENGTH_SHORT).show()
+            Log.i("HistoryKeepsDays", "checkDeadLineTime: $deadLineTime")
+        }catch (e: NumberFormatException){
+            e.printStackTrace()
         }
     }
 }

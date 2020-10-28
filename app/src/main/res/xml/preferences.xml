@@ -3,13 +3,13 @@
 
     <SwitchPreference
         android:defaultValue="false"
-        android:key="switch_preference_1"
+        android:key="paid_version"
         android:title="Paid version" />
 
     <EditTextPreference
         android:defaultValue="1"
         android:inputType="number"
-        android:key="api_parse_delay"
+        android:key="api_parse_delaying"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="API parsing delay(minutes)" />
@@ -17,7 +17,7 @@
     <EditTextPreference
         android:defaultValue="10"
         android:inputType="number"
-        android:key="qtt_articles"
+        android:key="articles_qtt"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="Articles list size(articles)" />
@@ -25,7 +25,7 @@
     <EditTextPreference
         android:defaultValue="7"
         android:inputType="number"
-        android:key="storing_history"
+        android:key="storing_history_days"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="Keeping articles in history(days)" />
