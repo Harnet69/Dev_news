@@ -6,9 +6,7 @@ import android.content.Intent
 import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -43,6 +41,9 @@ class FavouriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // switch on a menu
+        setHasOptionsMenu(true)
+
         viewModel = ViewModelProvider(this).get(FavouriteViewModel::class.java)
         // get ID from Articles list adapter, receive arguments from sending fragment
         arguments?.let {
@@ -55,6 +56,12 @@ class FavouriteFragment : Fragment() {
 
         observeViewModel()
 
+    }
+
+    // options menu
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.detail_menu, menu)
     }
 
     // observes article object and binds its data to view elements
