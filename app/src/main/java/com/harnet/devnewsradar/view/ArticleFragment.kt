@@ -66,6 +66,17 @@ class ArticleFragment : Fragment() {
         inflater.inflate(R.menu.detail_menu, menu)
     }
 
+    // click listener for menu items
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.action_send_sms ->
+                Toast.makeText(context, "Send SMS", Toast.LENGTH_SHORT).show()
+            R.id.action_share ->
+                Toast.makeText(context, "Share article", Toast.LENGTH_SHORT).show()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     // observes article object and binds its data to view elements
     private fun observeViewModel() {
         viewModel.mArticleLiveData.observe(viewLifecycleOwner, Observer { article ->

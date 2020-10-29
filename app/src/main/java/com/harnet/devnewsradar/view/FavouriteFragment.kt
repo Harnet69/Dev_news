@@ -64,6 +64,17 @@ class FavouriteFragment : Fragment() {
         inflater.inflate(R.menu.detail_menu, menu)
     }
 
+    // click listener for menu items
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.action_send_sms ->
+                Toast.makeText(context, "Send SMS", Toast.LENGTH_SHORT).show()
+            R.id.action_share ->
+                Toast.makeText(context, "Share article", Toast.LENGTH_SHORT).show()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     // observes article object and binds its data to view elements
     private fun observeViewModel() {
         viewModel.mFavoriteLiveData.observe(viewLifecycleOwner, Observer { article ->
@@ -86,7 +97,14 @@ class FavouriteFragment : Fragment() {
 
                 // color URL link
                 it.imageUrl.let { url ->
-                    context?.let { it1 -> paletteService.setColorToUrl(it1, url, null, dataBinding) }
+                    context?.let { it1 ->
+                        paletteService.setColorToUrl(
+                            it1,
+                            url,
+                            null,
+                            dataBinding
+                        )
+                    }
                 }
                 // underscore URL address
                 favourite_url.paintFlags = favourite_url.paintFlags or Paint.UNDERLINE_TEXT_FLAG
@@ -113,13 +131,13 @@ class FavouriteFragment : Fragment() {
 
     // open a website by URL from view value
     private fun openWebsite(view: TextView?) {
-            val webPage = view?.text.toString()
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(webPage))
-            try {
-                startActivity(browserIntent)
-            } catch (e: Exception) {
-                Toast.makeText(context, "Wrong URL", Toast.LENGTH_SHORT).show()
-            }
+        val webPage = view?.text.toString()
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(webPage))
+        try {
+            startActivity(browserIntent)
+        } catch (e: Exception) {
+            Toast.makeText(context, "Wrong URL", Toast.LENGTH_SHORT).show()
+        }
     }
 
     // handle with favourites
