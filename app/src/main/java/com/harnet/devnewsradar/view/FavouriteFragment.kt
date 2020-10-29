@@ -67,9 +67,6 @@ class FavouriteFragment : Fragment() {
     // click listener for menu items
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_send_sms -> {
-                Toast.makeText(context, "Send SMS", Toast.LENGTH_SHORT).show()
-            }
             R.id.action_share -> {
                 // ACTION_SEND generic flag for sending
                 val intent = Intent(Intent.ACTION_SEND)
@@ -79,7 +76,6 @@ class FavouriteFragment : Fragment() {
                 intent.putExtra(Intent.EXTRA_STREAM, viewModel.mFavoriteLiveData.value?.imageUrl)
                 // give user the possibility to chose the application for getting this data
                 startActivity(Intent.createChooser(intent, "Share with:"))
-//                Toast.makeText(context, "Share article", Toast.LENGTH_SHORT).show()
             }
         }
         return super.onOptionsItemSelected(item)

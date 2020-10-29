@@ -69,10 +69,6 @@ class ArticleFragment : Fragment() {
     // click listener for menu items
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_send_sms -> {
-                Toast.makeText(context, "Send SMS", Toast.LENGTH_SHORT).show()
-
-            }
             R.id.action_share -> {
                 // ACTION_SEND generic flag for sending
                 val intent = Intent(Intent.ACTION_SEND)
