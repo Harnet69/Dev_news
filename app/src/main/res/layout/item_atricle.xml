@@ -16,10 +16,10 @@
         <LinearLayout
             android:id="@+id/article_details"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:goToArticle="@{article.uuid}"
-            android:gravity="center_vertical"
             android:orientation="vertical"
+            android:layout_gravity="center_vertical"
             android:paddingStart="4dp"
             android:paddingTop="4dp"
             android:paddingEnd="4dp">
@@ -41,10 +41,10 @@
                 <TextView
                     android:id="@+id/author_label"
                     style="@style/Text"
-                    android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Author: " />
+                    android:text="Author: "
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/articleAuthor_in_list"

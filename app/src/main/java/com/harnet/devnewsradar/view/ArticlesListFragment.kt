@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.adapter.ArticlesListAdapter
@@ -45,6 +46,9 @@ class ArticlesListFragment : Fragment() {
             articlesListAdapter.setHasStableIds(true)
             adapter = articlesListAdapter
         }
+
+        // add separation line between items
+        articles_list.addItemDecoration(DividerItemDecoration(articles_list.context, DividerItemDecoration.VERTICAL))
 
         // click listener for favourites btn
         fab_btn.setOnClickListener {
