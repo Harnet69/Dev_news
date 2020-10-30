@@ -124,6 +124,7 @@ class FavouriteFragment : Fragment() {
                 loadingView_ProgressBar.visibility = View.GONE
                 favourite_image.visibility = View.VISIBLE
                 isFavourite.visibility = View.VISIBLE
+                favourite_details_block.visibility = View.VISIBLE
 
             }
         })
