@@ -87,7 +87,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
 
                 Toast.makeText(
                     getApplication(),
-                    "Freeware. " + timeToRefreshFromAPI(timeToUpd) + " left",
+                    timeToRefreshFromAPI(timeToUpd) + " to update left",
                     Toast.LENGTH_SHORT
                 )
                     .show()
