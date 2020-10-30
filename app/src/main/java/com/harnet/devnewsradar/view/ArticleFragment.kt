@@ -57,6 +57,7 @@ class ArticleFragment : Fragment() {
                 viewModel.fetch(view.context, articleId.toString(), isFavourite)
             }
         }
+
         observeViewModel()
     }
 
@@ -122,8 +123,10 @@ class ArticleFragment : Fragment() {
                     // set favourite image
                     observeIsFav()
                     makeFavourite(article_favourite, article)
+
                     loadingView_ProgressBar.visibility = View.GONE
                     article_image.visibility = View.VISIBLE
+                    article_details_block.visibility = View.VISIBLE
                 }
             })
         }
