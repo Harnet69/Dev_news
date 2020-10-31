@@ -9,7 +9,7 @@ interface ArticleReadDAO {
     @Insert
     suspend fun insertAll(vararg articleRead: ArticleRead): List<Long>
 
-    @Query("SELECT * FROM articleRead")
+    @Query("SELECT * FROM articleRead ORDER BY timeWhenRead DESC")
     suspend fun getArticles(): List<ArticleRead>
 
     @Query("DELETE FROM articleRead")

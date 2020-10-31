@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.favourite_fragment.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class FavouriteFragment : Fragment() {
+class   FavouriteFragment : Fragment() {
     private lateinit var viewModel: FavouriteViewModel
     private lateinit var dataBinding: FavouriteFragmentBinding
     private val paletteService = PaletteService()
