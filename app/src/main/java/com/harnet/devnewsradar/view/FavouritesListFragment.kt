@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.adapter.FavouritesListAdapter
@@ -41,6 +42,9 @@ class FavouritesListFragment : Fragment() {
             favouritesListAdapter.setHasStableIds(true)
             adapter = favouritesListAdapter
         }
+
+        // add separation line between items
+        favourites_list.addItemDecoration(DividerItemDecoration(favourites_list.context, DividerItemDecoration.VERTICAL))
 
         // Swiper refresh listener(screen refreshing process)
         refreshLayout.setOnRefreshListener {

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.adapter.ArticlesListAdapter
@@ -40,6 +41,10 @@ class HistoryFragment : Fragment() {
             historyListAdapter.setHasStableIds(true)
             adapter = historyListAdapter
         }
+
+        // add separation line between items
+        history_list.addItemDecoration(DividerItemDecoration(history_list.context, DividerItemDecoration.VERTICAL))
+
         observeViewModel()
     }
 
