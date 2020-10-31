@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -19,6 +20,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.harnet.devnewsradar.R
+import com.harnet.devnewsradar.model.ArticleDatabase
 import com.harnet.devnewsradar.view.ArticlesListFragmentDirections
 import java.text.SimpleDateFormat
 import java.util.*
@@ -88,11 +90,13 @@ fun goToArticle(view: View, articleUuid: Int?) {
 }
 
 // go to website from history list
-@BindingAdapter("android:goToUrlFromHistory")
-fun goToUrlFromHistory(view: View, articleUrl: String?) {
+@BindingAdapter("android:goToUrlFromHistory", "android:articleId")
+fun goToUrlFromHistory(view: View, articleUrl: String?, articleId: String) {
     view.setOnClickListener {
         val browserIntent: Intent = Intent(Intent.ACTION_VIEW, Uri.parse(articleUrl))
         try {
+            val set = ArticleDatabase.invoke(view.context).articleReadDAO().updateTimeWhenRead(articleId, System.currentTimeMillis())
+            Log.i("setNewTime", "goToUrlFromHistory: $set")
             startActivity(view.context, browserIntent, null)
         } catch (e: Exception) {
             Toast.makeText(view.context, "Wrong URL", Toast.LENGTH_SHORT).show()

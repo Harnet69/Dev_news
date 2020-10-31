@@ -85,7 +85,11 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
 
         launch {
             if(!ArticleDatabase.invoke(getApplication()).articleReadDAO().isExists(articleRead.id)){
-                val addToRead = ArticleDatabase.invoke(getApplication()).articleReadDAO().insertAll(articleRead)
+                // add the article to have been read list
+                ArticleDatabase.invoke(getApplication()).articleReadDAO().insertAll(articleRead)
+            }else{
+                // set to the readArticle new time of reading
+                ArticleDatabase.invoke(getApplication()).articleReadDAO().updateTimeWhenRead(articleRead.id, articleRead.timeWhenRead)
             }
         }
     }

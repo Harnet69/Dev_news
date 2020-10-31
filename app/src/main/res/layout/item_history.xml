@@ -17,6 +17,7 @@
             android:id="@+id/article_details"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:articleId="@{article.id}"
             android:goToUrlFromHistory="@{article.url}"
             android:gravity="center_vertical"
             android:layout_gravity="center_vertical"

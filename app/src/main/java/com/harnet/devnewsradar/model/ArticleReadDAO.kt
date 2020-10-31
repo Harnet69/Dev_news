@@ -23,4 +23,7 @@ interface ArticleReadDAO {
 
     @Query("SELECT EXISTS(SELECT * FROM articleRead WHERE id = :id)")
     fun isExists(id: String): Boolean
+
+    @Query("UPDATE ArticleRead SET timeWhenRead = :timeWhenRead WHERE id = :articleId")
+    fun updateTimeWhenRead(articleId:String, timeWhenRead: Long?): Int
 }

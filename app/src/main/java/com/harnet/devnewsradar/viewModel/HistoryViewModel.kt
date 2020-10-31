@@ -44,7 +44,7 @@ class HistoryViewModel(application: Application) : BaseViewModel(application) {
         mIsLoading.postValue(false)
     }
 
-    // delete old news from History List 1 week/2 weeks / 1 month
+    // delete old news from History
     private fun deleteOldArticles() {
         val timeToLive: Long = deadLineTime * 86400000L
         val deadLineTime = System.currentTimeMillis() - timeToLive
