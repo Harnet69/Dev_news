@@ -3,6 +3,7 @@ package com.harnet.devnewsradar.adapter
 import android.graphics.Typeface
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +13,8 @@ import com.harnet.devnewsradar.model.Article
 
 class ArticlesListAdapter(val articlesList: ArrayList<Article>) :
     RecyclerView.Adapter<ArticlesListAdapter.ArticleViewHolder>() {
+    //new articles
+    private var newParsedArticlesList = ArrayList<Article>()
 
     //for updating information from a backend
     fun updateArticlesList(newArticlesList: List<Article>) {
@@ -44,11 +47,24 @@ class ArticlesListAdapter(val articlesList: ArrayList<Article>) :
 
         //attach article to holder by DataBinding approach to variable in the layout
         holder.view.article = articlesList[position]
+
+
+        Log.i("ArticlesListNew", "New: " + newParsedArticlesList.size)
+
+        // mark articles were read already
         if (articlesList[position].isWasRead) {
             holder.view.articleTitleInList.setTypeface(
                 holder.view.articleTitleInList.typeface,
                 Typeface.ITALIC
             )
+        }
+        // mark new articles
+        for(newArticle in newParsedArticlesList){
+            if(articlesList[position].id.equals(newArticle.id)) {
+                //TODO Here you should implement NEW button appearance
+                holder.view.newArticle.visibility = View.VISIBLE
+                Log.i("newArtile", "onBindViewHolder: " + articlesList[position].title)
+            }
         }
     }
 
@@ -59,9 +75,10 @@ class ArticlesListAdapter(val articlesList: ArrayList<Article>) :
         return articlesList.get(position).id.toLong()
     }
 
+    // get new articles
     private fun getNewArticles(articlesList: ArrayList<Article>, newArticlesList: ArrayList<Article>
     ) {
-        var newParsedArticlesList = newArticlesList.toList() as ArrayList<Article>
+        newParsedArticlesList = newArticlesList.toList() as ArrayList<Article>
 
         for (article in articlesList) {
             for (newArticle in newArticlesList) {
@@ -70,6 +87,5 @@ class ArticlesListAdapter(val articlesList: ArrayList<Article>) :
                 }
             }
         }
-        Log.i("ArticlesListNew", "New: " + newParsedArticlesList.size)
     }
 }
