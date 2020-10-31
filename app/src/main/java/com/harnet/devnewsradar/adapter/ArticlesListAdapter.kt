@@ -15,6 +15,11 @@ class ArticlesListAdapter(val articlesList: ArrayList<Article>) :
 
     //for updating information from a backend
     fun updateArticlesList(newArticlesList: List<Article>) {
+        // get new parsed articles
+        if (articlesList.size > 0) {
+            getNewArticles(articlesList, newArticlesList as ArrayList<Article>)
+        }
+
         articlesList.clear()
         articlesList.addAll(newArticlesList)
         //reset RecycleView and recreate a list
@@ -39,8 +44,11 @@ class ArticlesListAdapter(val articlesList: ArrayList<Article>) :
 
         //attach article to holder by DataBinding approach to variable in the layout
         holder.view.article = articlesList[position]
-        if(articlesList[position].isWasRead){
-            holder.view.articleTitleInList.setTypeface(holder.view.articleTitleInList.typeface, Typeface.ITALIC)
+        if (articlesList[position].isWasRead) {
+            holder.view.articleTitleInList.setTypeface(
+                holder.view.articleTitleInList.typeface,
+                Typeface.ITALIC
+            )
         }
     }
 
@@ -49,5 +57,19 @@ class ArticlesListAdapter(val articlesList: ArrayList<Article>) :
     //Fix blinking RecyclerView
     override fun getItemId(position: Int): Long {
         return articlesList.get(position).id.toLong()
+    }
+
+    private fun getNewArticles(articlesList: ArrayList<Article>, newArticlesList: ArrayList<Article>
+    ) {
+        var newParsedArticlesList = newArticlesList.toList() as ArrayList<Article>
+
+        for (article in articlesList) {
+            for (newArticle in newArticlesList) {
+                if (article.id.equals(newArticle.id)) {
+                    newParsedArticlesList.remove(newArticle)
+                }
+            }
+        }
+        Log.i("ArticlesListNew", "New: " + newParsedArticlesList.size)
     }
 }
