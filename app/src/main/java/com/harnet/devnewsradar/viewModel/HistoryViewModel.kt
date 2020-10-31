@@ -30,6 +30,7 @@ class HistoryViewModel(application: Application) : BaseViewModel(application) {
         launch {
             val historyList: List<ArticleRead> =
                 ArticleDatabase.invoke(getApplication()).articleReadDAO().getArticles()
+            Log.i("HistoryListRefreshing", "refresh: ")
             retrieveArticle(historyList)
         }
     }

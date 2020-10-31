@@ -95,8 +95,8 @@ fun goToUrlFromHistory(view: View, articleUrl: String?, articleId: String) {
     view.setOnClickListener {
         val browserIntent: Intent = Intent(Intent.ACTION_VIEW, Uri.parse(articleUrl))
         try {
-            val set = ArticleDatabase.invoke(view.context).articleReadDAO().updateTimeWhenRead(articleId, System.currentTimeMillis())
-            Log.i("setNewTime", "goToUrlFromHistory: $set")
+            // set new time of article reading
+            ArticleDatabase.invoke(view.context).articleReadDAO().updateTimeWhenRead(articleId, System.currentTimeMillis())
             startActivity(view.context, browserIntent, null)
         } catch (e: Exception) {
             Toast.makeText(view.context, "Wrong URL", Toast.LENGTH_SHORT).show()

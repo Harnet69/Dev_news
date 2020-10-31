@@ -79,4 +79,10 @@ class HistoryFragment : Fragment() {
             }
         })
     }
+
+    // refresh history list after reading an article from it
+    override fun onResume() {
+        super.onResume()
+        viewModel.refresh()
+    }
 }
