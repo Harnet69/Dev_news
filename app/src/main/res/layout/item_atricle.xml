@@ -17,9 +17,9 @@
             android:id="@+id/article_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:goToArticle="@{article.uuid}"
             android:orientation="vertical"
-            android:layout_gravity="center_vertical"
             android:paddingStart="4dp"
             android:paddingTop="4dp"
             android:paddingEnd="4dp">
@@ -56,13 +56,13 @@
 
                 <TextView
                     android:id="@+id/new_article"
-                    style="@style/Text"
-                    android:layout_width="0dp"
+                    style="@style/NEW"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textColor="@android:color/holo_green_dark"
                     android:text="NEW"
-                    android:visibility="invisible"/>
+                    android:textAlignment="center"
+                    android:visibility="invisible" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
