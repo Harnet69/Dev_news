@@ -1,5 +1,7 @@
 package com.harnet.devnewsradar.view
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -17,6 +19,7 @@ import com.harnet.devnewsradar.adapter.ArticlesListAdapter
 import com.harnet.devnewsradar.viewModel.ArticlesListViewModel
 import com.harnet.devnewsradar.viewModel.FavouritesListViewModel
 import kotlinx.android.synthetic.main.fragment_articles_list.*
+import java.io.IOException
 
 class ArticlesListFragment : Fragment() {
     private lateinit var viewModel: ArticlesListViewModel
@@ -157,8 +160,17 @@ class ArticlesListFragment : Fragment() {
     // show About app dialog window
     private fun showAboutDialog(){
         if(!viewModel.getIsAboutShowed()!!){
-            //TODO here is Alert dialog with about information
-            Toast.makeText(context, "Modal Windows", Toast.LENGTH_SHORT).show()
+            AlertDialog.Builder(context)
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .setTitle("About the app")
+                .setMessage("This is the best app, provides fresh news of software & tech industry")
+                .setPositiveButton("I've got it") { dialogInterface: DialogInterface, i: Int ->
+                    try {
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }.show()
+
             viewModel.setIsAboutShowed(true)
         }
     }
