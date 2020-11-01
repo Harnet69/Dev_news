@@ -38,6 +38,9 @@ class ArticlesListFragment : Fragment() {
         favouritesListViewModel = ViewModelProvider(this).get(FavouritesListViewModel::class.java)
         articlesListAdapter = ArticlesListAdapter(arrayListOf())
         viewModel = ViewModelProvider(this).get(ArticlesListViewModel::class.java)
+
+        showAboutDialog()
+
         viewModel.refresh()
 
         articles_list.apply {
@@ -149,5 +152,14 @@ class ArticlesListFragment : Fragment() {
                 }
             }
         })
+    }
+
+    // show About app dialog window
+    private fun showAboutDialog(){
+        if(!viewModel.getIsAboutShowed()!!){
+            //TODO here is Alert dialog with about information
+            Toast.makeText(context, "Modal Windows", Toast.LENGTH_SHORT).show()
+            viewModel.setIsAboutShowed(true)
+        }
     }
 }

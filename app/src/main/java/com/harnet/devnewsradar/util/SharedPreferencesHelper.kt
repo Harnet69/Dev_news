@@ -2,12 +2,14 @@ package com.harnet.devnewsradar.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 
 class SharedPreferencesHelper {
     companion object {
         private const val UPD_TIME = "Update time"
+        private const val IS_ABOUT_SHOWED = "Is about showed"
         private var prefs: SharedPreferences? = null
 
         @Volatile
@@ -45,6 +47,16 @@ class SharedPreferencesHelper {
     fun getLastUpdateTime(): Long? {
         return prefs?.getLong(UPD_TIME, 0)
     }
+
+    // set is About app was showed
+    fun setIsAboutShowed(isShowed: Boolean){
+        prefs?.edit(commit = true) {
+            putBoolean(IS_ABOUT_SHOWED, isShowed)
+        }
+    }
+
+    // get is About app was showed
+    fun getIsAboutShowed() = prefs?.getBoolean(IS_ABOUT_SHOWED, false)
 
     // get a value of paid_version settings
     fun getIsPaidVersion() = prefs?.getString("paid_version", "")

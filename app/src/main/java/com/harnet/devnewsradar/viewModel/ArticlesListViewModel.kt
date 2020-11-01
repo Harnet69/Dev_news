@@ -313,4 +313,14 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
             e.printStackTrace()
         }
     }
+
+    // get if About modal window was showed
+    fun getIsAboutShowed(): Boolean?{
+        return sharedPrefHelper.getIsAboutShowed()
+    }
+
+    // set if modal window with About app was showed
+    fun setIsAboutShowed(isShowed: Boolean){
+        sharedPrefHelper.setIsAboutShowed(isShowed)
+    }
 }
