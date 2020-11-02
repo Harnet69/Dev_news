@@ -21,6 +21,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.model.ArticleDatabase
+import com.harnet.devnewsradar.service.OnSingleClickListenerService
 import com.harnet.devnewsradar.view.ArticlesListFragmentDirections
 import java.text.SimpleDateFormat
 import java.util.*
@@ -77,7 +78,12 @@ fun loadBindingImage(view: ImageView, url: String?) {
 // transition to an article detail page
 @BindingAdapter("android:goToArticle")
 fun goToArticle(view: View, articleUuid: Int?) {
-    view.setOnClickListener {
+    // prevent a crash when two items were clicked in the same time
+    fun View.setOnSingleClickListener(l: (View) -> Unit) {
+        setOnClickListener(OnSingleClickListenerService(l))
+    }
+
+    view.setOnSingleClickListener{
         // navigate to appropriate detail fragment
         val action =
             ArticlesListFragmentDirections.actionArticlesListFragmentToArticleFragment()

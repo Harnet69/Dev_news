@@ -1,19 +1,12 @@
 package com.harnet.devnewsradar.adapter
 
-import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView.OnItemClickListener
-import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.databinding.ItemHistoryBinding
 import com.harnet.devnewsradar.model.ArticleRead
-
 
 class HistoryListAdapter(val articlesList: ArrayList<ArticleRead>) :
     RecyclerView.Adapter<HistoryListAdapter.ArticleViewHolder>() {

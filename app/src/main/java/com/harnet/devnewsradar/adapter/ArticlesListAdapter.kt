@@ -1,7 +1,6 @@
 package com.harnet.devnewsradar.adapter
 
 import android.graphics.Typeface
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,10 +46,6 @@ class ArticlesListAdapter(val articlesList: ArrayList<Article>) :
 
         //attach article to holder by DataBinding approach to variable in the layout
         holder.view.article = articlesList[position]
-
-
-        Log.i("ArticlesListNew", "New: " + newParsedArticlesList.size)
-
         // mark articles were read already
         if (articlesList[position].isWasRead) {
             holder.view.articleTitleInList.setTypeface(
@@ -58,25 +53,26 @@ class ArticlesListAdapter(val articlesList: ArrayList<Article>) :
                 Typeface.ITALIC
             )
         }
-        // mark new articles
-        for(newArticle in newParsedArticlesList){
-            if(articlesList[position].id.equals(newArticle.id)) {
-                //TODO Here you should implement NEW button appearance
+
+        // mark newly parsed articles
+        for (newArticle in newParsedArticlesList) {
+            if (articlesList[position].id.equals(newArticle.id)) {
+                //NEW button appearance
                 holder.view.newArticle.visibility = View.VISIBLE
-                Log.i("newArtile", "onBindViewHolder: " + articlesList[position].title)
             }
         }
     }
 
     class ArticleViewHolder(var view: ItemAtricleBinding) : RecyclerView.ViewHolder(view.root)
 
-    //Fix blinking RecyclerView
+    // fix blinking RecyclerView
     override fun getItemId(position: Int): Long {
         return articlesList.get(position).id.toLong()
     }
 
     // get new articles
-    private fun getNewArticles(articlesList: ArrayList<Article>, newArticlesList: ArrayList<Article>
+    private fun getNewArticles(
+        articlesList: ArrayList<Article>, newArticlesList: ArrayList<Article>
     ) {
         newParsedArticlesList = newArticlesList.toList() as ArrayList<Article>
 

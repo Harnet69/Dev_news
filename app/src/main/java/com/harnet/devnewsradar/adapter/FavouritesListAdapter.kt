@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.databinding.ItemFavouriteBinding
 import com.harnet.devnewsradar.model.Favourite
+import com.harnet.devnewsradar.service.OnSingleClickListenerService
 import com.harnet.devnewsradar.view.FavouritesListFragmentDirections
 import com.harnet.devnewsradar.viewModel.FavouritesListViewModel
 import kotlinx.android.synthetic.main.item_favourite.view.*
@@ -88,7 +89,7 @@ class FavouritesListAdapter(
             }
         }
         //add click listener to article details item and bind it with detail page
-        holder.view.favouriteDetails.setOnClickListener {
+        holder.view.favouriteDetails.setOnSingleClickListener {
             // navigate to appropriate detail fragment
             val action =
                 FavouritesListFragmentDirections.actionFavouritesListFragmentToFavouriteFragment()
@@ -104,5 +105,14 @@ class FavouritesListAdapter(
     //Fix blinking RecyclerView
     override fun getItemId(position: Int): Long {
         return favouritesList.get(position).id.toLong()
+    }
+
+    // prevent a crash when two items were clicked in the same time
+    fun View.setOnSingleClickListener(l: View.OnClickListener) {
+        setOnClickListener(OnSingleClickListenerService(l))
+    }
+
+    fun View.setOnSingleClickListener(l: (View) -> Unit) {
+        setOnClickListener(OnSingleClickListenerService(l))
     }
 }
