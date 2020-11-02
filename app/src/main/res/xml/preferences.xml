@@ -29,5 +29,13 @@
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="Keeping articles in history(days)" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:icon="@drawable/ic_bed_time"
+        android:layout="@layout/switch_layout"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:key="dark_theme"
+        android:title="Dark mode" />
 
 </PreferenceScreen>

@@ -164,7 +164,7 @@ class ArticlesListFragment : Fragment() {
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .setTitle("About the app")
                 .setMessage("This is the best app, provides fresh news of software & tech industry")
-                .setPositiveButton("I've got it") { dialogInterface: DialogInterface, i: Int ->
+                .setPositiveButton("Got it") { dialogInterface: DialogInterface, i: Int ->
                     try {
                     } catch (e: IOException) {
                         e.printStackTrace()
