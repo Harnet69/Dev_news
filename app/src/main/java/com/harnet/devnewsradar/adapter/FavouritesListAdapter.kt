@@ -88,16 +88,6 @@ class FavouritesListAdapter(
                 }
             }
         }
-        //add click listener to article details item and bind it with detail page
-        holder.view.favouriteDetails.setOnSingleClickListener {
-            // navigate to appropriate detail fragment
-            val action =
-                FavouritesListFragmentDirections.actionFavouritesListFragmentToFavouriteFragment()
-            // send article id to ArticleFragment
-            action.articleId = favouritesList[position].uuid
-            action.isFavourite = true
-            Navigation.findNavController(it).navigate(action)
-        }
     }
 
     class FavouritesViewHolder(var view: ItemFavouriteBinding) : RecyclerView.ViewHolder(view.root)
@@ -105,14 +95,5 @@ class FavouritesListAdapter(
     //Fix blinking RecyclerView
     override fun getItemId(position: Int): Long {
         return favouritesList.get(position).id.toLong()
-    }
-
-    // prevent a crash when two items were clicked in the same time
-    fun View.setOnSingleClickListener(l: View.OnClickListener) {
-        setOnClickListener(OnSingleClickListenerService(l))
-    }
-
-    fun View.setOnSingleClickListener(l: (View) -> Unit) {
-        setOnClickListener(OnSingleClickListenerService(l))
     }
 }

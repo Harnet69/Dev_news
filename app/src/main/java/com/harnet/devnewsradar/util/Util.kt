@@ -23,6 +23,7 @@ import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.model.ArticleDatabase
 import com.harnet.devnewsradar.service.OnSingleClickListenerService
 import com.harnet.devnewsradar.view.ArticlesListFragmentDirections
+import com.harnet.devnewsradar.view.FavouritesListFragmentDirections
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -83,7 +84,7 @@ fun goToArticle(view: View, articleUuid: Int?) {
         setOnClickListener(OnSingleClickListenerService(l))
     }
 
-    view.setOnSingleClickListener{
+    view.setOnSingleClickListener {
         // navigate to appropriate detail fragment
         val action =
             ArticlesListFragmentDirections.actionArticlesListFragmentToArticleFragment()
@@ -95,6 +96,25 @@ fun goToArticle(view: View, articleUuid: Int?) {
     }
 }
 
+// go to an favourite article detail page
+@BindingAdapter("android:goToFavourite")
+fun goToFavourite(view: View, favouriteUuid: Int) {
+    // prevent a crash when two items were clicked in the same time
+    fun View.setOnSingleClickListener(l: (View) -> Unit) {
+        setOnClickListener(OnSingleClickListenerService(l))
+    }
+
+    view.setOnSingleClickListener {
+        // navigate to appropriate detail fragment
+        val action =
+            FavouritesListFragmentDirections.actionFavouritesListFragmentToFavouriteFragment()
+        // send article id to ArticleFragment
+        action.articleId = favouriteUuid
+        action.isFavourite = true
+        Navigation.findNavController(it).navigate(action)
+    }
+}
+
 // go to website from history list
 @BindingAdapter("android:goToUrlFromHistory", "android:articleId")
 fun goToUrlFromHistory(view: View, articleUrl: String?, articleId: String) {
@@ -102,7 +122,8 @@ fun goToUrlFromHistory(view: View, articleUrl: String?, articleId: String) {
         val browserIntent: Intent = Intent(Intent.ACTION_VIEW, Uri.parse(articleUrl))
         try {
             // set new time of article reading
-            ArticleDatabase.invoke(view.context).articleReadDAO().updateTimeWhenRead(articleId, System.currentTimeMillis())
+            ArticleDatabase.invoke(view.context).articleReadDAO()
+                .updateTimeWhenRead(articleId, System.currentTimeMillis())
             startActivity(view.context, browserIntent, null)
         } catch (e: Exception) {
             Toast.makeText(view.context, "Wrong URL", Toast.LENGTH_SHORT).show()
@@ -116,5 +137,5 @@ fun getDateTime(view: TextView, time: Long) {
     val pattern = "yyyy-MM-dd HH:mm:ss"
     val simpleDateFormat = SimpleDateFormat(pattern, Locale.UK)
     val date = simpleDateFormat.format(Date(time))
-    view.text =  date
+    view.text = date
 }
