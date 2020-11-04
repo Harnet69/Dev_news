@@ -17,6 +17,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // change page background
-        listView.setBackgroundResource(R.drawable.bgnd)
+//        listView.setBackgroundResource(R.drawable.bgnd)
     }
 }

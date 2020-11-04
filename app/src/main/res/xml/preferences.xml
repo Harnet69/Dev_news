@@ -1,41 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <EditTextPreference
-        android:defaultValue="1"
-        android:icon="@android:drawable/ic_menu_recent_history"
-        android:inputType="number"
-        android:key="api_parse_delaying"
-        android:layout="@layout/font_layout"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="Updating news frequency(minutes)" />
+    <PreferenceCategory android:title="@string/articles">
 
-    <EditTextPreference
-        android:defaultValue="10"
-        android:icon="@android:drawable/ic_menu_agenda"
-        android:inputType="number"
-        android:key="articles_qtt"
-        android:layout="@layout/font_layout"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="Articles list size(articles)" />
+        <EditTextPreference
+            android:defaultValue="1"
+            android:icon="@drawable/ic_history_time"
+            android:inputType="number"
+            android:key="api_parse_delaying"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/updating_frequency" />
 
-    <EditTextPreference
-        android:defaultValue="7"
-        android:icon="@android:drawable/ic_menu_day"
-        android:inputType="number"
-        android:key="storing_history_days"
-        android:layout="@layout/font_layout"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="Keeping articles in history(days)" />
-    <SwitchPreference
-        android:defaultValue="false"
-        android:icon="@drawable/ic_bed_time"
-        android:layout="@layout/switch_layout"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:key="dark_theme"
-        android:title="Dark mode" />
+        <EditTextPreference
+            android:defaultValue="10"
+            android:icon="@drawable/ic_list"
+            android:inputType="number"
+            android:key="articles_qtt"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/articles_list_size" />
+
+        <EditTextPreference
+            android:defaultValue="7"
+            android:icon="@drawable/ic_history_days"
+            android:inputType="number"
+            android:key="storing_history_days"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/keeping_in_history" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Notifications">
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:icon="@drawable/ic_notification"
+            android:key="notification"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/new_articles" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Appearance">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_bed_time"
+            android:key="dark_theme"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/dark_mode" />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>
