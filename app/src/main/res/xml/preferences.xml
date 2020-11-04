@@ -45,7 +45,7 @@
         <DropDownPreference
             android:entries="@array/theme_entries"
             android:entryValues="@array/entry_values"
-            android:key="drop_down_preference"
+            android:key="screen_background"
             android:icon="@drawable/ic_bgnd"
             android:title="@string/background"/>
 

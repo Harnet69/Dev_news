@@ -75,4 +75,7 @@ class SharedPreferencesHelper {
 
     // get is article preview image parsing On/Off
     fun getIsPreviewImageParsing() = prefs?.getBoolean("article_preview_image", true)
+
+    // get background color
+    fun getBackgroundColor() = prefs?.getString("screen_background", "1")
 }

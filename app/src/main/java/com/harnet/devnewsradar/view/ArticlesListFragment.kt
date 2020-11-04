@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,6 +17,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.adapter.ArticlesListAdapter
+import com.harnet.devnewsradar.databinding.FragmentArticleBinding
+import com.harnet.devnewsradar.databinding.FragmentArticlesListBinding
+import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.viewModel.ArticlesListViewModel
 import com.harnet.devnewsradar.viewModel.FavouritesListViewModel
 import kotlinx.android.synthetic.main.fragment_articles_list.*
@@ -25,6 +29,7 @@ class ArticlesListFragment : Fragment() {
     private lateinit var viewModel: ArticlesListViewModel
     private lateinit var favouritesListViewModel: FavouritesListViewModel
     lateinit var articlesListAdapter: ArticlesListAdapter
+    private lateinit var dataBinding: FragmentArticlesListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,7 +37,10 @@ class ArticlesListFragment : Fragment() {
     ): View? {
         // switch on a menu
         setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_articles_list, container, false)
+        // DataBinding approach
+        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_articles_list, container, false)
+
+        return dataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,6 +60,9 @@ class ArticlesListFragment : Fragment() {
             articlesListAdapter.setHasStableIds(true)
             adapter = articlesListAdapter
         }
+
+        // bind a fake article to layout for functions working
+        dataBinding.article = Article("1", "1", "1", "1", "1", "1")
 
         // add separation line between items
         articles_list.addItemDecoration(DividerItemDecoration(articles_list.context, DividerItemDecoration.VERTICAL))

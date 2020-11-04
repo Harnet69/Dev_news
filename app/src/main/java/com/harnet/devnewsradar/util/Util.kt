@@ -2,6 +2,7 @@ package com.harnet.devnewsradar.util
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.BindingAdapter
 import androidx.navigation.Navigation
@@ -138,4 +140,18 @@ fun getDateTime(view: TextView, time: Long) {
     val simpleDateFormat = SimpleDateFormat(pattern, Locale.UK)
     val date = simpleDateFormat.format(Date(time))
     view.text = date
+}
+
+// set screen background
+@BindingAdapter("android:setScreenBackground")
+fun setScreenBackground(view: ConstraintLayout, name:String){
+    when(SharedPreferencesHelper.invoke(view.context).getBackgroundColor()){
+        "1" -> {
+          view.setBackgroundColor(Color.rgb(255, 255, 255))
+        }
+        "2" -> {
+            view.setBackgroundResource(R.drawable.bgnd)
+        }
+
+    }
 }
