@@ -33,9 +33,9 @@
 
     <PreferenceCategory android:title="Notifications">
         <SwitchPreferenceCompat
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:icon="@drawable/ic_notification"
-            android:key="notification"
+            android:key="new_art_notification_preference"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="@string/new_articles" />

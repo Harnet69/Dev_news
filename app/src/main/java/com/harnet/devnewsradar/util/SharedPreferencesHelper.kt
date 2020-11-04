@@ -69,4 +69,7 @@ class SharedPreferencesHelper {
 
     // get a value of quantity day of history storing settings
     fun getHistoryKeepingDays() = prefs?.getString("storing_history_days", "")
+
+    // get is new articles notification On
+    fun getIsNewArticleNotification() = prefs?.getBoolean("new_art_notification_preference", true)
 }

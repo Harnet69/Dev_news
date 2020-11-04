@@ -169,10 +169,14 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
                             if(i == 0){
                                 // if it's a new article exists
                                 if(it.id.toIntOrNull() != lastArticleId){
-                                    // new articles notification
-                                    NotificationsHelper(getApplication()).createNotification()
-                                    lastArticleId = it.id.toIntOrNull()!!
 
+                                    // if notification allowed in app settings
+                                    if(sharedPrefHelper.getIsNewArticleNotification()!!){
+                                        // new articles notification
+                                        NotificationsHelper(getApplication()).createNotification()
+                                    }
+
+                                    lastArticleId = it.id.toIntOrNull()!!
                                     mIsSmthNew.postValue(true)
                                 }
                             }
