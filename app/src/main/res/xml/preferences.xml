@@ -45,7 +45,7 @@
     <PreferenceCategory android:title="Appearance">
 
         <SwitchPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:icon="@drawable/ic_article_preview_image"
             android:key="article_preview_image"
             android:selectAllOnFocus="true"

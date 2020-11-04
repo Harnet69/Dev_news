@@ -70,6 +70,9 @@ class SharedPreferencesHelper {
     // get a value of quantity day of history storing settings
     fun getHistoryKeepingDays() = prefs?.getString("storing_history_days", "")
 
-    // get is new articles notification On
+    // get is new articles notification On/Off
     fun getIsNewArticleNotification() = prefs?.getBoolean("new_art_notification_preference", true)
+
+    // get is article preview image parsing On/Off
+    fun getIsPreviewImageParsing() = prefs?.getBoolean("article_preview_image", true)
 }
