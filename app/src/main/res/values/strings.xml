@@ -11,4 +11,17 @@
     <string name="article_preview_image">Image preview</string>
     <string name="may_slow_down_loading">may slow down loading</string>
     <string name="dark_mode">Dark mode</string>
+    <string name="background">Background</string>
+    <string name="white">White</string>
+    <string name="color">Color</string>
+
+    <string-array name="theme_entries">
+        <item>@string/white</item>
+        <item>@string/color</item>
+    </string-array>
+
+    <string-array name="entry_values">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 </resources>

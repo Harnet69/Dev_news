@@ -28,7 +28,6 @@ class FavouriteViewModel(application: Application) : BaseViewModel(application) 
                 // check if parsing for image was set in app settings
                 if(SharedPreferencesHelper.invoke(context).getIsPreviewImageParsing()!!) {
                     // set article image
-                    Log.i("IsNotificationOn", "fetch: ")
                     val pageContent = webContentDownloader.execute(favouriteToShow.url).get()
                     val imagesURL = parseService.parseImages(pageContent)
                     favouriteToShow.imageUrl = imagesURL?.get(0) as String

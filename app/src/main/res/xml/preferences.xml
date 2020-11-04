@@ -46,6 +46,12 @@
 
     <PreferenceCategory android:title="Appearance">
 
+        <DropDownPreference
+            android:entries="@array/theme_entries"
+            android:entryValues="@array/entry_values"
+            android:key="drop_down_preference"
+            android:title="@string/background" />
+
         <SwitchPreference
             android:defaultValue="true"
             android:icon="@drawable/ic_article_preview_image"
