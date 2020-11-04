@@ -38,7 +38,7 @@
             android:key="new_art_notification_preference"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="@string/new_articles" />
+            android:title="@string/new_articles_notification" />
 
     </PreferenceCategory>
 
