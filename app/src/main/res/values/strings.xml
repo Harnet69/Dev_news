@@ -3,9 +3,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="articles">Articles</string>
     <string name="alerts">Alerts</string>
-    <string name="new_articles_notification">New articles allert</string>
+    <string name="new_articles_notification">New articles alert</string>
     <string name="dark_mode">Dark mode</string>
     <string name="keeping_in_history">Keeping in history (days)</string>
     <string name="articles_list_size">List size (articles)</string>
     <string name="updating_frequency">Updating frequency (minutes)</string>
+    <string name="article_preview_image">Image preview</string>
 </resources>
