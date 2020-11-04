@@ -10,6 +10,7 @@ import com.harnet.devnewsradar.model.ArticleRead
 import com.harnet.devnewsradar.model.Favourite
 import com.harnet.devnewsradar.service.ParseService
 import com.harnet.devnewsradar.service.WebContentDownloader
+import com.harnet.devnewsradar.util.SharedPreferencesHelper
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -24,10 +25,14 @@ class FavouriteViewModel(application: Application) : BaseViewModel(application) 
             val favouriteToShow =
                 ArticleDatabase.invoke(context).favouriteDAO().getFavourite(articleUuId)
             try {
-                // set article image
-                val pageContent = webContentDownloader.execute(favouriteToShow.url).get()
-                val imagesURL = parseService.parseImages(pageContent)
-                favouriteToShow.imageUrl = imagesURL?.get(0) as String
+                // check if parsing for image was set in app settings
+                if(SharedPreferencesHelper.invoke(context).getIsPreviewImageParsing()!!) {
+                    // set article image
+                    Log.i("IsNotificationOn", "fetch: ")
+                    val pageContent = webContentDownloader.execute(favouriteToShow.url).get()
+                    val imagesURL = parseService.parseImages(pageContent)
+                    favouriteToShow.imageUrl = imagesURL?.get(0) as String
+                }
                 // set article date
                 val articleDate = Date(favouriteToShow.time.toLong() * 1000)
                 favouriteToShow.time = articleDate.toString()
