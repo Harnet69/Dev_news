@@ -6,12 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.adapter.ArticlesListAdapter
 import com.harnet.devnewsradar.adapter.HistoryListAdapter
+import com.harnet.devnewsradar.databinding.FragmentArticlesListBinding
+import com.harnet.devnewsradar.databinding.HistoryFragmentBinding
+import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.viewModel.ArticlesListViewModel
 import com.harnet.devnewsradar.viewModel.HistoryViewModel
 import kotlinx.android.synthetic.main.fragment_articles_list.*
@@ -20,12 +24,16 @@ import kotlinx.android.synthetic.main.history_fragment.*
 class HistoryFragment : Fragment() {
     private lateinit var viewModel: HistoryViewModel
     lateinit var historyListAdapter: HistoryListAdapter
+    private lateinit var dataBinding: HistoryFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.history_fragment, container, false)
+        // DataBinding approach
+        dataBinding = DataBindingUtil.inflate(inflater, R.layout.history_fragment, container, false)
+
+        return dataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,6 +49,9 @@ class HistoryFragment : Fragment() {
             historyListAdapter.setHasStableIds(true)
             adapter = historyListAdapter
         }
+
+        // bind a fake article to layout for functions working
+        dataBinding.article = Article("1", "1", "1", "1", "1", "1")
 
         // add separation line between items
         history_list.addItemDecoration(DividerItemDecoration(history_list.context, DividerItemDecoration.VERTICAL))
