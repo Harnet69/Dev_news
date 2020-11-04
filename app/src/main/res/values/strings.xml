@@ -1,12 +1,14 @@
 <resources>
     <string name="app_name">DevNewsRadar</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="articles">Articles</string>
     <string name="alerts">Alerts</string>
     <string name="new_articles_notification">New articles alert</string>
-    <string name="dark_mode">Dark mode</string>
-    <string name="keeping_in_history">Keeping in history (days)</string>
-    <string name="articles_list_size">List size (articles)</string>
-    <string name="updating_frequency">Updating frequency (minutes)</string>
+    <string name="keeping_in_history">Keeping in history</string>
+    <string name="in_days">in days</string>
+    <string name="articles_list_size">Articles list size</string>
+    <string name="updating_frequency">Updating frequency</string>
+    <string name="in_minutes">in minutes</string>
     <string name="article_preview_image">Image preview</string>
+    <string name="may_slow_down_loading">may slow down loading</string>
+    <string name="dark_mode">Dark mode</string>
 </resources>

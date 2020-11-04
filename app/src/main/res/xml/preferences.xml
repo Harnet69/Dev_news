@@ -9,7 +9,8 @@
             android:key="api_parse_delaying"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="@string/updating_frequency" />
+            android:title="@string/updating_frequency"
+            android:summary="@string/in_minutes"/>
 
         <EditTextPreference
             android:defaultValue="10"
@@ -18,7 +19,7 @@
             android:key="articles_qtt"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="@string/articles_list_size" />
+            android:title="@string/articles_list_size"/>
 
         <EditTextPreference
             android:defaultValue="7"
@@ -27,7 +28,8 @@
             android:key="storing_history_days"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="@string/keeping_in_history" />
+            android:title="@string/keeping_in_history"
+            android:summary="@string/in_days"/>
 
     </PreferenceCategory>
 
@@ -50,7 +52,8 @@
             android:key="article_preview_image"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="@string/article_preview_image" />
+            android:title="@string/article_preview_image"
+            android:summary="@string/may_slow_down_loading"/>
 
         <SwitchPreference
             android:defaultValue="false"
