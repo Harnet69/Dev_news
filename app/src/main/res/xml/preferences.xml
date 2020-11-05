@@ -50,7 +50,8 @@
             android:key="dark_theme"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="@string/dark_mode" />
+            android:title="@string/dark_mode"
+            android:summary="not implemented yet"/>
 
     </PreferenceCategory>
 
