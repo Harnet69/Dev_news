@@ -4,7 +4,6 @@
     <PreferenceCategory android:title="@string/articles">
 
 
-
         <EditTextPreference
             android:defaultValue="10"
             android:icon="@drawable/ic_list"
@@ -12,7 +11,7 @@
             android:key="articles_qtt"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="@string/articles_list_size"/>
+            android:title="@string/articles_list_size" />
 
         <EditTextPreference
             android:defaultValue="7"
@@ -21,8 +20,8 @@
             android:key="storing_history_days"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="@string/keeping_in_history"
-            android:summary="@string/in_days"/>
+            android:summary="@string/in_days"
+            android:title="@string/keeping_in_history" />
 
     </PreferenceCategory>
 
@@ -37,17 +36,13 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:key="expandable"
-        android:title="@string/appearance"
-        app:initialExpandedChildrenCount="2">
-
+    <PreferenceCategory android:title="Appearance">
         <DropDownPreference
             android:entries="@array/theme_entries"
             android:entryValues="@array/entry_values"
-            android:key="screen_background"
             android:icon="@drawable/ic_bgnd"
-            android:title="@string/background"/>
+            android:key="screen_background"
+            android:title="@string/background" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -57,6 +52,12 @@
             android:singleLine="true"
             android:title="@string/dark_mode" />
 
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="expandable"
+        app:initialExpandedChildrenCount="0">
+
         <EditTextPreference
             android:defaultValue="1"
             android:icon="@drawable/ic_history_time"
@@ -64,8 +65,8 @@
             android:key="api_parse_delaying"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="@string/updating_frequency"
-            android:summary="@string/in_minutes"/>
+            android:summary="@string/in_minutes"
+            android:title="@string/updating_frequency" />
 
         <SwitchPreference
             android:defaultValue="true"
@@ -73,8 +74,8 @@
             android:key="article_preview_image"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="@string/article_preview_image"
-            android:summary="@string/may_slow_down_loading"/>
+            android:summary="@string/may_slow_down_loading"
+            android:title="@string/article_preview_image" />
 
     </PreferenceCategory>
 
