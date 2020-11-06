@@ -80,9 +80,8 @@ class ArticleFragment : Fragment() {
                 // give user the possibility to chose the application for getting this data
                 startActivity(Intent.createChooser(intent, "Share with:"))
             }
-            R.id.action_send_sms -> {
-                Toast.makeText(context, "Send SMS", Toast.LENGTH_SHORT).show()
-
+            R.id.action_send_sms ->{
+                Toast.makeText(context, "SMS was sent", Toast.LENGTH_SHORT).show()
             }
         }
             return super.onOptionsItemSelected(item)
