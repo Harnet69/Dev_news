@@ -19,15 +19,17 @@ import com.harnet.devnewsradar.databinding.FavouriteFragmentBinding
 import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.model.Favourite
 import com.harnet.devnewsradar.service.PaletteService
+import com.harnet.devnewsradar.service.ShareService
 import com.harnet.devnewsradar.viewModel.FavouriteViewModel
 import kotlinx.android.synthetic.main.favourite_fragment.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class   FavouriteFragment : Fragment() {
+class FavouriteFragment : Fragment() {
     private lateinit var viewModel: FavouriteViewModel
     private lateinit var dataBinding: FavouriteFragmentBinding
     private val paletteService = PaletteService()
+    private var shareService = ShareService()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,19 +69,19 @@ class   FavouriteFragment : Fragment() {
     // click listener for menu items
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            // share the article url with other apps
+            R.id.action_share -> {
+                activity?.let {
+                    viewModel.mFavoriteLiveData.value?.url?.let { it1 ->
+                        shareService.shareUrlWith(
+                            it,
+                            it1
+                        )
+                    }
+                }
+            }
             R.id.action_send_sms -> {
                 Toast.makeText(context, "Send SMS", Toast.LENGTH_SHORT).show()
-            }
-            R.id.action_share -> {
-                // ACTION_SEND generic flag for sending
-                val intent = Intent(Intent.ACTION_SEND)
-                intent.type = "text/plain"
-                intent.putExtra(Intent.EXTRA_SUBJECT, "Favourite article")
-                intent.putExtra(Intent.EXTRA_TEXT, viewModel.mFavoriteLiveData.value?.url)
-                intent.putExtra(Intent.EXTRA_STREAM, viewModel.mFavoriteLiveData.value?.imageUrl)
-                // give user the possibility to chose the application for getting this data
-                startActivity(Intent.createChooser(intent, "Share with:"))
-//                Toast.makeText(context, "Share article", Toast.LENGTH_SHORT).show()
             }
         }
         return super.onOptionsItemSelected(item)
