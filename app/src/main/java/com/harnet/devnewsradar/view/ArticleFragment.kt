@@ -76,13 +76,9 @@ class ArticleFragment : Fragment() {
                 intent.type = "text/plain"
                 intent.putExtra(Intent.EXTRA_SUBJECT, "Interesting article")
                 intent.putExtra(Intent.EXTRA_TEXT, viewModel.mArticleLiveData.value?.url)
-                intent.putExtra(Intent.EXTRA_STREAM,  viewModel.mArticleLiveData.value?.imageUrl)
+                intent.putExtra(Intent.EXTRA_STREAM, viewModel.mArticleLiveData.value?.imageUrl)
                 // give user the possibility to chose the application for getting this data
                 startActivity(Intent.createChooser(intent, "Share with:"))
-            }
-            R.id.action_send_sms -> {
-                Toast.makeText(context, "Send SMS", Toast.LENGTH_SHORT).show()
-
             }
         }
             return super.onOptionsItemSelected(item)
