@@ -44,14 +44,14 @@
             android:key="screen_background"
             android:title="@string/background" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:icon="@drawable/ic_bed_time"
-            android:key="dark_theme"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
-            android:title="@string/dark_mode"
-            android:summary="not implemented yet"/>
+<!--        <SwitchPreference-->
+<!--            android:defaultValue="false"-->
+<!--            android:icon="@drawable/ic_bed_time"-->
+<!--            android:key="dark_theme"-->
+<!--            android:selectAllOnFocus="true"-->
+<!--            android:singleLine="true"-->
+<!--            android:title="@string/dark_mode"-->
+<!--            android:summary="not implemented yet"/>-->
 
     </PreferenceCategory>
 
