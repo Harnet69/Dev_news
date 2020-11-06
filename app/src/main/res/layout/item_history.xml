@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
+
         <variable
             name="article"
             type="com.harnet.devnewsradar.model.ArticleRead" />
@@ -15,8 +17,10 @@
             android:id="@+id/article_details"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:articleId="@{article.id}"
             android:goToUrlFromHistory="@{article.url}"
             android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
             android:orientation="vertical"
             android:padding="4dp">
 
@@ -27,18 +31,54 @@
                 android:layout_height="wrap_content"
                 android:text="@{article.title}" />
 
-            <TextView
-                android:id="@+id/articleAuthor_in_list"
-                style="@style/Text"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/author"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{article.author}" />
-            <TextView
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/author_label"
+                    style="@style/Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Author: "
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/articleAuthor_in_list"
+                    style="@style/Text"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:text="@{article.author}" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/articleReadTime_in_list"
-                style="@style/Text"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:getDateTimeFromLong="@{article.timeWhenRead}"/>
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/time_label"
+                    style="@style/Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Last read: "
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/Text"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:getDateTimeFromLong="@{article.timeWhenRead}" />
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>

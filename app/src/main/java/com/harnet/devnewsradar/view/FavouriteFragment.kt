@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.favourite_fragment.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class FavouriteFragment : Fragment() {
+class   FavouriteFragment : Fragment() {
     private lateinit var viewModel: FavouriteViewModel
     private lateinit var dataBinding: FavouriteFragmentBinding
     private val paletteService = PaletteService()
@@ -120,6 +120,7 @@ class FavouriteFragment : Fragment() {
                 loadingView_ProgressBar.visibility = View.GONE
                 favourite_image.visibility = View.VISIBLE
                 isFavourite.visibility = View.VISIBLE
+                favourite_details_block.visibility = View.VISIBLE
 
             }
         })

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.databinding.ItemFavouriteBinding
 import com.harnet.devnewsradar.model.Favourite
+import com.harnet.devnewsradar.service.OnSingleClickListenerService
 import com.harnet.devnewsradar.view.FavouritesListFragmentDirections
 import com.harnet.devnewsradar.viewModel.FavouritesListViewModel
 import kotlinx.android.synthetic.main.item_favourite.view.*
@@ -86,16 +87,6 @@ class FavouritesListAdapter(
                     e.printStackTrace()
                 }
             }
-        }
-        //add click listener to article details item and bind it with detail page
-        holder.view.favouriteDetails.setOnClickListener {
-            // navigate to appropriate detail fragment
-            val action =
-                FavouritesListFragmentDirections.actionFavouritesListFragmentToFavouriteFragment()
-            // send article id to ArticleFragment
-            action.articleId = favouritesList[position].uuid
-            action.isFavourite = true
-            Navigation.findNavController(it).navigate(action)
         }
     }
 

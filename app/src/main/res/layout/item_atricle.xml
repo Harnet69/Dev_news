@@ -15,12 +15,14 @@
 
         <LinearLayout
             android:id="@+id/article_details"
-            android:goToArticle="@{article.uuid}"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:goToArticle="@{article.uuid}"
             android:orientation="vertical"
-            android:padding="4dp">
+            android:paddingStart="4dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="4dp">
 
             <TextView
                 android:id="@+id/articleTitle_in_list"
@@ -29,13 +31,39 @@
                 android:layout_height="wrap_content"
                 android:text="@{article.title}" />
 
-            <TextView
-                android:id="@+id/articleAuthor_in_list"
-                style="@style/Text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{article.author}" />
+            <LinearLayout
+                android:id="@+id/author"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/author_label"
+                    style="@style/Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Author: "
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/articleAuthor_in_list"
+                    style="@style/Text"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:text="@{article.author}" />
+
+                <TextView
+                    android:id="@+id/new_article"
+                    style="@style/NEW"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="NEW"
+                    android:textAlignment="center"
+                    android:visibility="invisible" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </layout>

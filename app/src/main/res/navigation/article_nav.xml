@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/articlesListFragment"
         android:name="com.harnet.devnewsradar.view.ArticlesListFragment"
-        android:label="ArticlesListFragment">
+        android:label="List of articles">
         <action
             android:id="@+id/action_articlesListFragment_to_articleFragment"
             app:destination="@id/articleFragment" />
@@ -25,7 +25,7 @@
     <fragment
         android:id="@+id/articleFragment"
         android:name="com.harnet.devnewsradar.view.ArticleFragment"
-        android:label="ArticleFragment">
+        android:label="Article details">
         <argument
             android:name="articleId"
             android:defaultValue="0"
@@ -38,7 +38,7 @@
     <fragment
         android:id="@+id/favouritesListFragment"
         android:name="com.harnet.devnewsradar.view.FavouritesListFragment"
-        android:label="favourites_list_fragment"
+        android:label="Favourite articles"
         tools:layout="@layout/favourites_list_fragment">
         <action
             android:id="@+id/action_favouritesListFragment_to_favouriteFragment"
@@ -47,7 +47,7 @@
     <fragment
         android:id="@+id/favouriteFragment"
         android:name="com.harnet.devnewsradar.view.FavouriteFragment"
-        android:label="favourite_fragment"
+        android:label="Favourite article"
         tools:layout="@layout/favourite_fragment">
         <argument
             android:name="articleId"
@@ -61,10 +61,10 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.harnet.devnewsradar.view.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="Settings" />
     <fragment
         android:id="@+id/historyFragment"
         android:name="com.harnet.devnewsradar.view.HistoryFragment"
-        android:label="history_fragment"
-        tools:layout="@layout/history_fragment" />
+        tools:layout="@layout/history_fragment"
+        android:label="Reading history" />
 </navigation>

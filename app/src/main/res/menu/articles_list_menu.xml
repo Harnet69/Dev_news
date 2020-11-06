@@ -9,7 +9,7 @@
     <item
         android:title="History"
         android:id="@+id/history"
-        android:icon="@drawable/ic_history"
+        android:icon="@drawable/ic_history_time"
         app:showAsAction="ifRoom"/>
     <item
         android:title="Settings"

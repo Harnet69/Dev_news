@@ -4,12 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.adapter.FavouritesListAdapter
+import com.harnet.devnewsradar.databinding.FavouritesListFragmentBinding
+import com.harnet.devnewsradar.databinding.FragmentArticlesListBinding
+import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.viewModel.FavouritesListViewModel
 import kotlinx.android.synthetic.main.favourites_list_fragment.*
 import kotlinx.android.synthetic.main.fragment_articles_list.*
@@ -20,13 +25,17 @@ import kotlinx.android.synthetic.main.fragment_articles_list.refreshLayout
 class FavouritesListFragment : Fragment() {
     private lateinit var viewModel: FavouritesListViewModel
     lateinit var favouritesListAdapter: FavouritesListAdapter
+    private lateinit var dataBinding: FavouritesListFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.favourites_list_fragment, container, false)
+        // DataBinding approach
+        dataBinding = DataBindingUtil.inflate(inflater, R.layout.favourites_list_fragment, container, false)
+
+        return dataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,6 +50,12 @@ class FavouritesListFragment : Fragment() {
             favouritesListAdapter.setHasStableIds(true)
             adapter = favouritesListAdapter
         }
+
+        // bind a fake article to layout for functions working
+        dataBinding.article = Article("1", "1", "1", "1", "1", "1")
+
+        // add separation line between items
+        favourites_list.addItemDecoration(DividerItemDecoration(favourites_list.context, DividerItemDecoration.VERTICAL))
 
         // Swiper refresh listener(screen refreshing process)
         refreshLayout.setOnRefreshListener {

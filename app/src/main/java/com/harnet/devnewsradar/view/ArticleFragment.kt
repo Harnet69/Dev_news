@@ -57,6 +57,7 @@ class ArticleFragment : Fragment() {
                 viewModel.fetch(view.context, articleId.toString(), isFavourite)
             }
         }
+
         observeViewModel()
     }
 
@@ -78,6 +79,10 @@ class ArticleFragment : Fragment() {
                 intent.putExtra(Intent.EXTRA_STREAM,  viewModel.mArticleLiveData.value?.imageUrl)
                 // give user the possibility to chose the application for getting this data
                 startActivity(Intent.createChooser(intent, "Share with:"))
+            }
+            R.id.action_send_sms -> {
+                Toast.makeText(context, "Send SMS", Toast.LENGTH_SHORT).show()
+
             }
         }
             return super.onOptionsItemSelected(item)
@@ -118,8 +123,10 @@ class ArticleFragment : Fragment() {
                     // set favourite image
                     observeIsFav()
                     makeFavourite(article_favourite, article)
+
                     loadingView_ProgressBar.visibility = View.GONE
                     article_image.visibility = View.VISIBLE
+                    article_details_block.visibility = View.VISIBLE
                 }
             })
         }

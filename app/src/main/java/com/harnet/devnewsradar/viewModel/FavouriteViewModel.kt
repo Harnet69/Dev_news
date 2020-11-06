@@ -10,6 +10,7 @@ import com.harnet.devnewsradar.model.ArticleRead
 import com.harnet.devnewsradar.model.Favourite
 import com.harnet.devnewsradar.service.ParseService
 import com.harnet.devnewsradar.service.WebContentDownloader
+import com.harnet.devnewsradar.util.SharedPreferencesHelper
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -24,10 +25,13 @@ class FavouriteViewModel(application: Application) : BaseViewModel(application) 
             val favouriteToShow =
                 ArticleDatabase.invoke(context).favouriteDAO().getFavourite(articleUuId)
             try {
-                // set article image
-                val pageContent = webContentDownloader.execute(favouriteToShow.url).get()
-                val imagesURL = parseService.parseImages(pageContent)
-                favouriteToShow.imageUrl = imagesURL?.get(0) as String
+                // check if parsing for image was set in app settings
+                if(SharedPreferencesHelper.invoke(context).getIsPreviewImageParsing()!!) {
+                    // set article image
+                    val pageContent = webContentDownloader.execute(favouriteToShow.url).get()
+                    val imagesURL = parseService.parseImages(pageContent)
+                    favouriteToShow.imageUrl = imagesURL?.get(0) as String
+                }
                 // set article date
                 val articleDate = Date(favouriteToShow.time.toLong() * 1000)
                 favouriteToShow.time = articleDate.toString()
@@ -55,8 +59,10 @@ class FavouriteViewModel(application: Application) : BaseViewModel(application) 
         articleRead.imageUrl = favourite.imageUrl
         launch {
             if(!ArticleDatabase.invoke(getApplication()).articleReadDAO().isExists(articleRead.id)){
-                val addToRead = ArticleDatabase.invoke(getApplication()).articleReadDAO().insertAll(articleRead)
-                Toast.makeText(getApplication(), "Article added to ArticleRead $addToRead", Toast.LENGTH_SHORT).show()
+                ArticleDatabase.invoke(getApplication()).articleReadDAO().insertAll(articleRead)
+            }else{
+                // set to the readArticle new time of reading
+                ArticleDatabase.invoke(getApplication()).articleReadDAO().updateTimeWhenRead(articleRead.id, articleRead.timeWhenRead)
             }
         }
     }

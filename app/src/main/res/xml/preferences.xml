@@ -1,33 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <EditTextPreference
-        android:defaultValue="1"
-        android:icon="@android:drawable/ic_menu_recent_history"
-        android:inputType="number"
-        android:key="api_parse_delaying"
-        android:layout="@layout/font_layout"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="API parsing delay(minutes)" />
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="@string/articles">
 
-    <EditTextPreference
-        android:defaultValue="10"
-        android:icon="@android:drawable/ic_menu_agenda"
-        android:inputType="number"
-        android:key="articles_qtt"
-        android:layout="@layout/font_layout"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="Articles list size(articles)" />
 
-    <EditTextPreference
-        android:defaultValue="7"
-        android:icon="@android:drawable/ic_menu_day"
-        android:inputType="number"
-        android:key="storing_history_days"
-        android:layout="@layout/font_layout"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="Keeping articles in history(days)" />
+        <EditTextPreference
+            android:defaultValue="10"
+            android:icon="@drawable/ic_list"
+            android:inputType="number"
+            android:key="articles_qtt"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/articles_list_size" />
+
+        <EditTextPreference
+            android:defaultValue="7"
+            android:icon="@drawable/ic_history_days"
+            android:inputType="number"
+            android:key="storing_history_days"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/in_days"
+            android:title="@string/keeping_in_history" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Notifications">
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:icon="@drawable/ic_notification"
+            android:key="new_art_notification_preference"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/new_articles_notification" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Appearance">
+        <DropDownPreference
+            android:entries="@array/theme_entries"
+            android:entryValues="@array/entry_values"
+            android:icon="@drawable/ic_bgnd"
+            android:key="screen_background"
+            android:title="@string/background" />
+
+<!--        <SwitchPreference-->
+<!--            android:defaultValue="false"-->
+<!--            android:icon="@drawable/ic_bed_time"-->
+<!--            android:key="dark_theme"-->
+<!--            android:selectAllOnFocus="true"-->
+<!--            android:singleLine="true"-->
+<!--            android:title="@string/dark_mode"-->
+<!--            android:summary="not implemented yet"/>-->
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="expandable"
+        app:initialExpandedChildrenCount="0">
+
+        <EditTextPreference
+            android:defaultValue="1"
+            android:icon="@drawable/ic_history_time"
+            android:inputType="number"
+            android:key="api_parse_delaying"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/in_minutes"
+            android:title="@string/updating_frequency" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_article_preview_image"
+            android:key="article_preview_image"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/may_slow_down_loading"
+            android:title="@string/article_preview_image" />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

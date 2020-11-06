@@ -11,13 +11,12 @@ import com.harnet.devnewsradar.model.ArticleRead
 import com.harnet.devnewsradar.model.Favourite
 import com.harnet.devnewsradar.service.ParseService
 import com.harnet.devnewsradar.service.WebContentDownloader
+import com.harnet.devnewsradar.util.SharedPreferencesHelper
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.util.*
 
 class ArticleViewModel(application: Application) : BaseViewModel(application) {
-//    //TODO FOR SETTING PURPOSES!!! 1 WEEK / 2 WEEK / 1 MONTH
-//    val DEAD_LINE_TIME = 7 // in days
     val mArticleLiveData = MutableLiveData<Article>()
     val mIsFavourite = MutableLiveData<Boolean>()
 
@@ -30,12 +29,17 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
             val articleToShow = ArticleDatabase.invoke(context).articleDAO().getArticle(articleId.toInt())
             try {
                 isArtFav(context, articleToShow.id)
-                // parse webpage and get an article image
-                //!!can use this pageContent to store this webpage in our database
-                val pageContent = webContentDownloader.execute(articleToShow.url).get()
-                val imagesURL = parseService.parseImages(pageContent)
-                //!!can make a image checker for all images in imagesURL
-                articleToShow.imageUrl = imagesURL?.get(0) as String
+
+                // check if parsing for image was set in app settings
+                if(SharedPreferencesHelper.invoke(context).getIsPreviewImageParsing()!!){
+                    // parse webpage and get an article image
+                    //!!can use this pageContent to store this webpage in our database
+                    val pageContent = webContentDownloader.execute(articleToShow.url).get()
+                    val imagesURL = parseService.parseImages(pageContent)
+                    //!!can make a image checker for all images in imagesURL
+                    articleToShow.imageUrl = imagesURL?.get(0) as String
+                }
+
                 // set article date
                 val articleDate = Date(articleToShow.time.toLong() * 1000)
                 articleToShow.time = articleDate.toString()
@@ -85,7 +89,11 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
 
         launch {
             if(!ArticleDatabase.invoke(getApplication()).articleReadDAO().isExists(articleRead.id)){
-                val addToRead = ArticleDatabase.invoke(getApplication()).articleReadDAO().insertAll(articleRead)
+                // add the article to have been read list
+                ArticleDatabase.invoke(getApplication()).articleReadDAO().insertAll(articleRead)
+            }else{
+                // set to the readArticle new time of reading
+                ArticleDatabase.invoke(getApplication()).articleReadDAO().updateTimeWhenRead(articleRead.id, articleRead.timeWhenRead)
             }
         }
     }

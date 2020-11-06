@@ -2,12 +2,15 @@ package com.harnet.devnewsradar.util
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.BindingAdapter
 import androidx.navigation.Navigation
@@ -19,7 +22,10 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.harnet.devnewsradar.R
+import com.harnet.devnewsradar.model.ArticleDatabase
+import com.harnet.devnewsradar.service.OnSingleClickListenerService
 import com.harnet.devnewsradar.view.ArticlesListFragmentDirections
+import com.harnet.devnewsradar.view.FavouritesListFragmentDirections
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -36,7 +42,7 @@ fun getProgressDrawable(context: Context): CircularProgressDrawable {
 fun ImageView.loadImage(uri: String?, progressDrawable: CircularProgressDrawable) {
     val options = RequestOptions()
         .placeholder(progressDrawable)
-        .error(R.mipmap.ic_dev_news)
+        .error(R.drawable.no_image)
     Glide.with(context)
         .setDefaultRequestOptions(options)
         .load(uri)
@@ -75,7 +81,12 @@ fun loadBindingImage(view: ImageView, url: String?) {
 // transition to an article detail page
 @BindingAdapter("android:goToArticle")
 fun goToArticle(view: View, articleUuid: Int?) {
-    view.setOnClickListener {
+    // prevent a crash when two items were clicked in the same time
+    fun View.setOnSingleClickListener(l: (View) -> Unit) {
+        setOnClickListener(OnSingleClickListenerService(l))
+    }
+
+    view.setOnSingleClickListener {
         // navigate to appropriate detail fragment
         val action =
             ArticlesListFragmentDirections.actionArticlesListFragmentToArticleFragment()
@@ -87,12 +98,34 @@ fun goToArticle(view: View, articleUuid: Int?) {
     }
 }
 
+// go to an favourite article detail page
+@BindingAdapter("android:goToFavourite")
+fun goToFavourite(view: View, favouriteUuid: Int) {
+    // prevent a crash when two items were clicked in the same time
+    fun View.setOnSingleClickListener(l: (View) -> Unit) {
+        setOnClickListener(OnSingleClickListenerService(l))
+    }
+
+    view.setOnSingleClickListener {
+        // navigate to appropriate detail fragment
+        val action =
+            FavouritesListFragmentDirections.actionFavouritesListFragmentToFavouriteFragment()
+        // send article id to ArticleFragment
+        action.articleId = favouriteUuid
+        action.isFavourite = true
+        Navigation.findNavController(it).navigate(action)
+    }
+}
+
 // go to website from history list
-@BindingAdapter("android:goToUrlFromHistory")
-fun goToUrlFromHistory(view: View, articleUrl: String?) {
+@BindingAdapter("android:goToUrlFromHistory", "android:articleId")
+fun goToUrlFromHistory(view: View, articleUrl: String?, articleId: String) {
     view.setOnClickListener {
         val browserIntent: Intent = Intent(Intent.ACTION_VIEW, Uri.parse(articleUrl))
         try {
+            // set new time of article reading
+            ArticleDatabase.invoke(view.context).articleReadDAO()
+                .updateTimeWhenRead(articleId, System.currentTimeMillis())
             startActivity(view.context, browserIntent, null)
         } catch (e: Exception) {
             Toast.makeText(view.context, "Wrong URL", Toast.LENGTH_SHORT).show()
@@ -106,5 +139,19 @@ fun getDateTime(view: TextView, time: Long) {
     val pattern = "yyyy-MM-dd HH:mm:ss"
     val simpleDateFormat = SimpleDateFormat(pattern, Locale.UK)
     val date = simpleDateFormat.format(Date(time))
-    view.text =  date
+    view.text = date
+}
+
+// set screen background
+@BindingAdapter("android:setScreenBackground")
+fun setScreenBackground(view: ConstraintLayout, name:String){
+    when(SharedPreferencesHelper.invoke(view.context).getBackgroundColor()){
+        "1" -> {
+          view.setBackgroundColor(Color.rgb(255, 255, 255))
+        }
+        "2" -> {
+            view.setBackgroundResource(R.drawable.bgnd)
+        }
+
+    }
 }

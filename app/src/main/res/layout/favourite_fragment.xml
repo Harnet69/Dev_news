@@ -2,41 +2,45 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    
+
     <data>
+
         <variable
             name="favourite"
             type="com.harnet.devnewsradar.model.Favourite" />
+
         <variable
             name="palette"
             type="com.harnet.devnewsradar.model.ArticlePalette" />
+
         <variable
             name="paletteURL"
             type="com.harnet.devnewsradar.model.ArticlePalette" />
     </data>
 
     <RelativeLayout
+        android:id="@+id/favourite_details_block"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@{palette.color}"
         tools:context=".view.FavouriteFragment"
-        android:background="@{palette.color}">
+        android:visibility="invisible">
 
 
         <ImageView
             android:id="@+id/favourite_image"
-            android:bindImageUrl="@{favourite.imageUrl}"
-            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginTop="10dp"
+            android:bindImageUrl="@{favourite.imageUrl}"
             android:minHeight="200dp"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/favourite_title"
             style="@style/Title"
-            android:text="@{favourite.title}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/favourite_image"
@@ -45,56 +49,85 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="4dp"
-            android:gravity="center_horizontal" />
+            android:gravity="center_horizontal"
+            android:text="@{favourite.title}" />
 
-        <TextView
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/favourite_id"
-            style="@style/Text"
-            android:text="@{favourite.id}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/favourite_title"
             android:layout_centerHorizontal="true"
-            android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
-            android:layout_marginBottom="4dp" />
+            android:layout_marginBottom="4dp"
+            android:orientation="horizontal">
 
-        <TextView
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:text="Id: "
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/Text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@{favourite.id}" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/favourite_author"
-            style="@style/Text"
-            android:text="@{favourite.author}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/favourite_id"
             android:layout_centerHorizontal="true"
-            android:layout_margin="4dp" />
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="Author: "
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/Text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@{favourite.author}" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <TextView
             android:id="@+id/favourite_time"
             style="@style/Text"
-            android:text="@{favourite.time}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/favourite_author"
             android:layout_centerHorizontal="true"
-            android:layout_margin="4dp" />
+            android:layout_margin="4dp"
+            android:text="@{favourite.time}" />
 
         <ImageView
             android:id="@+id/isFavourite"
             style="@style/Text"
-            android:visibility="invisible"
-            android:src="@android:drawable/btn_star_big_on"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_below="@id/favourite_time"
             android:layout_centerHorizontal="true"
-            android:layout_margin="4dp" />
+            android:layout_margin="4dp"
+            android:src="@android:drawable/btn_star_big_on"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/favourite_url"
             style="@style/URL"
-            android:text="@{favourite.url}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/isFavourite"
@@ -104,7 +137,8 @@
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="4dp"
             android:gravity="center_horizontal"
-            android:textColor="@{paletteURL.color}"/>
+            android:text="@{favourite.url}"
+            android:textColor="@{paletteURL.color}" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

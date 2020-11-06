@@ -87,7 +87,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
 
                 Toast.makeText(
                     getApplication(),
-                    "Freeware. " + timeToRefreshFromAPI(timeToUpd) + " left",
+                    timeToRefreshFromAPI(timeToUpd) + " to update left",
                     Toast.LENGTH_SHORT
                 )
                     .show()
@@ -169,10 +169,14 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
                             if(i == 0){
                                 // if it's a new article exists
                                 if(it.id.toIntOrNull() != lastArticleId){
-                                    // new articles notification
-                                    NotificationsHelper(getApplication()).createNotification()
-                                    lastArticleId = it.id.toIntOrNull()!!
 
+                                    // if notification allowed in app settings
+                                    if(sharedPrefHelper.getIsNewArticleNotification()!!){
+                                        // new articles notification
+                                        NotificationsHelper(getApplication()).createNotification()
+                                    }
+
+                                    lastArticleId = it.id.toIntOrNull()!!
                                     mIsSmthNew.postValue(true)
                                 }
                             }
@@ -312,5 +316,15 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
         }catch (e: NumberFormatException){
             e.printStackTrace()
         }
+    }
+
+    // get if About modal window was showed
+    fun getIsAboutShowed(): Boolean?{
+        return sharedPrefHelper.getIsAboutShowed()
+    }
+
+    // set if modal window with About app was showed
+    fun setIsAboutShowed(isShowed: Boolean){
+        sharedPrefHelper.setIsAboutShowed(isShowed)
     }
 }

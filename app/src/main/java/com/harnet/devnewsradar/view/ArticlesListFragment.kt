@@ -1,26 +1,35 @@
 package com.harnet.devnewsradar.view
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.adapter.ArticlesListAdapter
+import com.harnet.devnewsradar.databinding.FragmentArticleBinding
+import com.harnet.devnewsradar.databinding.FragmentArticlesListBinding
+import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.viewModel.ArticlesListViewModel
 import com.harnet.devnewsradar.viewModel.FavouritesListViewModel
 import kotlinx.android.synthetic.main.fragment_articles_list.*
+import java.io.IOException
 
 class ArticlesListFragment : Fragment() {
     private lateinit var viewModel: ArticlesListViewModel
     private lateinit var favouritesListViewModel: FavouritesListViewModel
     lateinit var articlesListAdapter: ArticlesListAdapter
+    private lateinit var dataBinding: FragmentArticlesListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,7 +37,10 @@ class ArticlesListFragment : Fragment() {
     ): View? {
         // switch on a menu
         setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_articles_list, container, false)
+        // DataBinding approach
+        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_articles_list, container, false)
+
+        return dataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,6 +49,9 @@ class ArticlesListFragment : Fragment() {
         favouritesListViewModel = ViewModelProvider(this).get(FavouritesListViewModel::class.java)
         articlesListAdapter = ArticlesListAdapter(arrayListOf())
         viewModel = ViewModelProvider(this).get(ArticlesListViewModel::class.java)
+
+        showAboutDialog()
+
         viewModel.refresh()
 
         articles_list.apply {
@@ -45,6 +60,12 @@ class ArticlesListFragment : Fragment() {
             articlesListAdapter.setHasStableIds(true)
             adapter = articlesListAdapter
         }
+
+        // bind a fake article to layout for functions working
+        dataBinding.article = Article("1", "1", "1", "1", "1", "1")
+
+        // add separation line between items
+        articles_list.addItemDecoration(DividerItemDecoration(articles_list.context, DividerItemDecoration.VERTICAL))
 
         // click listener for favourites btn
         fab_btn.setOnClickListener {
@@ -145,5 +166,23 @@ class ArticlesListFragment : Fragment() {
                 }
             }
         })
+    }
+
+    // show About app dialog window
+    private fun showAboutDialog(){
+        if(!viewModel.getIsAboutShowed()!!){
+            AlertDialog.Builder(context)
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .setTitle("About the app")
+                .setMessage("This is the best app, provides fresh news of software & tech industry")
+                .setPositiveButton("Got it") { dialogInterface: DialogInterface, i: Int ->
+                    try {
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }.show()
+
+            viewModel.setIsAboutShowed(true)
+        }
     }
 }

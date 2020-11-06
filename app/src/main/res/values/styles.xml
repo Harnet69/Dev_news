@@ -26,4 +26,10 @@
         <item name="android:textColor">#2a6aeb</item>
     </style>
 
+    <style name="NEW">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#009688</item>
+        <item name="android:textStyle">bold|italic</item>
+    </style>
+
 </resources>
