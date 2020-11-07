@@ -87,7 +87,7 @@ class ArticleFragment : Fragment() {
             R.id.action_send_sms -> {
                 // ask user for a permission
                 isSendSmsStarted = true
-                (activity as MainActivity).checkSmsPermission()
+                (activity as MainActivity).permissionService.checkSmsPermission()
 //                Toast.makeText(context, "SMS was sent", Toast.LENGTH_SHORT).show()
             }
         }
