@@ -88,7 +88,7 @@ class ArticleFragment : Fragment() {
                 // ask user for a permission
                 isSendSmsStarted = true
                 (activity as MainActivity).checkSmsPermission()
-                Toast.makeText(context, "SMS was sent", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(context, "SMS was sent", Toast.LENGTH_SHORT).show()
             }
         }
         return super.onOptionsItemSelected(item)

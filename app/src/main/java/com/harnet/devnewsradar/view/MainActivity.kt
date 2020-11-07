@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity() {
                         //permission haven't been received
                         notifyArticleFragment(false)
                     }
+                    .show()
             } else {
                 // if we shouldn't explain about permission asking
                 requestSmsPermission()
@@ -96,6 +97,7 @@ class MainActivity : AppCompatActivity() {
     private fun notifyArticleFragment(permissionGranted: Boolean){
         val activeFragment: Fragment? = fragment.childFragmentManager.primaryNavigationFragment
         // for precaution if user click to "Send SMS" and just after it a back button - can be a crash
+        //TODO here implement the permission functionality for other fragments
         if(activeFragment is ArticleFragment){
             (activeFragment as ArticleFragment).onPermissionsResult(permissionGranted)
         }
