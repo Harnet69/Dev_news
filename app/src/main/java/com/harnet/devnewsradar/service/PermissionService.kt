@@ -3,18 +3,19 @@ package com.harnet.devnewsradar.service
 import android.Manifest
 import android.app.AlertDialog
 import android.content.pm.PackageManager
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.harnet.devnewsradar.view.ArticleFragment
 import com.harnet.devnewsradar.view.FavouriteFragment
 
 class PermissionService(val fragment: Fragment) {
     private val PERMISSION_SEND_SMS = 123
+    private val smsPermission = Manifest.permission.SEND_SMS
 
     // check SMS permission
     fun checkSmsPermission() {
-        val smsPermission = Manifest.permission.SEND_SMS
         // check if we have granted permission already
-        if(fragment.context?.checkSelfPermission(smsPermission) != PackageManager.PERMISSION_GRANTED){
+        if (fragment.context?.checkSelfPermission(smsPermission) != PackageManager.PERMISSION_GRANTED) {
             //check if we should explain to user why we ask for permission(for the first time we haven't)
             if (fragment.shouldShowRequestPermissionRationale(smsPermission)
             ) {
@@ -35,7 +36,7 @@ class PermissionService(val fragment: Fragment) {
                 requestSmsPermission()
             }
         } else {
-            // notify ArticleFragment a permission was granted
+            // notify a fragment a permission was granted
             notifyFragment(fragment, true)
         }
 
@@ -43,19 +44,23 @@ class PermissionService(val fragment: Fragment) {
 
     private fun requestSmsPermission() {
         fragment.requestPermissions(
-            arrayOf(Manifest.permission.SEND_SMS),
+            arrayOf(smsPermission),
             PERMISSION_SEND_SMS
         )
     }
 
     // when user accept a permission
-    fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
 
-        when(requestCode){
-            PERMISSION_SEND_SMS ->{
-                if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        when (requestCode) {
+            PERMISSION_SEND_SMS -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     notifyFragment(fragment, true)
-                }else{
+                } else {
                     notifyFragment(fragment, false)
                 }
             }
@@ -63,15 +68,15 @@ class PermissionService(val fragment: Fragment) {
         }
     }
 
-    private fun notifyFragment(fragment: Fragment, permissionGranted: Boolean){
-        val activeFragment: Fragment? = fragment.childFragmentManager.primaryNavigationFragment
+    private fun notifyFragment(fragment: Fragment, permissionGranted: Boolean) {
         // for precaution if user click to "Send SMS" and just after it a back button - can be a crash
-        //TODO here implement the permission functionality for other fragments
-        if(activeFragment is ArticleFragment){
-            (activeFragment as ArticleFragment).onPermissionsResult(permissionGranted)
-        }
-        if(activeFragment is FavouriteFragment){
-            (activeFragment as FavouriteFragment).onPermissionsResult(permissionGranted)
+        when (val activeFragment: Fragment? = fragment.childFragmentManager.primaryNavigationFragment) {
+            is ArticleFragment -> {
+                (activeFragment as ArticleFragment).onPermissionsResult(permissionGranted)
+            }
+            is FavouriteFragment -> {
+                (activeFragment as FavouriteFragment).onPermissionsResult(permissionGranted)
+            }
         }
     }
 }

@@ -85,7 +85,7 @@ class ArticleFragment : Fragment() {
                 }
             }
             R.id.action_send_sms -> {
-                // ask user for a permission
+                // ask user for SMS permission
                 isSendSmsStarted = true
                 // it's crucial to call permission checking on a Activity
                 (activity as MainActivity).permissionService.checkSmsPermission()

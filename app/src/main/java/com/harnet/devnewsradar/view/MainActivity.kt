@@ -1,9 +1,7 @@
 package com.harnet.devnewsradar.view
 
-import android.content.Context
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -38,7 +36,8 @@ class MainActivity : AppCompatActivity() {
     // when user accept a permission
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
         permissionService.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        //TODO specify what permission was granted
+        Toast.makeText(this, "Permission was granted", Toast.LENGTH_SHORT).show()
     }
 }
