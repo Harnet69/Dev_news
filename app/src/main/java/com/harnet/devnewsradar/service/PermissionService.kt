@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.pm.PackageManager
 import androidx.fragment.app.Fragment
 import com.harnet.devnewsradar.view.ArticleFragment
+import com.harnet.devnewsradar.view.FavouriteFragment
 
 class PermissionService(val fragment: Fragment) {
     private val PERMISSION_SEND_SMS = 123
@@ -26,7 +27,7 @@ class PermissionService(val fragment: Fragment) {
                     }
                     .setNegativeButton("No") { dialog, which ->
                         //permission haven't been received
-                        notifyArticleFragment(fragment, false)
+                        notifyFragment(fragment, false)
                     }
                     .show()
             } else {
@@ -35,7 +36,7 @@ class PermissionService(val fragment: Fragment) {
             }
         } else {
             // notify ArticleFragment a permission was granted
-            notifyArticleFragment(fragment, true)
+            notifyFragment(fragment, true)
         }
 
     }
@@ -53,21 +54,24 @@ class PermissionService(val fragment: Fragment) {
         when(requestCode){
             PERMISSION_SEND_SMS ->{
                 if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    notifyArticleFragment(fragment, true)
+                    notifyFragment(fragment, true)
                 }else{
-                    notifyArticleFragment(fragment, false)
+                    notifyFragment(fragment, false)
                 }
             }
 
         }
     }
 
-    private fun notifyArticleFragment(fragment: Fragment, permissionGranted: Boolean){
+    private fun notifyFragment(fragment: Fragment, permissionGranted: Boolean){
         val activeFragment: Fragment? = fragment.childFragmentManager.primaryNavigationFragment
         // for precaution if user click to "Send SMS" and just after it a back button - can be a crash
         //TODO here implement the permission functionality for other fragments
         if(activeFragment is ArticleFragment){
             (activeFragment as ArticleFragment).onPermissionsResult(permissionGranted)
+        }
+        if(activeFragment is FavouriteFragment){
+            (activeFragment as FavouriteFragment).onPermissionsResult(permissionGranted)
         }
     }
 }

@@ -30,6 +30,7 @@ class FavouriteFragment : Fragment() {
     private lateinit var dataBinding: FavouriteFragmentBinding
     private val paletteService = PaletteService()
     private var shareService = ShareService()
+    private var isSendSmsStarted = false // define is sending process was started
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -81,7 +82,11 @@ class FavouriteFragment : Fragment() {
                 }
             }
             R.id.action_send_sms -> {
-                Toast.makeText(context, "Send SMS", Toast.LENGTH_SHORT).show()
+                // ask user for a permission
+                isSendSmsStarted = true
+                // it's crucial to call permission checking on a Activity
+                (activity as MainActivity).permissionService.checkSmsPermission(    )
+//                Toast.makeText(context, "Send SMS", Toast.LENGTH_SHORT).show()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -174,5 +179,10 @@ class FavouriteFragment : Fragment() {
                 isArticleFavourite = true
             }
         }
+    }
+
+    // method will called when activity get a result of user decision
+    fun onPermissionsResult(permissionGranted: Boolean) {
+
     }
 }
