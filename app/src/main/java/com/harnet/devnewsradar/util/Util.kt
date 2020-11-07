@@ -29,6 +29,8 @@ import com.harnet.devnewsradar.view.FavouritesListFragmentDirections
 import java.text.SimpleDateFormat
 import java.util.*
 
+val PERMISSION_SEND_SMS = 123
+
 //little loading spinner for image loading
 fun getProgressDrawable(context: Context): CircularProgressDrawable {
     return CircularProgressDrawable(context).apply {

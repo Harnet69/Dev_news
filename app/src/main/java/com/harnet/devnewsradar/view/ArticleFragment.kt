@@ -27,8 +27,8 @@ class ArticleFragment : Fragment() {
     private lateinit var viewModel: ArticleViewModel
     private lateinit var dataBinding: FragmentArticleBinding
     private var paletteService = PaletteService()
-
     private var shareService = ShareService()
+    private var isSendSmsStarted = false // define is sending process was started
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -85,6 +85,9 @@ class ArticleFragment : Fragment() {
                 }
             }
             R.id.action_send_sms -> {
+                // ask user for a permission
+                isSendSmsStarted = true
+                (activity as MainActivity).checkSmsPermission()
                 Toast.makeText(context, "SMS was sent", Toast.LENGTH_SHORT).show()
             }
         }
@@ -186,5 +189,10 @@ class ArticleFragment : Fragment() {
                 }
             }
         }
+    }
+
+    // method will called when activity get a result of user decision
+    fun onPermissionsResult(permissionGranted: Boolean) {
+
     }
 }
