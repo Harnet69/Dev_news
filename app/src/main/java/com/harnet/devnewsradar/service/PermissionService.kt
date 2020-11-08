@@ -28,7 +28,7 @@ class PermissionService(val activity: Activity, val fragment: Fragment) {
                     }
                     .setNegativeButton("No") { dialog, which ->
                         //permission haven't been received
-                        notifyFragment(fragment, false)
+                        notifyFragment(fragment, smsPermission, false)
                     }
                     .show()
             } else {
@@ -37,7 +37,7 @@ class PermissionService(val activity: Activity, val fragment: Fragment) {
             }
         } else {
             // notify a fragment a permission was granted
-            notifyFragment(fragment, true)
+            notifyFragment(fragment, smsPermission, true)
         }
 
     }
@@ -59,23 +59,23 @@ class PermissionService(val activity: Activity, val fragment: Fragment) {
         when (requestCode) {
             PERMISSION_SEND_SMS -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    notifyFragment(fragment, true)
+                    notifyFragment(fragment, permissions[0],true)
                 } else {
-                    notifyFragment(fragment, false)
+                    notifyFragment(fragment, permissions[0],false)
                 }
             }
 
         }
     }
 
-    private fun notifyFragment(fragment: Fragment, permissionGranted: Boolean) {
+    private fun notifyFragment(fragment: Fragment, permissionName: String, permissionGranted: Boolean) {
         // for precaution if user click to "Send SMS" and just after it a back button - can be a crash
         when (val activeFragment: Fragment? = fragment.childFragmentManager.primaryNavigationFragment) {
             is ArticleFragment -> {
-                (activeFragment as ArticleFragment).onPermissionsResult(permissionGranted)
+                (activeFragment as ArticleFragment).onPermissionsResult(permissionGranted, permissionName)
             }
             is FavouriteFragment -> {
-                (activeFragment as FavouriteFragment).onPermissionsResult(permissionGranted)
+                (activeFragment as FavouriteFragment).onPermissionsResult(permissionGranted, permissionName)
             }
         }
     }

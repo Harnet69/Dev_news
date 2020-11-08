@@ -39,7 +39,5 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         permissionService.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        //TODO specify what permission was granted
-        Toast.makeText(this, "Permission was granted", Toast.LENGTH_SHORT).show()
     }
 }

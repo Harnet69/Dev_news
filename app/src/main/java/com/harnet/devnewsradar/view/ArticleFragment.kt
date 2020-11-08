@@ -193,7 +193,13 @@ class ArticleFragment : Fragment() {
     }
 
     // method will called when activity get a result of user decision
-    fun onPermissionsResult(permissionGranted: Boolean) {
-        Log.i("PermissionWasGranted", "onPermissionsResult: Article fragment got permission $permissionGranted")
+    fun onPermissionsResult(permissionGranted: Boolean, permissionName: String) {
+        //TODO specify what permission was granted
+        Log.i("PermissionWasGranted", "onPermissionsResult: $permissionName")
+        if(permissionGranted){
+            Toast.makeText(context, "Permission $permissionName was granted", Toast.LENGTH_SHORT).show()
+        }else{
+            Toast.makeText(context, "Permission $permissionName wasn't granted", Toast.LENGTH_SHORT).show()
+        }
     }
 }
