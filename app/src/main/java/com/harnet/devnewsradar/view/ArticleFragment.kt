@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -194,12 +193,7 @@ class ArticleFragment : Fragment() {
 
     // method will called when activity get a result of user decision
     fun onPermissionsResult(permissionGranted: Boolean, permissionName: String) {
-        //TODO specify what permission was granted
-        Log.i("PermissionWasGranted", "onPermissionsResult: $permissionName")
-        if(permissionGranted){
-            Toast.makeText(context, "Permission $permissionName was granted", Toast.LENGTH_SHORT).show()
-        }else{
-            Toast.makeText(context, "Permission $permissionName wasn't granted", Toast.LENGTH_SHORT).show()
-        }
+        // show to user Toast about a permission
+        context?.let { (activity as MainActivity).permissionService.showPermissionToast(it, permissionName, permissionGranted) }
     }
 }

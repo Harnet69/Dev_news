@@ -3,10 +3,14 @@ package com.harnet.devnewsradar.service
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.pm.PackageManager
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.harnet.devnewsradar.view.ArticleFragment
 import com.harnet.devnewsradar.view.FavouriteFragment
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class PermissionService(val activity: Activity, val fragment: Fragment) {
     private val PERMISSION_SEND_SMS = 123
@@ -59,24 +63,54 @@ class PermissionService(val activity: Activity, val fragment: Fragment) {
         when (requestCode) {
             PERMISSION_SEND_SMS -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    notifyFragment(fragment, permissions[0],true)
+                    notifyFragment(fragment, permissions[0], true)
                 } else {
-                    notifyFragment(fragment, permissions[0],false)
+                    notifyFragment(fragment, permissions[0], false)
                 }
             }
 
         }
     }
 
-    private fun notifyFragment(fragment: Fragment, permissionName: String, permissionGranted: Boolean) {
+    private fun notifyFragment(
+        fragment: Fragment,
+        permissionName: String,
+        permissionGranted: Boolean
+    ) {
         // for precaution if user click to "Send SMS" and just after it a back button - can be a crash
-        when (val activeFragment: Fragment? = fragment.childFragmentManager.primaryNavigationFragment) {
+        when (val activeFragment: Fragment? =
+            fragment.childFragmentManager.primaryNavigationFragment) {
             is ArticleFragment -> {
-                (activeFragment as ArticleFragment).onPermissionsResult(permissionGranted, permissionName)
+                (activeFragment as ArticleFragment).onPermissionsResult(
+                    permissionGranted,
+                    permissionName
+                )
             }
             is FavouriteFragment -> {
-                (activeFragment as FavouriteFragment).onPermissionsResult(permissionGranted, permissionName)
+                (activeFragment as FavouriteFragment).onPermissionsResult(
+                    permissionGranted,
+                    permissionName
+                )
             }
         }
+    }
+
+    //trim permission name by regex and return a permission message
+    fun showPermissionToast(context: Context, inputStr: String, permissionGranted: Boolean) {
+        var toastMsg = ""
+        var s: String? = ""
+        val p: Pattern = Pattern.compile("android.permission.(.*)")
+        val m: Matcher = p.matcher(inputStr)
+        if (m.find()) {
+            s = m.group(1)
+        }
+
+        if (permissionGranted) {
+            toastMsg = "Permission $s was granted"
+        } else {
+            toastMsg = "Permission $s wasn't granted"
+        }
+
+        Toast.makeText(context, toastMsg, Toast.LENGTH_SHORT).show()
     }
 }

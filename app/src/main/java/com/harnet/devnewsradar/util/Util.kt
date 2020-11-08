@@ -28,6 +28,8 @@ import com.harnet.devnewsradar.view.ArticlesListFragmentDirections
 import com.harnet.devnewsradar.view.FavouritesListFragmentDirections
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 //val PERMISSION_SEND_SMS = 123
 
@@ -146,10 +148,10 @@ fun getDateTime(view: TextView, time: Long) {
 
 // set screen background
 @BindingAdapter("android:setScreenBackground")
-fun setScreenBackground(view: ConstraintLayout, name:String){
-    when(SharedPreferencesHelper.invoke(view.context).getBackgroundColor()){
+fun setScreenBackground(view: ConstraintLayout, name: String) {
+    when (SharedPreferencesHelper.invoke(view.context).getBackgroundColor()) {
         "1" -> {
-          view.setBackgroundColor(Color.rgb(255, 255, 255))
+            view.setBackgroundColor(Color.rgb(255, 255, 255))
         }
         "2" -> {
             view.setBackgroundResource(R.drawable.bgnd)

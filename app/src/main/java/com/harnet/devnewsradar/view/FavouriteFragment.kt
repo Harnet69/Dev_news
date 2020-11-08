@@ -184,11 +184,7 @@ class FavouriteFragment : Fragment() {
 
     // method will called when activity get a result of user decision
     fun onPermissionsResult(permissionGranted: Boolean, permissionName: String) {
-        Log.i("PermissionWasGranted", "onPermissionsResult: $permissionName")
-        if(permissionGranted){
-            Toast.makeText(context, "Permission $permissionName was granted", Toast.LENGTH_SHORT).show()
-        }else{
-            Toast.makeText(context, "Permission $permissionName wasn't granted", Toast.LENGTH_SHORT).show()
-        }
+        // show to user Toast about a permission
+        context?.let { (activity as MainActivity).permissionService.showPermissionToast(it, permissionName, permissionGranted) }
     }
 }
