@@ -1,6 +1,5 @@
 package com.harnet.devnewsradar.model
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 
 @Entity

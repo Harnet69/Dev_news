@@ -1,14 +1,14 @@
 package com.harnet.devnewsradar.service
 
 import android.Manifest
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.pm.PackageManager
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.harnet.devnewsradar.view.ArticleFragment
 import com.harnet.devnewsradar.view.FavouriteFragment
 
-class PermissionService(val fragment: Fragment) {
+class PermissionService(val activity: Activity, val fragment: Fragment) {
     private val PERMISSION_SEND_SMS = 123
     private val smsPermission = Manifest.permission.SEND_SMS
 
@@ -43,7 +43,8 @@ class PermissionService(val fragment: Fragment) {
     }
 
     private fun requestSmsPermission() {
-        fragment.requestPermissions(
+        //!!! IT CRUCIAL TO CALL IN ON ACTIVITY, NOT ON FRAGMENT!!!
+        activity.requestPermissions(
             arrayOf(smsPermission),
             PERMISSION_SEND_SMS
         )
@@ -55,7 +56,6 @@ class PermissionService(val fragment: Fragment) {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-
         when (requestCode) {
             PERMISSION_SEND_SMS -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

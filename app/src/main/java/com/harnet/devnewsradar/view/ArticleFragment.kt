@@ -194,6 +194,6 @@ class ArticleFragment : Fragment() {
 
     // method will called when activity get a result of user decision
     fun onPermissionsResult(permissionGranted: Boolean) {
-
+        Log.i("PermissionWasGranted", "onPermissionsResult: Article fragment got permission $permissionGranted")
     }
 }

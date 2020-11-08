@@ -1,6 +1,7 @@
 package com.harnet.devnewsradar.view
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         navController = Navigation.findNavController(this, R.id.fragment)
         NavigationUI.setupActionBarWithNavController(this, navController)
 
-        permissionService = PermissionService(fragment)
+        permissionService = PermissionService(this,  fragment)
     }
 
     //for back arrow
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     // when user accept a permission
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
         permissionService.onRequestPermissionsResult(requestCode, permissions, grantResults)
         //TODO specify what permission was granted
         Toast.makeText(this, "Permission was granted", Toast.LENGTH_SHORT).show()
