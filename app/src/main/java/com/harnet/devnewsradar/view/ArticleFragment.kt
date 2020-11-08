@@ -193,7 +193,5 @@ class ArticleFragment : Fragment() {
 
     // method will called when activity get a result of user decision
     fun onPermissionsResult(permissionGranted: Boolean, permissionName: String) {
-        // show to user Toast about a permission
-        context?.let { (activity as MainActivity).permissionService.showPermissionToast(it, permissionName, permissionGranted) }
     }
 }

@@ -12,7 +12,7 @@ import com.harnet.devnewsradar.view.FavouriteFragment
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-class PermissionService(val activity: Activity, val fragment: Fragment) {
+class PermissionService(private val activity: Activity, val fragment: Fragment) {
     private val PERMISSION_SEND_SMS = 123
     private val smsPermission = Manifest.permission.SEND_SMS
 
@@ -54,7 +54,7 @@ class PermissionService(val activity: Activity, val fragment: Fragment) {
         )
     }
 
-    // when user accept a permission
+    // when user react to a permission
     fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -64,14 +64,19 @@ class PermissionService(val activity: Activity, val fragment: Fragment) {
             PERMISSION_SEND_SMS -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     notifyFragment(fragment, permissions[0], true)
+                    // show Toast of a permission granted
+                    showPermissionToast(activity.applicationContext, permissions[0],true)
                 } else {
                     notifyFragment(fragment, permissions[0], false)
+                    // show Toast of a permission refused
+                    showPermissionToast(activity.applicationContext, permissions[0],false)
                 }
             }
 
         }
     }
 
+    // here you notify Fragment about permission giving
     private fun notifyFragment(
         fragment: Fragment,
         permissionName: String,

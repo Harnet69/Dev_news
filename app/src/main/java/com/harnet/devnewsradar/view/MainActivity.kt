@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     // when user accept a permission
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
+        Log.i("PermissionWasGranted", "onRequestPermissionsResult: ")
         permissionService.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }
