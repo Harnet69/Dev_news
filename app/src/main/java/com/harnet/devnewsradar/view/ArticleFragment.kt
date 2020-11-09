@@ -87,7 +87,7 @@ class ArticleFragment : Fragment() {
                 // ask user for SMS permission
                 isSendSmsStarted = true
                 // it's crucial to call permission checking on a Activity
-                (activity as MainActivity).permissionService.checkSmsPermission()
+                (activity as MainActivity).smsPermissionService.checkPermission()
 //                Toast.makeText(context, "SMS was sent", Toast.LENGTH_SHORT).show()
             }
         }

@@ -1,19 +1,17 @@
 package com.harnet.devnewsradar.view
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.harnet.devnewsradar.R
-import com.harnet.devnewsradar.service.PermissionService
+import com.harnet.devnewsradar.service.permissions.SmsPermissionService
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     // permission service
-    lateinit var permissionService: PermissionService
+    lateinit var smsPermissionService: SmsPermissionService
 
     // back arrow
     lateinit var navController: NavController
@@ -26,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         navController = Navigation.findNavController(this, R.id.fragment)
         NavigationUI.setupActionBarWithNavController(this, navController)
 
-        permissionService = PermissionService(this,  fragment)
+        smsPermissionService = SmsPermissionService(this,  fragment)
     }
 
     //for back arrow
@@ -37,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     // when user accept a permission
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        Log.i("PermissionWasGranted", "onRequestPermissionsResult: ")
-        permissionService.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        smsPermissionService.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }

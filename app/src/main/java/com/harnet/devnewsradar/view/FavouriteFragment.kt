@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -17,7 +16,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.databinding.FavouriteFragmentBinding
-import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.model.Favourite
 import com.harnet.devnewsradar.service.PaletteService
 import com.harnet.devnewsradar.service.ShareService
@@ -86,7 +84,7 @@ class FavouriteFragment : Fragment() {
                 // ask user for a permission
                 isSendSmsStarted = true
                 // it's crucial to call permission checking on a Activity
-                (activity as MainActivity).permissionService.checkSmsPermission(    )
+                (activity as MainActivity).smsPermissionService.checkPermission(    )
 //                Toast.makeText(context, "Send SMS", Toast.LENGTH_SHORT).show()
             }
         }

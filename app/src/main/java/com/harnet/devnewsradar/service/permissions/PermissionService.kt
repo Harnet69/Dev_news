@@ -1,8 +1,6 @@
-package com.harnet.devnewsradar.service
+package com.harnet.devnewsradar.service.permissions
 
-import android.Manifest
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
 import android.content.pm.PackageManager
 import android.widget.Toast
@@ -12,45 +10,17 @@ import com.harnet.devnewsradar.view.FavouriteFragment
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-class PermissionService(private val activity: Activity, val fragment: Fragment) {
-    private val PERMISSION_SEND_SMS = 123
-    private val smsPermission = Manifest.permission.SEND_SMS
+abstract class PermissionService(private val activity: Activity, val fragment: Fragment) {
+    protected open val permissionCode: Int = 0
+    protected open val permissionType = ""
 
-    // check SMS permission
-    fun checkSmsPermission() {
-        // check if we have granted permission already
-        if (fragment.context?.checkSelfPermission(smsPermission) != PackageManager.PERMISSION_GRANTED) {
-            //check if we should explain to user why we ask for permission(for the first time we haven't)
-            if (fragment.shouldShowRequestPermissionRationale(smsPermission)
-            ) {
-                // explanation the cause of request a permission
-                AlertDialog.Builder(fragment.context)
-                    .setTitle("SMS sending permission")
-                    .setMessage("The app requires access to SMS sending")
-                    .setPositiveButton("Ask me") { dialog, which ->
-                        requestSmsPermission()
-                    }
-                    .setNegativeButton("No") { dialog, which ->
-                        //permission haven't been received
-                        notifyFragment(fragment, smsPermission, false)
-                    }
-                    .show()
-            } else {
-                // if we shouldn't explain about permission asking
-                requestSmsPermission()
-            }
-        } else {
-            // notify a fragment a permission was granted
-            notifyFragment(fragment, smsPermission, true)
-        }
+    abstract fun checkPermission()
 
-    }
-
-    private fun requestSmsPermission() {
+    protected fun requestPermission() {
         //!!! IT CRUCIAL TO CALL IN ON ACTIVITY, NOT ON FRAGMENT!!!
         activity.requestPermissions(
-            arrayOf(smsPermission),
-            PERMISSION_SEND_SMS
+            arrayOf(permissionType),
+            permissionCode
         )
     }
 
@@ -61,7 +31,7 @@ class PermissionService(private val activity: Activity, val fragment: Fragment) 
         grantResults: IntArray
     ) {
         when (requestCode) {
-            PERMISSION_SEND_SMS -> {
+            permissionCode -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     notifyFragment(fragment, permissions[0], true)
                     // show Toast of a permission granted
@@ -77,7 +47,7 @@ class PermissionService(private val activity: Activity, val fragment: Fragment) 
     }
 
     // here you notify Fragment about permission giving
-    private fun notifyFragment(
+    protected fun notifyFragment(
         fragment: Fragment,
         permissionName: String,
         permissionGranted: Boolean
@@ -101,7 +71,7 @@ class PermissionService(private val activity: Activity, val fragment: Fragment) 
     }
 
     //trim permission name by regex and return a permission message
-    fun showPermissionToast(context: Context, inputStr: String, permissionGranted: Boolean) {
+    private fun showPermissionToast(context: Context, inputStr: String, permissionGranted: Boolean) {
         var toastMsg = ""
         var s: String? = ""
         val p: Pattern = Pattern.compile("android.permission.(.*)")
