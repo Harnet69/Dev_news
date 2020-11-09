@@ -6,12 +6,12 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.harnet.devnewsradar.R
-import com.harnet.devnewsradar.service.permissions.SmsPermissionService
+import com.harnet.devnewsradar.model.AppPermissions
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     // permission service
-    lateinit var smsPermissionService: SmsPermissionService
+    lateinit var appPermissions: AppPermissions
 
     // back arrow
     lateinit var navController: NavController
@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         navController = Navigation.findNavController(this, R.id.fragment)
         NavigationUI.setupActionBarWithNavController(this, navController)
 
-        smsPermissionService = SmsPermissionService(this,  fragment)
+        appPermissions = AppPermissions(this,  fragment)
     }
 
     //for back arrow
@@ -32,10 +32,14 @@ class MainActivity : AppCompatActivity() {
         return NavigationUI.navigateUp(navController, null)
     }
 
-    // when user accept a permission
+    // when user was asked for a permission
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        smsPermissionService.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        //here is the switcher of different kinds of permissions
+        when(permissions[0]){
+            android.Manifest.permission.SEND_SMS -> {
+                appPermissions.smsPermissionService.onRequestPermissionsResult(requestCode, permissions, grantResults)
+            }
+        }
     }
 }

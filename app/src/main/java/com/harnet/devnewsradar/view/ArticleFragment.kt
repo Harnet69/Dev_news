@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -87,7 +88,7 @@ class ArticleFragment : Fragment() {
                 // ask user for SMS permission
                 isSendSmsStarted = true
                 // it's crucial to call permission checking on a Activity
-                (activity as MainActivity).smsPermissionService.checkPermission()
+                (activity as MainActivity).appPermissions.smsPermissionService.checkPermission()
 //                Toast.makeText(context, "SMS was sent", Toast.LENGTH_SHORT).show()
             }
         }
@@ -192,6 +193,6 @@ class ArticleFragment : Fragment() {
     }
 
     // method will called when activity get a result of user decision
-    fun onPermissionsResult(permissionGranted: Boolean, permissionName: String) {
+    fun onPermissionsResult(permissionGranted: Boolean) {
     }
 }

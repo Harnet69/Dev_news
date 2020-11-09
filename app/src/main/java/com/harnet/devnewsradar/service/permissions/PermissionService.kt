@@ -33,11 +33,11 @@ abstract class PermissionService(private val activity: Activity, val fragment: F
         when (requestCode) {
             permissionCode -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    notifyFragment(fragment, permissions[0], true)
+                    notifyFragment(fragment, true)
                     // show Toast of a permission granted
                     showPermissionToast(activity.applicationContext, permissions[0],true)
                 } else {
-                    notifyFragment(fragment, permissions[0], false)
+                    notifyFragment(fragment, false)
                     // show Toast of a permission refused
                     showPermissionToast(activity.applicationContext, permissions[0],false)
                 }
@@ -49,7 +49,6 @@ abstract class PermissionService(private val activity: Activity, val fragment: F
     // here you notify Fragment about permission giving
     protected fun notifyFragment(
         fragment: Fragment,
-        permissionName: String,
         permissionGranted: Boolean
     ) {
         // for precaution if user click to "Send SMS" and just after it a back button - can be a crash
@@ -57,14 +56,12 @@ abstract class PermissionService(private val activity: Activity, val fragment: F
             fragment.childFragmentManager.primaryNavigationFragment) {
             is ArticleFragment -> {
                 (activeFragment as ArticleFragment).onPermissionsResult(
-                    permissionGranted,
-                    permissionName
+                    permissionGranted
                 )
             }
             is FavouriteFragment -> {
                 (activeFragment as FavouriteFragment).onPermissionsResult(
-                    permissionGranted,
-                    permissionName
+                    permissionGranted
                 )
             }
         }

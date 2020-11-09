@@ -25,7 +25,7 @@ class SmsPermissionService(activity: Activity, fragment: Fragment) : PermissionS
                     }
                     .setNegativeButton("No") { dialog, which ->
                         //permission haven't been received
-                        notifyFragment(fragment, permissionType, false)
+                        notifyFragment(fragment, false)
                     }
                     .show()
             } else {
@@ -34,7 +34,7 @@ class SmsPermissionService(activity: Activity, fragment: Fragment) : PermissionS
             }
         } else {
             // notify a fragment a permission was granted
-            super.notifyFragment(fragment, permissionType, true)
+            super.notifyFragment(fragment, true)
         }
     }
 }
