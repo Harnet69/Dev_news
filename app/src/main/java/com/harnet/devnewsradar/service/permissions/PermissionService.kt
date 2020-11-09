@@ -45,7 +45,7 @@ abstract class PermissionService(private val activity: Activity, val fragment: F
         }
     }
 
-    protected fun requestPermission() {
+    private fun requestPermission() {
         //!!! IT CRUCIAL TO CALL IN ON ACTIVITY, NOT ON FRAGMENT!!!
         activity.requestPermissions(
             arrayOf(permissionType),
@@ -76,7 +76,7 @@ abstract class PermissionService(private val activity: Activity, val fragment: F
     }
 
     // here you notify Fragment about permission giving
-    protected fun notifyFragment(
+    private fun notifyFragment(
         fragment: Fragment,
         permissionGranted: Boolean
     ) {

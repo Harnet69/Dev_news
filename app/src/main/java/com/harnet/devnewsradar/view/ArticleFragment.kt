@@ -9,13 +9,16 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.databinding.FragmentArticleBinding
+import com.harnet.devnewsradar.databinding.SendSmsDialogBinding
 import com.harnet.devnewsradar.model.Article
+import com.harnet.devnewsradar.model.SmsInfo
 import com.harnet.devnewsradar.service.PaletteService
 import com.harnet.devnewsradar.service.ShareService
 import com.harnet.devnewsradar.util.SharedPreferencesHelper
@@ -30,6 +33,7 @@ class ArticleFragment : Fragment() {
     private var paletteService = PaletteService()
     private var shareService = ShareService()
     private var isSendSmsStarted = false // define is sending process was started
+    private var currentArticle: Article? = null // for SMS purposes
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -87,14 +91,20 @@ class ArticleFragment : Fragment() {
             }
             R.id.action_send_sms -> {
                 //check if SMS sending is allowed in Settings
-                if(context?.let { SharedPreferencesHelper.invoke(it).getIsSmsSendingAllowed() }!!) {
+                if (context?.let {
+                        SharedPreferencesHelper.invoke(it).getIsSmsSendingAllowed()
+                    }!!) {
                     isSendSmsStarted = true
                     // ask user for SMS permission
                     // it's crucial to call permission checking on a Activity
                     (activity as MainActivity).appPermissions.smsPermissionService.checkPermission()
                     //TODO add realisation of SMS sending functionality here
-                }else{
-                    Toast.makeText(context, "SMS sending is turned off in settings", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(
+                        context,
+                        "SMS sending is turned off in settings",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -104,6 +114,8 @@ class ArticleFragment : Fragment() {
     // observes article object and binds its data to view elements
     private fun observeViewModel() {
         viewModel.mArticleLiveData.observe(viewLifecycleOwner, Observer { article ->
+            currentArticle = article // for SMS purposes
+
             article?.let {
                 // bind article to layout
                 dataBinding.article = article
@@ -200,7 +212,43 @@ class ArticleFragment : Fragment() {
 
     // method is called when activity get a result of user  permission decision
     fun onPermissionsResult(permissionGranted: Boolean) {
-        if(isSendSmsStarted && permissionGranted){
+        if (isSendSmsStarted && permissionGranted) {
+            context?.let {
+                // mocked object
+                val smsInfo = currentArticle?.title?.let { it1 ->
+                    currentArticle?.url?.let { it2 ->
+                        SmsInfo(
+                            "",
+                            it1, it2
+                        )
+                    }
+                }
+                val dialogBinding = DataBindingUtil.inflate<SendSmsDialogBinding>(
+                    LayoutInflater.from(it),
+                    R.layout.send_sms_dialog,
+                    null,
+                    false
+                )
+                AlertDialog.Builder(it)
+                    .setView(dialogBinding.root)
+                    .setPositiveButton("Send SMS") { dialog, which ->
+                        // check is user put smth to 'recipient' field
+                        if (!dialogBinding.smsRecipient.text.isNullOrEmpty()) {
+                            if (smsInfo != null) {
+                                smsInfo.to = dialogBinding.smsRecipient.text.toString()
+                                // send SMS
+                                sendSms(smsInfo)
+                            }
+                        }
+                    }
+                    .setNegativeButton("Cancel") { dialog, which -> }
+                    .show()
+            }
         }
+    }
+
+    //send SMS
+    private fun sendSms(smsInfo: SmsInfo) {
+        Log.i("SendSms", "sendSms: $smsInfo")
     }
 }
