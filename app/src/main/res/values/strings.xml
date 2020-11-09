@@ -16,6 +16,8 @@
     <string name="color">Color</string>
     <string name="general_settings">General</string>
     <string name="appearance">Appearance</string>
+    <string name="may_asks_for_permission">may asks for permission</string>
+    <string name="sms_sending">Share by SMS</string>
 
     <string-array name="theme_entries">
         <item>@string/white</item>

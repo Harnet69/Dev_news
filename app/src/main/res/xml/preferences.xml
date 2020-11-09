@@ -78,6 +78,15 @@
             android:summary="@string/may_slow_down_loading"
             android:title="@string/article_preview_image" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_sms"
+            android:key="sms_sending"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/may_asks_for_permission"
+            android:title="@string/sms_sending"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>
