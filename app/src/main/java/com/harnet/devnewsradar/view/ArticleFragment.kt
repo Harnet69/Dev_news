@@ -198,7 +198,9 @@ class ArticleFragment : Fragment() {
         }
     }
 
-    // method will called when activity get a result of user decision
+    // method is called when activity get a result of user  permission decision
     fun onPermissionsResult(permissionGranted: Boolean) {
+        if(isSendSmsStarted && permissionGranted){
+        }
     }
 }

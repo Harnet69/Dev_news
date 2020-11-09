@@ -1,6 +1,7 @@
 package com.harnet.devnewsradar.service.permissions
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.pm.PackageManager
 import android.widget.Toast
@@ -13,8 +14,36 @@ import java.util.regex.Pattern
 abstract class PermissionService(private val activity: Activity, val fragment: Fragment) {
     protected open val permissionCode: Int = 0
     protected open val permissionType = ""
+    protected open val rationaleTitle = ""
+    protected open val rationaleMessage = ""
 
-    abstract fun checkPermission()
+    fun checkPermission() {
+        // check if we have granted permission already
+        if (fragment.context?.checkSelfPermission(permissionType) != PackageManager.PERMISSION_GRANTED) {
+            //check if we should explain to user why we ask for permission(for the first time we haven't)
+            if (fragment.shouldShowRequestPermissionRationale(permissionType)
+            ) {
+                // explanation the cause of request a permission
+                AlertDialog.Builder(fragment.context)
+                    .setTitle(rationaleTitle)
+                    .setMessage(rationaleMessage)
+                    .setPositiveButton("Ask me") { dialog, which ->
+                        requestPermission()
+                    }
+                    .setNegativeButton("No") { dialog, which ->
+                        //permission haven't been received
+                        notifyFragment(fragment, false)
+                    }
+                    .show()
+            } else {
+                // if we shouldn't explain about permission asking
+                requestPermission()
+            }
+        } else {
+            // notify a fragment a permission was granted
+            notifyFragment(fragment, true)
+        }
+    }
 
     protected fun requestPermission() {
         //!!! IT CRUCIAL TO CALL IN ON ACTIVITY, NOT ON FRAGMENT!!!
