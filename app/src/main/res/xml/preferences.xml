@@ -79,7 +79,7 @@
             android:title="@string/article_preview_image" />
 
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:icon="@drawable/ic_sms"
             android:key="sms_sending"
             android:selectAllOnFocus="true"

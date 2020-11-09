@@ -20,6 +20,7 @@ import com.harnet.devnewsradar.databinding.FavouriteFragmentBinding
 import com.harnet.devnewsradar.model.Favourite
 import com.harnet.devnewsradar.service.PaletteService
 import com.harnet.devnewsradar.service.ShareService
+import com.harnet.devnewsradar.util.SharedPreferencesHelper
 import com.harnet.devnewsradar.viewModel.FavouriteViewModel
 import kotlinx.android.synthetic.main.favourite_fragment.*
 import kotlinx.coroutines.GlobalScope
@@ -82,11 +83,16 @@ class FavouriteFragment : Fragment() {
                 }
             }
             R.id.action_send_sms -> {
-                // ask user for a permission
-                isSendSmsStarted = true
-                // it's crucial to call permission checking on a Activity
-                (activity as MainActivity).appPermissions.smsPermissionService.checkPermission(    )
-//                Toast.makeText(context, "Send SMS", Toast.LENGTH_SHORT).show()
+                //check if SMS sending is allowed in Settings
+                if(context?.let { SharedPreferencesHelper.invoke(it).getIsSmsSendingAllowed() }!!) {
+                    isSendSmsStarted = true
+                    // ask user for SMS permission
+                    // it's crucial to call permission checking on a Activity
+                    (activity as MainActivity).appPermissions.smsPermissionService.checkPermission()
+                    //TODO add realisation of SMS sending functionality here
+                }else{
+                    Toast.makeText(context, "SMS sending is turned off in settings", Toast.LENGTH_SHORT).show()
+                }
             }
         }
         return super.onOptionsItemSelected(item)

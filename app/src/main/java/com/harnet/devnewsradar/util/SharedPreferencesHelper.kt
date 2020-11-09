@@ -78,4 +78,7 @@ class SharedPreferencesHelper {
 
     // get background color
     fun getBackgroundColor() = prefs?.getString("screen_background", "1")
+
+    // get is SMS sending On/Off
+    fun getIsSmsSendingAllowed() = prefs?.getBoolean("sms_sending", false)
 }
