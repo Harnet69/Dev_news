@@ -1,6 +1,6 @@
 package com.harnet.devnewsradar.view
 
-import android.content.Intent
+import  android.content.Intent
 import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
@@ -219,10 +219,12 @@ class ArticleFragment : Fragment() {
                 // create an object of SmsInfo class
                 val smsInfo = currentArticle?.title?.let { it1 ->
                     currentArticle?.url?.let { it2 ->
-                        SmsInfo(
-                            "",
-                            it1, it2
-                        )
+                        currentArticle?.imageUrl?.let { it3 ->
+                            SmsInfo(
+                                "",
+                                it1, it2, it3
+                            )
+                        }
                     }
                 }
                 // inflate(bind) xml file
@@ -247,6 +249,9 @@ class ArticleFragment : Fragment() {
                     }
                     .setNegativeButton("Cancel") { dialog, which -> }
                     .show()
+
+                // attach SmsInfo object to xml
+                dialogBinding.smsInfo = smsInfo
             }
         }
     }
