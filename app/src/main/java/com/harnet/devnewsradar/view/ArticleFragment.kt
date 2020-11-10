@@ -114,7 +114,8 @@ class ArticleFragment : Fragment() {
     // observes article object and binds its data to view elements
     private fun observeViewModel() {
         viewModel.mArticleLiveData.observe(viewLifecycleOwner, Observer { article ->
-            currentArticle = article // for SMS purposes
+            // for SMS purposes
+            currentArticle = article
 
             article?.let {
                 // bind article to layout
@@ -212,9 +213,10 @@ class ArticleFragment : Fragment() {
 
     // method is called when activity get a result of user  permission decision
     fun onPermissionsResult(permissionGranted: Boolean) {
+        // if SMS permission was granted
         if (isSendSmsStarted && permissionGranted) {
             context?.let {
-                // mocked object
+                // create an object of SmsInfo class
                 val smsInfo = currentArticle?.title?.let { it1 ->
                     currentArticle?.url?.let { it2 ->
                         SmsInfo(
@@ -223,6 +225,7 @@ class ArticleFragment : Fragment() {
                         )
                     }
                 }
+                // inflate(bind) xml file
                 val dialogBinding = DataBindingUtil.inflate<SendSmsDialogBinding>(
                     LayoutInflater.from(it),
                     R.layout.send_sms_dialog,
@@ -235,6 +238,7 @@ class ArticleFragment : Fragment() {
                         // check is user put smth to 'recipient' field
                         if (!dialogBinding.smsRecipient.text.isNullOrEmpty()) {
                             if (smsInfo != null) {
+                                // get the text of form field 'to' and set it to entity
                                 smsInfo.to = dialogBinding.smsRecipient.text.toString()
                                 // send SMS
                                 sendSms(smsInfo)
@@ -247,7 +251,7 @@ class ArticleFragment : Fragment() {
         }
     }
 
-    //send SMS
+    //when user clicked 'send SMS'
     private fun sendSms(smsInfo: SmsInfo) {
         Log.i("SendSms", "sendSms: $smsInfo")
     }
