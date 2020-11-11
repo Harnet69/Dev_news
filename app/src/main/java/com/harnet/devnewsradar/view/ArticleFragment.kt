@@ -213,6 +213,11 @@ class ArticleFragment : Fragment() {
 
     // method is called when activity get a result of user  permission decision
     fun onPermissionsResult(permissionGranted: Boolean) {
+        // create sms dialog and send SMS
+        createSmsDialog(permissionGranted)
+    }
+
+    fun createSmsDialog(permissionGranted: Boolean) {
         // if SMS permission was granted
         if (isSendSmsStarted && permissionGranted) {
             context?.let {
@@ -234,14 +239,20 @@ class ArticleFragment : Fragment() {
                     null,
                     false
                 )
+
+                dialogBinding.smsInfo = smsInfo
+
+                // dialog window
                 AlertDialog.Builder(it)
                     .setView(dialogBinding.root)
                     .setPositiveButton("Send SMS") { dialog, which ->
+                        Log.i("SendSms", "createSmsDialog: pushed Send btn ")
                         // check is user put smth to 'recipient' field
                         if (!dialogBinding.smsRecipient.text.isNullOrEmpty()) {
                             if (smsInfo != null) {
                                 // get the text of form field 'to' and set it to entity
                                 smsInfo.to = dialogBinding.smsRecipient.text.toString()
+                                Log.i("SendSms", "createSmsDialog: SEND ")
                                 // send SMS
                                 sendSms(smsInfo)
                             }
@@ -249,14 +260,11 @@ class ArticleFragment : Fragment() {
                     }
                     .setNegativeButton("Cancel") { dialog, which -> }
                     .show()
-
-                // attach SmsInfo object to xml
-                dialogBinding.smsInfo = smsInfo
             }
         }
     }
 
-    //when user clicked 'send SMS'
+    // when user sent SMS clicked to 'send SMS' button
     private fun sendSms(smsInfo: SmsInfo) {
         Log.i("SendSms", "sendSms: $smsInfo")
     }
