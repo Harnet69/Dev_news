@@ -4,35 +4,30 @@ import  android.content.Intent
 import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.databinding.FragmentArticleBinding
-import com.harnet.devnewsradar.databinding.SendSmsDialogBinding
 import com.harnet.devnewsradar.model.Article
-import com.harnet.devnewsradar.model.SmsInfo
 import com.harnet.devnewsradar.service.PaletteService
 import com.harnet.devnewsradar.service.SMSable
-import com.harnet.devnewsradar.service.ShareService
+import com.harnet.devnewsradar.service.Shareable
 import com.harnet.devnewsradar.util.SharedPreferencesHelper
 import com.harnet.devnewsradar.viewModel.ArticleViewModel
 import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class ArticleFragment : Fragment(), SMSable {
+class ArticleFragment : Fragment(), SMSable, Shareable {
     private lateinit var viewModel: ArticleViewModel
     private lateinit var dataBinding: FragmentArticleBinding
     private var paletteService = PaletteService()
-    private var shareService = ShareService()
     private var isSendSmsStarted = false // define is sending process was started
     private var currentArticle: Article? = null // for SMS purposes
 
@@ -83,7 +78,7 @@ class ArticleFragment : Fragment(), SMSable {
                 // share the article url with other apps
                 activity?.let {
                     viewModel.mArticleLiveData.value?.url?.let { it1 ->
-                        shareService.shareUrlWith(
+                        shareUrlWith(
                             it,
                             it1
                         )

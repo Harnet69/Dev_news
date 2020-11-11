@@ -9,14 +9,14 @@ import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.model.ArticleDatabase
 import com.harnet.devnewsradar.model.ArticleRead
 import com.harnet.devnewsradar.model.Favourite
-import com.harnet.devnewsradar.service.Parseble
+import com.harnet.devnewsradar.service.Parsable
 import com.harnet.devnewsradar.service.WebContentDownloader
 import com.harnet.devnewsradar.util.SharedPreferencesHelper
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.util.*
 
-class ArticleViewModel(application: Application) : BaseViewModel(application), Parseble {
+class ArticleViewModel(application: Application) : BaseViewModel(application), Parsable {
     val mArticleLiveData = MutableLiveData<Article>()
     val mIsFavourite = MutableLiveData<Boolean>()
 

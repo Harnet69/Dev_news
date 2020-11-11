@@ -10,7 +10,7 @@ import java.net.URL
 import java.util.ArrayList
 import java.util.concurrent.ExecutionException
 
-interface Parseble {
+interface Parsable {
     // get articles ids to Retrofit
     fun getArticlesIDs(url: String?, articlesToShow: Int): MutableList<String>? {
         val articlesIDs = mutableListOf<String>()

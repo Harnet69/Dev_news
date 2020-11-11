@@ -3,8 +3,7 @@ package com.harnet.devnewsradar.service
 import android.app.Activity
 import android.content.Intent
 
-class ShareService{
-
+interface Shareable {
     fun shareUrlWith(activity: Activity, url: String){
         // ACTION_SEND generic flag for sending
         val intent = Intent(Intent.ACTION_SEND)

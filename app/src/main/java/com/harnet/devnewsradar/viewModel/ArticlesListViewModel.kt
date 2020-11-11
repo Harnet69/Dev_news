@@ -9,7 +9,7 @@ import com.harnet.devnewsradar.model.ArticleDatabase
 import com.harnet.devnewsradar.model.ArticleLists
 import com.harnet.devnewsradar.model.ArticleRead
 import com.harnet.devnewsradar.service.ArticleApiServis
-import com.harnet.devnewsradar.service.Parseble
+import com.harnet.devnewsradar.service.Parsable
 import com.harnet.devnewsradar.util.NotificationsHelper
 import com.harnet.devnewsradar.util.SharedPreferencesHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,7 +23,7 @@ import java.lang.NumberFormatException
 import java.net.URL
 import java.util.concurrent.CompletableFuture
 
-class ArticlesListViewModel(application: Application) : BaseViewModel(application), Parseble {
+class ArticlesListViewModel(application: Application) : BaseViewModel(application), Parsable {
     //TODO FOR SETTING PURPOSES!!!
     private var articlesToShowInt: Int = 10
     private var updateTime: Long = 1L

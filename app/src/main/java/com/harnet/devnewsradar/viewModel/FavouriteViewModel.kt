@@ -8,13 +8,13 @@ import androidx.lifecycle.MutableLiveData
 import com.harnet.devnewsradar.model.ArticleDatabase
 import com.harnet.devnewsradar.model.ArticleRead
 import com.harnet.devnewsradar.model.Favourite
-import com.harnet.devnewsradar.service.Parseble
+import com.harnet.devnewsradar.service.Parsable
 import com.harnet.devnewsradar.service.WebContentDownloader
 import com.harnet.devnewsradar.util.SharedPreferencesHelper
 import kotlinx.coroutines.launch
 import java.util.*
 
-class FavouriteViewModel(application: Application) : BaseViewModel(application), Parseble {
+class FavouriteViewModel(application: Application) : BaseViewModel(application), Parsable {
     val mFavoriteLiveData = MutableLiveData<Favourite>()
     private val webContentDownloader = WebContentDownloader()
 

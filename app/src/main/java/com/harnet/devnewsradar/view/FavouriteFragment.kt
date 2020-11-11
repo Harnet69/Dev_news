@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -19,18 +18,18 @@ import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.databinding.FavouriteFragmentBinding
 import com.harnet.devnewsradar.model.Favourite
 import com.harnet.devnewsradar.service.PaletteService
-import com.harnet.devnewsradar.service.ShareService
+import com.harnet.devnewsradar.service.SMSable
+import com.harnet.devnewsradar.service.Shareable
 import com.harnet.devnewsradar.util.SharedPreferencesHelper
 import com.harnet.devnewsradar.viewModel.FavouriteViewModel
 import kotlinx.android.synthetic.main.favourite_fragment.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class FavouriteFragment : Fragment() {
+class FavouriteFragment : Fragment(), SMSable, Shareable {
     private lateinit var viewModel: FavouriteViewModel
     private lateinit var dataBinding: FavouriteFragmentBinding
     private val paletteService = PaletteService()
-    private var shareService = ShareService()
     private var isSendSmsStarted = false // define is sending process was started
 
     override fun onCreateView(
@@ -75,7 +74,7 @@ class FavouriteFragment : Fragment() {
             R.id.action_share -> {
                 activity?.let {
                     viewModel.mFavoriteLiveData.value?.url?.let { it1 ->
-                        shareService.shareUrlWith(
+                        shareUrlWith(
                             it,
                             it1
                         )
