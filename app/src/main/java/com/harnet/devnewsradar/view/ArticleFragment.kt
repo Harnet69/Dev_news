@@ -20,6 +20,7 @@ import com.harnet.devnewsradar.databinding.SendSmsDialogBinding
 import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.model.SmsInfo
 import com.harnet.devnewsradar.service.PaletteService
+import com.harnet.devnewsradar.service.SMSable
 import com.harnet.devnewsradar.service.ShareService
 import com.harnet.devnewsradar.util.SharedPreferencesHelper
 import com.harnet.devnewsradar.viewModel.ArticleViewModel
@@ -27,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class ArticleFragment : Fragment() {
+class ArticleFragment : Fragment(), SMSable {
     private lateinit var viewModel: ArticleViewModel
     private lateinit var dataBinding: FragmentArticleBinding
     private var paletteService = PaletteService()
@@ -214,58 +215,6 @@ class ArticleFragment : Fragment() {
     // method is called when activity get a result of user  permission decision
     fun onPermissionsResult(permissionGranted: Boolean) {
         // create sms dialog and send SMS
-        createSmsDialog(permissionGranted)
-    }
-
-    fun createSmsDialog(permissionGranted: Boolean) {
-        // if SMS permission was granted
-        if (isSendSmsStarted && permissionGranted) {
-            context?.let {
-                // create an object of SmsInfo class
-                val smsInfo = currentArticle?.title?.let { it1 ->
-                    currentArticle?.url?.let { it2 ->
-                        currentArticle?.imageUrl?.let { it3 ->
-                            SmsInfo(
-                                "",
-                                it1, it2, it3
-                            )
-                        }
-                    }
-                }
-                // inflate(bind) xml file
-                val dialogBinding = DataBindingUtil.inflate<SendSmsDialogBinding>(
-                    LayoutInflater.from(it),
-                    R.layout.send_sms_dialog,
-                    null,
-                    false
-                )
-
-                dialogBinding.smsInfo = smsInfo
-
-                // dialog window
-                AlertDialog.Builder(it)
-                    .setView(dialogBinding.root)
-                    .setPositiveButton("Send SMS") { dialog, which ->
-                        Log.i("SendSms", "createSmsDialog: pushed Send btn ")
-                        // check is user put smth to 'recipient' field
-                        if (!dialogBinding.smsRecipient.text.isNullOrEmpty()) {
-                            if (smsInfo != null) {
-                                // get the text of form field 'to' and set it to entity
-                                smsInfo.to = dialogBinding.smsRecipient.text.toString()
-                                Log.i("SendSms", "createSmsDialog: SEND ")
-                                // send SMS
-                                sendSms(smsInfo)
-                            }
-                        }
-                    }
-                    .setNegativeButton("Cancel") { dialog, which -> }
-                    .show()
-            }
-        }
-    }
-
-    // when user sent SMS clicked to 'send SMS' button
-    private fun sendSms(smsInfo: SmsInfo) {
-        Log.i("SendSms", "sendSms: $smsInfo")
+        createSmsDialog(context, currentArticle, isSendSmsStarted, permissionGranted)
     }
 }
