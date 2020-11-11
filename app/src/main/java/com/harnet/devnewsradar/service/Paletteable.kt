@@ -11,8 +11,7 @@ import com.harnet.devnewsradar.databinding.FavouriteFragmentBinding
 import com.harnet.devnewsradar.databinding.FragmentArticleBinding
 import com.harnet.devnewsradar.model.ArticlePalette
 
-class PaletteService {
-
+interface Paletteable {
     // Palette handler for article background
     fun setupBackgroundColor(
         context: Context,
@@ -92,7 +91,7 @@ class PaletteService {
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
-                    // doesn't use
+                    // doesn't used
                 }
             })
     }

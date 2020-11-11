@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.databinding.FragmentArticleBinding
 import com.harnet.devnewsradar.model.Article
-import com.harnet.devnewsradar.service.PaletteService
+import com.harnet.devnewsradar.service.Paletteable
 import com.harnet.devnewsradar.service.SMSable
 import com.harnet.devnewsradar.service.Shareable
 import com.harnet.devnewsradar.util.SharedPreferencesHelper
@@ -24,10 +24,9 @@ import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class ArticleFragment : Fragment(), SMSable, Shareable {
+class ArticleFragment : Fragment(), SMSable, Shareable, Paletteable {
     private lateinit var viewModel: ArticleViewModel
     private lateinit var dataBinding: FragmentArticleBinding
-    private var paletteService = PaletteService()
     private var isSendSmsStarted = false // define is sending process was started
     private var currentArticle: Article? = null // for SMS purposes
 
@@ -121,7 +120,7 @@ class ArticleFragment : Fragment(), SMSable, Shareable {
                 // Palette background handler
                 it.imageUrl.let { url ->
                     context?.let { it1 ->
-                        paletteService.setupBackgroundColor(
+                        setupBackgroundColor(
                             it1,
                             url,
                             dataBinding,
@@ -132,7 +131,7 @@ class ArticleFragment : Fragment(), SMSable, Shareable {
                 // color URL link
                 it.imageUrl.let { url ->
                     context?.let { it1 ->
-                        paletteService.setColorToUrl(
+                        setColorToUrl(
                             it1,
                             url,
                             dataBinding,

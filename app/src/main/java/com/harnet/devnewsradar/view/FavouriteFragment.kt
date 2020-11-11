@@ -16,8 +16,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.databinding.FavouriteFragmentBinding
+import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.model.Favourite
-import com.harnet.devnewsradar.service.PaletteService
+import com.harnet.devnewsradar.service.Paletteable
 import com.harnet.devnewsradar.service.SMSable
 import com.harnet.devnewsradar.service.Shareable
 import com.harnet.devnewsradar.util.SharedPreferencesHelper
@@ -26,11 +27,11 @@ import kotlinx.android.synthetic.main.favourite_fragment.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class FavouriteFragment : Fragment(), SMSable, Shareable {
+class FavouriteFragment : Fragment(),SMSable, Shareable, Paletteable {
     private lateinit var viewModel: FavouriteViewModel
     private lateinit var dataBinding: FavouriteFragmentBinding
-    private val paletteService = PaletteService()
     private var isSendSmsStarted = false // define is sending process was started
+    private var currentArticle: Favourite? = null // for SMS purposes
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -106,6 +107,9 @@ class FavouriteFragment : Fragment(), SMSable, Shareable {
     // observes article object and binds its data to view elements
     private fun observeViewModel() {
         viewModel.mFavoriteLiveData.observe(viewLifecycleOwner, Observer { article ->
+            // for SMS purposes
+            currentArticle = article
+
             article?.let {
                 dataBinding.favourite = article
 
@@ -114,7 +118,7 @@ class FavouriteFragment : Fragment(), SMSable, Shareable {
                 // Palette handler
                 it.imageUrl.let { url ->
                     context?.let { it1 ->
-                        paletteService.setupBackgroundColor(
+                        setupBackgroundColor(
                             it1,
                             url,
                             null,
@@ -126,7 +130,7 @@ class FavouriteFragment : Fragment(), SMSable, Shareable {
                 // color URL link
                 it.imageUrl.let { url ->
                     context?.let { it1 ->
-                        paletteService.setColorToUrl(
+                        setColorToUrl(
                             it1,
                             url,
                             null,
@@ -194,5 +198,7 @@ class FavouriteFragment : Fragment(), SMSable, Shareable {
 
     // method will called when activity get a result of user decision
     fun onPermissionsResult(permissionGranted: Boolean) {
+        // create sms dialog and send SMS
+//        createSmsDialog(context, currentArticle, isSendSmsStarted, permissionGranted)
     }
 }

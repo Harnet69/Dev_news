@@ -31,8 +31,6 @@ import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-//val PERMISSION_SEND_SMS = 123
-
 //little loading spinner for image loading
 fun getProgressDrawable(context: Context): CircularProgressDrawable {
     return CircularProgressDrawable(context).apply {
@@ -82,7 +80,7 @@ fun loadBindingImage(view: ImageView, url: String?) {
     view.loadImage(url, getProgressDrawable(view.context))
 }
 
-// transition to an article detail page
+// go to an article detail page
 @BindingAdapter("android:goToArticle")
 fun goToArticle(view: View, articleUuid: Int?) {
     // prevent a crash when two items were clicked in the same time
