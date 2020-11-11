@@ -5,27 +5,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Favourite(
-    @ColumnInfo
-    var id: String,
-
-    @ColumnInfo
-    var title: String,
-
-    @ColumnInfo
-    var author: String,
-
-    @ColumnInfo
-    var url: String,
-
-    @ColumnInfo
-    var time: String,
-
-    @ColumnInfo
-    var score: String
-) {
-    @PrimaryKey(autoGenerate = true)
-    var uuid: Int = 0
-
-    var imageUrl: String = ""
-}
+class Favourite(
+    id: String,
+    title: String,
+    author: String,
+    url: String,
+    time: String,
+    score: String,
+) : Article(id, title, author, url, time, score)

@@ -199,6 +199,6 @@ class FavouriteFragment : Fragment(),SMSable, Shareable, Paletteable {
     // method will called when activity get a result of user decision
     fun onPermissionsResult(permissionGranted: Boolean) {
         // create sms dialog and send SMS
-//        createSmsDialog(context, currentArticle, isSendSmsStarted, permissionGranted)
+        createSmsDialog(context, currentArticle, isSendSmsStarted, permissionGranted)
     }
 }
