@@ -9,19 +9,18 @@ import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.model.ArticleDatabase
 import com.harnet.devnewsradar.model.ArticleRead
 import com.harnet.devnewsradar.model.Favourite
-import com.harnet.devnewsradar.service.ParseService
+import com.harnet.devnewsradar.service.Parseble
 import com.harnet.devnewsradar.service.WebContentDownloader
 import com.harnet.devnewsradar.util.SharedPreferencesHelper
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.util.*
 
-class ArticleViewModel(application: Application) : BaseViewModel(application) {
+class ArticleViewModel(application: Application) : BaseViewModel(application), Parseble {
     val mArticleLiveData = MutableLiveData<Article>()
     val mIsFavourite = MutableLiveData<Boolean>()
 
     private val webContentDownloader = WebContentDownloader()
-    private val parseService = ParseService()
 
     //retrieve data from a database by id
     fun fetch(context: Context, articleId: String, isFavourite: Boolean) {
@@ -35,7 +34,7 @@ class ArticleViewModel(application: Application) : BaseViewModel(application) {
                     // parse webpage and get an article image
                     //!!can use this pageContent to store this webpage in our database
                     val pageContent = webContentDownloader.execute(articleToShow.url).get()
-                    val imagesURL = parseService.parseImages(pageContent)
+                    val imagesURL = parseImages(pageContent)
                     //!!can make a image checker for all images in imagesURL
                     articleToShow.imageUrl = imagesURL?.get(0) as String
                 }

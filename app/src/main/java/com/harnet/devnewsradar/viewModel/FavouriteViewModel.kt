@@ -8,16 +8,15 @@ import androidx.lifecycle.MutableLiveData
 import com.harnet.devnewsradar.model.ArticleDatabase
 import com.harnet.devnewsradar.model.ArticleRead
 import com.harnet.devnewsradar.model.Favourite
-import com.harnet.devnewsradar.service.ParseService
+import com.harnet.devnewsradar.service.Parseble
 import com.harnet.devnewsradar.service.WebContentDownloader
 import com.harnet.devnewsradar.util.SharedPreferencesHelper
 import kotlinx.coroutines.launch
 import java.util.*
 
-class FavouriteViewModel(application: Application) : BaseViewModel(application) {
+class FavouriteViewModel(application: Application) : BaseViewModel(application), Parseble {
     val mFavoriteLiveData = MutableLiveData<Favourite>()
     private val webContentDownloader = WebContentDownloader()
-    private val parseService = ParseService()
 
     //retrieve data from a database by id
     fun fetch(context: Context, articleUuId: Int) {
@@ -29,7 +28,7 @@ class FavouriteViewModel(application: Application) : BaseViewModel(application) 
                 if(SharedPreferencesHelper.invoke(context).getIsPreviewImageParsing()!!) {
                     // set article image
                     val pageContent = webContentDownloader.execute(favouriteToShow.url).get()
-                    val imagesURL = parseService.parseImages(pageContent)
+                    val imagesURL = parseImages(pageContent)
                     favouriteToShow.imageUrl = imagesURL?.get(0) as String
                 }
                 // set article date

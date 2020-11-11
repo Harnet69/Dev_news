@@ -7,10 +7,10 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
-import java.util.*
+import java.util.ArrayList
 import java.util.concurrent.ExecutionException
 
-class ParseService {
+interface Parseble {
     // get articles ids to Retrofit
     fun getArticlesIDs(url: String?, articlesToShow: Int): MutableList<String>? {
         val articlesIDs = mutableListOf<String>()
