@@ -15,8 +15,8 @@ android {
         targetSdkVersion 30
         versionCode 5
         versionName "1.4"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -83,6 +83,8 @@ dependencies {
     implementation "com.android.support:palette-v7:$supportVersion"
 
     implementation "androidx.preference:preference:$preferencesVersion"
+
+    implementation "com.android.support:multidex:1.0.3"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
