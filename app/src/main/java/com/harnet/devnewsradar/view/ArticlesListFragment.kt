@@ -3,7 +3,6 @@ package com.harnet.devnewsradar.view
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -11,13 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.harnet.devnewsradar.R
 import com.harnet.devnewsradar.adapter.ArticlesListAdapter
-import com.harnet.devnewsradar.databinding.FragmentArticleBinding
 import com.harnet.devnewsradar.databinding.FragmentArticlesListBinding
 import com.harnet.devnewsradar.model.Article
 import com.harnet.devnewsradar.viewModel.ArticlesListViewModel
@@ -131,11 +127,11 @@ class ArticlesListFragment : Fragment() {
         viewModel.mArticles.observe(viewLifecycleOwner, Observer { articles ->
             articles?.let {
                 // check if Internet connection
-                if(articles.isEmpty()){
-                    Toast.makeText(context, "No Articles! Check Internet connection", Toast.LENGTH_LONG).show()
-                }else{
+                if(articles.size > 0){
                     articles_list.visibility = View.VISIBLE
                     articlesListAdapter.updateArticlesList(articles)
+                }else{
+                    Toast.makeText(context, "No Articles! Check Internet connection", Toast.LENGTH_LONG).show()
                 }
             }
         })
@@ -175,7 +171,9 @@ class ArticlesListFragment : Fragment() {
 
     // show About app dialog window
     private fun showAboutDialog(){
-        if(!viewModel.getIsAboutShowed()!!){
+        val isAboutWasShown = viewModel.getIsAboutShown()
+
+        if(isAboutWasShown != null && !isAboutWasShown){
             AlertDialog.Builder(context)
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .setTitle("About the app")
@@ -187,7 +185,7 @@ class ArticlesListFragment : Fragment() {
                     }
                 }.show()
 
-            viewModel.setIsAboutShowed(true)
+            viewModel.setIsAboutWasShown(true)
         }
     }
 }

@@ -86,9 +86,8 @@ class ArticleFragment : Fragment(), SMSable, Shareable, Paletteable {
             }
             R.id.action_send_sms -> {
                 //check if SMS sending is allowed in Settings
-                if (context?.let {
-                        SharedPreferencesHelper.invoke(it).getIsSmsSendingAllowed()
-                    }!!) {
+                val isSmsAllowed = context?.let { SharedPreferencesHelper.invoke(it).getIsSmsSendingAllowed() }
+                if (isSmsAllowed != null && isSmsAllowed) {
                     isSendSmsStarted = true
                     // ask user for SMS permission
                     // it's crucial to call permission checking on a Activity
@@ -187,9 +186,11 @@ class ArticleFragment : Fragment(), SMSable, Shareable, Paletteable {
     // handle favourite image
     private fun makeFavourite(viewFavourite: ImageView?, article: Article) {
         article_favourite.setImageResource(android.R.drawable.btn_star_big_off)
+        val isFavourite = viewModel.mIsFavourite.value
+
         viewFavourite?.setOnClickListener {
-            if (viewModel.mIsFavourite.value != null) {
-                if (viewModel.mIsFavourite.value!!) {
+            if (isFavourite != null) {
+                if (isFavourite) {
                     article_favourite.setImageResource(android.R.drawable.btn_star_big_off)
                     // remove from favourites
                     context?.let { it1 -> viewModel.removeFromFavourites(it1, article.id) }

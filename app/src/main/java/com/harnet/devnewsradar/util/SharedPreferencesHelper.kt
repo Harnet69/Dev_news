@@ -49,7 +49,7 @@ class SharedPreferencesHelper {
     }
 
     // set is About app was showed
-    fun setIsAboutShowed(isShowed: Boolean){
+    fun setIsAboutWasShown(isShowed: Boolean){
         prefs?.edit(commit = true) {
             putBoolean(IS_ABOUT_SHOWED, isShowed)
         }

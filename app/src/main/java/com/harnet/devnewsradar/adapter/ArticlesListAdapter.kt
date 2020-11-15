@@ -20,8 +20,8 @@ class ArticlesListAdapter(val articlesList: ArrayList<Article>) :
         // get new parsed articles
         if (articlesList.size > 0) {
             getNewArticles(articlesList, newArticlesList as ArrayList<Article>)
-        }
 
+        }
         articlesList.clear()
         articlesList.addAll(newArticlesList)
         //reset RecycleView and recreate a list

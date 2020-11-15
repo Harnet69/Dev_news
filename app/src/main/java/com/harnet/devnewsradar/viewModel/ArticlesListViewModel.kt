@@ -318,12 +318,12 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
     }
 
     // get if About modal window was showed
-    fun getIsAboutShowed(): Boolean?{
+    fun getIsAboutShown(): Boolean?{
         return sharedPrefHelper.getIsAboutShowed()
     }
 
     // set if modal window with About app was showed
-    fun setIsAboutShowed(isShowed: Boolean){
-        sharedPrefHelper.setIsAboutShowed(isShowed)
+    fun setIsAboutWasShown(isShowed: Boolean){
+        sharedPrefHelper.setIsAboutWasShown(isShowed)
     }
 }
