@@ -46,7 +46,7 @@ abstract class PermissionService(private val activity: Activity, val fragment: F
     }
 
     private fun requestPermission() {
-        //!!! IT CRUCIAL TO CALL IN ON ACTIVITY, NOT ON FRAGMENT!!!
+        //! IT CRUCIAL TO CALL IN ON ACTIVITY, NOT ON FRAGMENT!
         activity.requestPermissions(
             arrayOf(permissionType),
             permissionCode

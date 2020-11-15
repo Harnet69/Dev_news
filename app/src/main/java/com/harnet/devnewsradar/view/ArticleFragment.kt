@@ -87,18 +87,21 @@ class ArticleFragment : Fragment(), SMSable, Shareable, Paletteable {
             R.id.action_send_sms -> {
                 //check if SMS sending is allowed in Settings
                 val isSmsAllowed = context?.let { SharedPreferencesHelper.invoke(it).getIsSmsSendingAllowed() }
-                if (isSmsAllowed != null && isSmsAllowed) {
-                    isSendSmsStarted = true
-                    // ask user for SMS permission
-                    // it's crucial to call permission checking on a Activity
-                    (activity as MainActivity).appPermissions.smsPermissionService.checkPermission()
-                    //TODO add realisation of SMS sending functionality here
-                } else {
-                    Toast.makeText(
-                        context,
-                        "SMS sending is turned off in settings",
-                        Toast.LENGTH_SHORT
-                    ).show()
+
+                if(isSmsAllowed != null) {
+                    if ( isSmsAllowed) {
+                        isSendSmsStarted = true
+                        // ask user for SMS permission
+                        // it's crucial to call permission checking on a Activity
+                        (activity as MainActivity).appPermissions.smsPermissionService.checkPermission()
+                        //TODO add realisation of SMS sending functionality here
+                    } else {
+                        Toast.makeText(
+                            context,
+                            "SMS sending is turned off in settings",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }

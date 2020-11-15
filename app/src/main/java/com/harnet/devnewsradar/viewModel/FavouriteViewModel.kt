@@ -24,8 +24,9 @@ class FavouriteViewModel(application: Application) : BaseViewModel(application),
             val favouriteToShow =
                 ArticleDatabase.invoke(context).favouriteDAO().getFavourite(articleUuId)
             try {
+                val isImagePreviewAllowed = SharedPreferencesHelper.invoke(context).getIsPreviewImageParsing()
                 // check if parsing for image was set in app settings
-                if(SharedPreferencesHelper.invoke(context).getIsPreviewImageParsing()!!) {
+                if (isImagePreviewAllowed != null && isImagePreviewAllowed) {
                     // set article image
                     val pageContent = webContentDownloader.execute(favouriteToShow.url).get()
                     val imagesURL = parseImages(pageContent)
@@ -57,11 +58,14 @@ class FavouriteViewModel(application: Application) : BaseViewModel(application),
         )
         articleRead.imageUrl = favourite.imageUrl
         launch {
-            if(!ArticleDatabase.invoke(getApplication()).articleReadDAO().isExists(articleRead.id)){
+            if (!ArticleDatabase.invoke(getApplication()).articleReadDAO()
+                    .isExists(articleRead.id)
+            ) {
                 ArticleDatabase.invoke(getApplication()).articleReadDAO().insertAll(articleRead)
-            }else{
+            } else {
                 // set to the readArticle new time of reading
-                ArticleDatabase.invoke(getApplication()).articleReadDAO().updateTimeWhenRead(articleRead.id, articleRead.timeWhenRead)
+                ArticleDatabase.invoke(getApplication()).articleReadDAO()
+                    .updateTimeWhenRead(articleRead.id, articleRead.timeWhenRead)
             }
         }
     }

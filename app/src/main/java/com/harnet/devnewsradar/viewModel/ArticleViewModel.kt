@@ -30,12 +30,14 @@ class ArticleViewModel(application: Application) : BaseViewModel(application), P
                 isArtFav(context, articleToShow.id)
 
                 // check if parsing for image was set in app settings
-                if(SharedPreferencesHelper.invoke(context).getIsPreviewImageParsing()!!){
+                val isImagePreviewAllowed = SharedPreferencesHelper.invoke(context).getIsPreviewImageParsing()
+
+                if(isImagePreviewAllowed != null && isImagePreviewAllowed){
                     // parse webpage and get an article image
-                    //!!can use this pageContent to store this webpage in our database
+                    //!can use this pageContent to store this webpage in our database
                     val pageContent = webContentDownloader.execute(articleToShow.url).get()
                     val imagesURL = parseImages(pageContent)
-                    //!!can make a image checker for all images in imagesURL
+                    //!can make a image checker for all images in imagesURL
                     articleToShow.imageUrl = imagesURL?.get(0) as String
                 }
 
@@ -110,6 +112,7 @@ class ArticleViewModel(application: Application) : BaseViewModel(application), P
     private fun isArtFav(context: Context, id: String) {
         mIsFavourite.value = false
         launch {
+            //DON'T TOUCH
             if (ArticleDatabase.invoke(context).favouriteDAO().getFavourite(id) != null) {
                 mIsFavourite.value = true
             } else {

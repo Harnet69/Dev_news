@@ -24,7 +24,7 @@ import java.net.URL
 import java.util.concurrent.CompletableFuture
 
 class ArticlesListViewModel(application: Application) : BaseViewModel(application), Parsable {
-    //TODO FOR SETTING PURPOSES!!!
+    // FOR SETTING PURPOSES
     private var articlesToShowInt: Int = 10
     private var updateTime: Long = 1L
 
@@ -61,42 +61,47 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
         if(updateTime > 0L){
             timeToUpd = timeFromShP?.plus(convertMinToNanosec(updateTime))
         }
-        //make observable variable for time!!!
-        if (System.nanoTime() > timeToUpd!!) {
-            //make a switcher between two ways of parsing
+        //make observable variable for time!
+        if(timeToUpd != null) {
+            if (System.nanoTime() > timeToUpd) {
+                //make a switcher between two ways of parsing
 
-            //get data by old fashion manner parser
-            launch {
-                makeArticlesListByParser(articlesLists.NEW_STORIES, articlesToShowInt)
-            }
+                //get data by old fashion manner parser
+                launch {
+                    makeArticlesListByParser(articlesLists.NEW_STORIES, articlesToShowInt)
+                }
 //        get data by retrofit
-//        !!fetchFromRemote(articlesLists.NEW_STORIES)
-//            !!var newLastArtId = mArticles.value?.get(0)?.id
-            Toast.makeText(getApplication(), "Getting news", Toast.LENGTH_LONG).show()
-        } else {
-            launch {
-                val articlesList = ArticleDatabase.invoke(getApplication()).articleDAO().getArticles()
+//        !fetchFromRemote(articlesLists.NEW_STORIES)
+//            !var newLastArtId = mArticles.value?.get(0)?.id
+                Toast.makeText(getApplication(), "Getting news", Toast.LENGTH_LONG).show()
+            } else {
+                launch {
+                    val articlesList =
+                        ArticleDatabase.invoke(getApplication()).articleDAO().getArticles()
 
-                // get articles were read already
-                val articlesWereRead = ArticleDatabase.invoke(getApplication()).articleReadDAO().getArticles()
-                //set articles as were read in articleList
-                val markedIsReadArticles: List<Article> =  markReadArticles(articlesList, articlesWereRead)
+                    // get articles were read already
+                    val articlesWereRead =
+                        ArticleDatabase.invoke(getApplication()).articleReadDAO().getArticles()
+                    //set articles as were read in articleList
+                    val markedIsReadArticles: List<Article> =
+                        markReadArticles(articlesList, articlesWereRead)
 
-                retrieveArticle(markedIsReadArticles)
+                    retrieveArticle(markedIsReadArticles)
 
-                Toast.makeText(
-                    getApplication(),
-                    timeToRefreshFromAPI(timeToUpd) + " to update left",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
+                    Toast.makeText(
+                        getApplication(),
+                        timeToRefreshFromAPI(timeToUpd) + " to update left",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
             }
         }
     }
 
     // fetches data from remote API using Retrofit
     private fun fetchFromRemote(articlesList: String) {
-        //!!!DON'T FORGET TO ADD INTERNET PERMISSION BEFORE IMPLEMENTING!!!
+        //!DON'T FORGET TO ADD INTERNET PERMISSION BEFORE IMPLEMENTING!
         val articlesFromAPI = mutableListOf<Article>()
         // list of articles ids
         val articlesIDs = getArticlesIDs(articlesList, articlesToShowInt)
@@ -117,7 +122,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
                             // get list of DogBreed objects
                             override fun onSuccess(article: Article) {
                                 if (i != articlesIDs.size - 1) {
-                                    // prevent from 'NOT NULL constraint failed' exception
+                                    // DON'T TOUCH prevent from 'NOT NULL constraint failed' exception
                                     if (article.url == null) {
                                         article.url = ""
                                     }
@@ -170,12 +175,14 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
                                 if(it.id.toIntOrNull() != lastArticleId){
 
                                     // if notification allowed in app settings
-                                    if(sharedPrefHelper.getIsNewArticleNotification()!!){
+                                    val isNotificationsAllowed = sharedPrefHelper.getIsNewArticleNotification()
+
+                                    if(isNotificationsAllowed != null && isNotificationsAllowed){
                                         // new articles notification
                                         NotificationsHelper(getApplication()).createNotification()
                                     }
 
-                                    lastArticleId = it.id.toIntOrNull()!!
+                                    lastArticleId = it.id.toInt()
                                     mIsSmthNew.postValue(true)
                                 }
                             }
@@ -203,7 +210,7 @@ class ArticlesListViewModel(application: Application) : BaseViewModel(applicatio
         launch {
             // get articles were read already
             val articlesWereRead = ArticleDatabase.invoke(getApplication()).articleReadDAO().getArticles()
-            //!!set articles were read in articleList
+            //!set articles were read in articleList
             val markedIsReadArticles: List<Article> =  markReadArticles(articlesList, articlesWereRead)
 
             val dao = ArticleDatabase(getApplication()).articleDAO()

@@ -74,7 +74,7 @@ fun ImageView.loadImage(uri: String?, progressDrawable: CircularProgressDrawable
 
 // load image by ViewBinding(uses extended load function to bind this function to imageView)
 // @BindingAdapter annotation make function visible from a layout (parameter fill be the name of xml field)
-// !!!REBUILD PROJECT AFTER IMPLEMENTING!!!
+// !REBUILD PROJECT AFTER IMPLEMENTING!
 @BindingAdapter("android:bindImageUrl")
 fun loadBindingImage(view: ImageView, url: String?) {
     view.loadImage(url, getProgressDrawable(view.context))
