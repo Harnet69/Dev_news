@@ -74,12 +74,14 @@ class ArticlesListAdapter(val articlesList: ArrayList<Article>) :
     private fun getNewArticles(
         articlesList: ArrayList<Article>, newArticlesList: ArrayList<Article>
     ) {
-        newParsedArticlesList = newArticlesList.toList() as ArrayList<Article>
+        if(newArticlesList.isNotEmpty()) {
+            newParsedArticlesList = newArticlesList.toList() as ArrayList<Article>
 
-        for (article in articlesList) {
-            for (newArticle in newArticlesList) {
-                if (article.id.equals(newArticle.id)) {
-                    newParsedArticlesList.remove(newArticle)
+            for (article in articlesList) {
+                for (newArticle in newArticlesList) {
+                    if (article.id.equals(newArticle.id)) {
+                        newParsedArticlesList.remove(newArticle)
+                    }
                 }
             }
         }

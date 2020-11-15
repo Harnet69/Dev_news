@@ -130,8 +130,13 @@ class ArticlesListFragment : Fragment() {
         // update the layout using values of mutable variables from a ViewModel
         viewModel.mArticles.observe(viewLifecycleOwner, Observer { articles ->
             articles?.let {
-                articles_list.visibility = View.VISIBLE
-                articlesListAdapter.updateArticlesList(articles)
+                // check if Internet connection
+                if(articles.isEmpty()){
+                    Toast.makeText(context, "No Articles! Check Internet connection", Toast.LENGTH_LONG).show()
+                }else{
+                    articles_list.visibility = View.VISIBLE
+                    articlesListAdapter.updateArticlesList(articles)
+                }
             }
         })
 
